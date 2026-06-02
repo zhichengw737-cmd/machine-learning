@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f7fb;
+    color: #1c2a3a;
+}
+header {
+    background: #2a6f97;
+    color: white;
+    padding: 24px;
+    text-align: center;
+}
+header h1 {
+    margin: 0 0 10px;
+}
+section {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+.explanation, .interactive, .notes {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+.explanation .box {
+    border: 1px solid #d4e1ec;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 12px;
+    background: #f8fbff;
+}
+.controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+.controls label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 6px;
+}
+.controls input[type="number"],
+.controls input[type="range"] {
+    width: 100%;
+    padding: 8px;
+}
+.controls button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #2a6f97;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.controls button:hover {
+    background: #1d5672;
+}
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.plot-container {
+    flex: 1 1 620px;
+}
+.summary {
+    flex: 1 1 260px;
+    min-width: 260px;
+    background: #eef6fc;
+    border-radius: 12px;
+    padding: 18px;
+}
+.notes ul {
+    padding-left: 18px;
+}
+@media (max-width: 760px) {
+    .results {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reinforcement Learning for Middle School</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <header>
+        <h1>What is Reinforcement Learning?</h1>
+        <p>Help the agent learn by trying actions and earning rewards.</p>
+    </header>
+
+    <section class="explanation">
+        <h2>Simple Explanation</h2>
+        <p>Reinforcement learning is learning through rewards and penalties. The agent takes actions and learns which actions are best by trying them.</p>
+        <div class="box">
+            <h3>Agent</h3>
+            <p>The agent is a little computer learner that chooses moves in a grid.</p>
+        </div>
+        <div class="box">
+            <h3>Environment</h3>
+            <p>The grid world is the environment. The agent sees where it is and decides where to go next.</p>
+        </div>
+        <div class="box">
+            <h3>Reward</h3>
+            <p>The agent gets positive reward for good moves and negative reward for wrong moves. It uses reward to improve its choices.</p>
+        </div>
+    </section>
+
+    <section class="interactive">
+        <h2>Try the Reinforcement Learning Simulation</h2>
+        <div class="controls">
+            <label>Training episodes: <input id="episodes" type="number" min="5" max="200" value="50" /></label>
+            <label>Learning rate: <input id="alpha" type="number" min="0.1" max="1.0" step="0.1" value="0.5" /></label>
+            <label>Future reward factor: <input id="gamma" type="number" min="0.0" max="1.0" step="0.1" value="0.9" /></label>
+            <label>Exploration chance: <input id="epsilon" type="number" min="0.0" max="1.0" step="0.05" value="0.2" /></label>
+            <button id="simulateButton">Run Simulation</button>
+        </div>
+
+        <div class="results">
+            <div class="plot-container">
+                <canvas id="plotCanvas" width="620" height="320"></canvas>
+            </div>
+            <div class="summary" id="summary">
+                <p>Press the button to train the agent and see the path it learns to reach the goal.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="notes">
+        <h2>Why this helps you learn</h2>
+        <ul>
+            <li>The agent learns from reward feedback, not direct answers.</li>
+            <li>Positive reward means a good move; negative reward means a wrong move.</li>
+            <li>Over many episodes, the agent finds the best path to the goal.</li>
+        </ul>
+    </section>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
