@@ -1,14 +1,11 @@
-// Reinforcement Learning playground script - RL-only, with drag and smooth animation
+// Reinforcement Learning playground script - RL-only with smooth animation (no drag)
 const rlCanvas = document.getElementById('rlCanvas');
 const ctx = rlCanvas.getContext('2d');
 
 const GRID = 5;
 let agent = { x: 0, y: 0 };
 let agentPx = 0, agentPy = 0; // pixel position for smooth animation
-let targetPx = 0, targetPy = 0;
 let animating = false;
-let dragging = false;
-let dragOffset = { x: 0, y: 0 };
 let obstacles = new Set();
 const goal = { x: GRID - 1, y: GRID - 1 };
 let reward = 0;
@@ -28,7 +25,7 @@ function pxToCell(px, py) {
     return { x: Math.max(0, Math.min(GRID - 1, x)), y: Math.max(0, Math.min(GRID - 1, y)) };
 }
 
-function keyOf(x, y) { return `${x},${y}`; }
+function rlKey(x, y) { return `${x},${y}`; }
 
 function drawGrid() {
     // background gradient
@@ -115,7 +112,7 @@ function animateTo(px, py, duration = 220) {
 
 async function moveAgentToCell(nx, ny) {
     // check obstacle
-    if (obstacles.has(keyOf(nx, ny))) return; // can't move into obstacle
+    if (obstacles.has(rlKey(nx, ny))) return; // can't move into obstacle
     agent.x = nx; agent.y = ny;
     const { px, py } = cellToPx(agent.x, agent.y);
     await animateTo(px, py);
@@ -127,52 +124,23 @@ async function moveAgentToCell(nx, ny) {
 // initialize pixel pos
 (function init() {
     const p = cellToPx(agent.x, agent.y);
-    agentPx = p.px; agentPy = p.py; targetPx = p.px; targetPy = p.py;
+    agentPx = p.px; agentPy = p.py;
     render();
 })();
 
-// drag behavior
-let isPointerDown = false;
-rlCanvas.addEventListener('pointerdown', (e) => {
+// click to toggle obstacle (no drag)
+rlCanvas.addEventListener('click', (e) => {
     const rect = rlCanvas.getBoundingClientRect();
     const x = e.clientX - rect.left, y = e.clientY - rect.top;
-    const dist = Math.hypot(x - agentPx, y - agentPy);
-    if (dist < 30) {
-        dragging = true; isPointerDown = true;
-        dragOffset.x = agentPx - x; dragOffset.y = agentPy - y;
-    } else {
-        // toggle obstacle on cell click
-        const cell = pxToCell(x, y);
-        const k = keyOf(cell.x, cell.y);
-        if (cell.x === goal.x && cell.y === goal.y) return;
-        if (cell.x === agent.x && cell.y === agent.y) return;
-        if (obstacles.has(k)) obstacles.delete(k); else obstacles.add(k);
-        render();
-    }
-});
-
-rlCanvas.addEventListener('pointermove', (e) => {
-    if (!dragging) return;
-    const rect = rlCanvas.getBoundingClientRect();
-    const x = e.clientX - rect.left, y = e.clientY - rect.top;
-    agentPx = x + dragOffset.x; agentPy = y + dragOffset.y;
+    const cell = pxToCell(x, y);
+    if (cell.x === goal.x && cell.y === goal.y) return;
+    if (cell.x === agent.x && cell.y === agent.y) return;
+    const k = rlKey(cell.x, cell.y);
+    if (obstacles.has(k)) obstacles.delete(k); else obstacles.add(k);
     render();
 });
 
-rlCanvas.addEventListener('pointerup', (e) => {
-    if (!dragging) return;
-    dragging = false; isPointerDown = false;
-    // snap to nearest cell
-    const cell = pxToCell(agentPx, agentPy);
-    agent.x = cell.x; agent.y = cell.y;
-    const p = cellToPx(agent.x, agent.y);
-    animateTo(p.px, p.py);
-});
-
-rlCanvas.addEventListener('pointerleave', () => { if (dragging) { dragging = false; const p = cellToPx(agent.x, agent.y); animateTo(p.px, p.py); } });
-
 // control buttons
-function rlKey(x, y) { return `${x},${y}`; }
 
 function chooseAction(stateKey, epsilon) {
     if (!qTable[stateKey] || Math.random() < epsilon) {
@@ -226,14 +194,17 @@ document.getElementById('rl-reset').addEventListener('click', async () => {
     const p = cellToPx(agent.x, agent.y); await animateTo(p.px, p.py);
 });
 
-['rl-up','rl-down','rl-left','rl-right'].forEach(id => {
-    const dir = id.split('-')[1];
-    const btn = document.getElementById(id);
-    if (btn) btn.addEventListener('click', ()=> moveAgentToCell(
-        dir==='left'?agent.x-1:dir==='right'?agent.x+1:agent.x,
-        dir==='up'?agent.y-1:dir==='down'?agent.y+1:agent.y
-    ));
-});
+// arrow button handlers (move relative)
+function safeMove(dx, dy) {
+    const nx = Math.max(0, Math.min(GRID-1, agent.x + dx));
+    const ny = Math.max(0, Math.min(GRID-1, agent.y + dy));
+    moveAgentToCell(nx, ny);
+}
+
+document.getElementById('rl-up').addEventListener('click', ()=> safeMove(0, -1));
+document.getElementById('rl-down').addEventListener('click', ()=> safeMove(0, 1));
+document.getElementById('rl-left').addEventListener('click', ()=> safeMove(-1, 0));
+document.getElementById('rl-right').addEventListener('click', ()=> safeMove(1, 0));
 
 document.getElementById('rl-train').addEventListener('click', ()=>{
     const episodes = Number(document.getElementById('rl-episodes').value);

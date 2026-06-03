@@ -101,6 +101,18 @@ section {
 .rl-canvas-wrap { box-shadow: 0 12px 30px rgba(42,111,151,0.18); border-radius: 14px; overflow: hidden; }
 #rlCanvas { background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(240,250,255,0.4)); display:block; }
 .rl-panel { padding: 12px 16px; display:flex; flex-direction:column; gap:8px; min-width:220px; }
+.rl-panel button { transition: transform 160ms ease, box-shadow 160ms ease; }
+.rl-panel button:hover { transform: translateY(-3px); box-shadow: 0 14px 26px rgba(29,86,114,0.22); }
+.rl-panel button:active { transform: translateY(0); }
+.rl-canvas-wrap { transition: transform 220ms cubic-bezier(.2,.9,.2,1); }
+.rl-canvas-wrap:hover { transform: translateY(-6px) scale(1.01); }
+
+/* arrow overlay inside canvas wrap */
+.rl-canvas-wrap { position: relative; }
+.rl-arrows { position: absolute; right: 12px; top: 12px; width: 64px; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events: none; }
+.rl-arrows .arrow, .rl-left-right .arrow { pointer-events: auto; }
+.rl-arrows .arrow { width: 44px; height: 44px; border-radius:8px; border:none; background:rgba(255,255,255,0.9); color:#123; font-size:18px; box-shadow:0 6px 16px rgba(20,50,80,0.12); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.rl-left-right { display:flex; gap:8px; }
 .rl-panel .panel-row { display:flex; gap:8px; }
 .rl-panel input { width:100%; padding:6px 8px; border-radius:8px; border:1px solid #d7e6ee; }
 .rl-panel button { padding:8px 12px; border-radius:10px; border:none; background:linear-gradient(180deg,#2a6f97,#1d5672); color:#fff; cursor:pointer; box-shadow:0 8px 18px rgba(29,86,114,0.18); }

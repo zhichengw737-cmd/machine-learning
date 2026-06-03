@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Line Fitting Demo for Middle School</title>
+    <title>Reinforcement Learning Playground for Middle School</title>
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
     <header>
-        <h1>What is Model Fitting?</h1>
-        <p>Fit a straight line to noisy points using gradient descent.</p>
+        <h1>Reinforcement Learning Playground</h1>
+        <p>A simple, interactive demo to help students learn how agents learn from rewards.</p>
     </header>
 
     <section class="interactive rl-only">
         <h2>Reinforcement Learning Playground</h2>
-        <p>Move the ball to the goal, train the agent, and watch it learn. Drag the ball to set a new start position.</p>
+        <p>Move the ball to the goal, train the agent, and watch it learn. Click cells to add or remove small obstacles. Use the controls to run training and observe the agent's behavior.</p>
 
         <div class="rl-controls-main">
-            <div class="rl-canvas-wrap">
-                <canvas id="rlCanvas" width="520" height="520"></canvas>
-            </div>
+                    <div class="rl-canvas-wrap">
+                    <canvas id="rlCanvas" width="520" height="520"></canvas>
+                    <div class="rl-arrows">
+                        <button id="rl-up" class="arrow">↑</button>
+                        <div class="rl-left-right">
+                            <button id="rl-left" class="arrow">←</button>
+                            <button id="rl-right" class="arrow">→</button>
+                        </div>
+                        <button id="rl-down" class="arrow">↓</button>
+                    </div>
+                </div>
             <div class="rl-panel">
                 <div class="panel-row">
                     <label>Episodes: <input id="rl-episodes" type="number" value="300" min="1"/></label>
@@ -36,10 +44,30 @@
                 </div>
                 <div class="panel-info">
                     <p>Reward: <span id="rl-reward">0</span></p>
-                    <p>Tip: drag the ball to change start, click grid cells to add/remove a small obstacle.</p>
                 </div>
             </div>
         </div>
+    </section>
+
+    <section class="rl-teacher box">
+        <h2>How to think about Reinforcement Learning</h2>
+        <p>Imagine you are teaching a little robot to find a treasure in a small room made of tiles. The robot does not know the map at first. Each time it moves, you tell it whether that move was good or not: a small penalty for wasting time, and a big reward for finding the treasure. Over many attempts the robot notices which moves tend to lead to the treasure and prefers those.</p>
+
+        <h3>What students should notice</h3>
+        <ul>
+            <li>Actions: the robot can move up, down, left, or right. It picks actions and sees what happens.</li>
+            <li>Rewards: a +10 reward for reaching the goal, and -1 for each step. The robot tries to maximize total reward.</li>
+            <li>Exploration vs. practice: sometimes it tries random moves to discover new routes; other times it uses what it already learned.</li>
+        </ul>
+
+        <h3>Parameters — explained like a teacher</h3>
+        <p><strong>Episodes</strong>: think of this as the number of practice runs. More runs give the robot more experience.</p>
+        <p><strong>Alpha (learning rate)</strong>: how quickly the robot updates its memory after each example. A small alpha means slow, careful learning; a large alpha means quick but possibly unstable changes.</p>
+        <p><strong>Gamma (future reward factor)</strong>: how much the robot cares about future rewards. A higher gamma makes it plan for longer paths to the goal.</p>
+        <p><strong>Epsilon (exploration chance)</strong>: the fraction of the time the robot tries something random. A little exploration helps it find better routes it did not see before.</p>
+
+        <h3>Class activity idea</h3>
+        <p>Ask students to change one parameter at a time and observe the learned path. Which parameter made the robot learn faster? Which made it take longer routes? Discuss why exploration helps in a room with hidden obstacles.</p>
     </section>
 
     <section class="notes">
@@ -51,48 +79,7 @@
         </ul>
     </section>
 
-    <section class="rl-demo">
-        <h2>Reinforcement Learning (Interactive)</h2>
-        <p>Try being the agent: make moves and see rewards, or let the agent train itself to reach the goal.</p>
-
-        <div class="rl-controls">
-            <div class="rl-buttons">
-                <button id="rl-up">↑</button>
-                <div>
-                    <button id="rl-left">←</button>
-                    <button id="rl-right">→</button>
-                </div>
-                <button id="rl-down">↓</button>
-            </div>
-
-            <div class="rl-settings">
-                <label>Episodes: <input id="rl-episodes" type="number" value="200" min="1"/></label>
-                <label>Alpha: <input id="rl-alpha" type="number" step="0.05" value="0.5"/></label>
-                <label>Gamma: <input id="rl-gamma" type="number" step="0.05" value="0.9"/></label>
-                <label>Epsilon: <input id="rl-epsilon" type="number" step="0.05" value="0.2"/></label>
-                <div class="rl-action-row">
-                    <button id="rl-train">Train Agent</button>
-                    <button id="rl-run">Show Learned Path</button>
-                    <button id="rl-reset">Reset</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="rl-display">
-            <canvas id="rlCanvas" width="320" height="320"></canvas>
-            <div id="rl-info">Reward: <span id="rl-reward">0</span></div>
-        </div>
-
-        <div class="rl-explain box">
-            <h3>Reinforcement Learning — short</h3>
-            <p>Reinforcement learning is learning from rewards. The agent chooses actions, receives rewards, and updates its policy to get more reward over time.</p>
-            <ul>
-                <li><strong>Action:</strong> move up/down/left/right.</li>
-                <li><strong>Reward:</strong> +10 for reaching the goal, -1 per step.</li>
-                <li><strong>Exploration:</strong> try random moves sometimes so the agent discovers better routes.</li>
-            </ul>
-        </div>
-    </section>
+    <!-- single RL playground kept above; no extra section here -->
 
     <script src="/static/script.js"></script>
 </body>
