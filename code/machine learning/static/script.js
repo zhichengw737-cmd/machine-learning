@@ -24,7 +24,7 @@ const maze2Layout = [
     [1, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 1, 1, 1],
     [1, 0, 0, 0, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 3]
+    [1, 1, 1, 0, 0, 0, 0, 3]
 ];
 
 // Persistent Guiding Arrows placed ON THE BARRIERS (Wall positions '1') adjacent to the path
