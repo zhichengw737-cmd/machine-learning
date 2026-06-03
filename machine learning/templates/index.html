@@ -16,12 +16,22 @@
         <h2>Reinforcement Learning Playground</h2>
         <p>Move the ball to the goal, train the agent, and watch it learn. Click cells to add or remove small obstacles. Use the controls to run training and observe the agent's behavior.</p>
 
-        <div class="rl-controls-main">
-                    <div class="rl-canvas-wrap">
-                    <canvas id="rlCanvas" width="520" height="520"></canvas>
+        <div class="rl-summary">
+            <span class="badge">Interactive</span>
+            <span class="badge">Reward-based</span>
+            <span class="badge">Grid world</span>
+        </div>
 
-                </div>
+        <div class="rl-controls-main">
+            <div class="rl-canvas-wrap">
+                <canvas id="rlCanvas" width="520" height="520"></canvas>
+                <div class="rl-canvas-label">Goal is green • Tap tiles to add obstacles</div>
+            </div>
             <div class="rl-panel">
+                <div class="panel-header">
+                    <strong>Training controls</strong>
+                    <p>Update the learning settings, then train the agent and watch its path.</p>
+                </div>
                 <div class="panel-row">
                     <label>Episodes: <input id="rl-episodes" type="number" value="300" min="1"/></label>
                     <label>Alpha: <input id="rl-alpha" type="number" step="0.05" value="0.6"/></label>
@@ -32,7 +42,9 @@
                 </div>
                 <div class="panel-row action-row">
                     <button id="rl-train">Train Agent</button>
-                    <button id="rl-run">Show Learned Path</button>                    <button id="rl-stop" disabled>Stop</button>                    <button id="rl-reset">Reset</button>
+                    <button id="rl-run">Show Learned Path</button>
+                    <button id="rl-stop" disabled>Stop</button>
+                    <button id="rl-reset">Reset</button>
                 </div>
                 <div class="panel-info">
                     <p>Reward: <span id="rl-reward">0</span></p>
