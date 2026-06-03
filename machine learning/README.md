@@ -1,15 +1,15 @@
-# Machine Learning for Middle School
+# Reinforcement Learning Playground for Middle School
 
 This project is a small interactive website that helps middle school students understand reinforcement learning.
-It uses Python and Flask to simulate a simple reward-based agent learning to reach a goal in a grid world.
+It provides a playful grid-world where a ball (agent) moves to a goal and learns from rewards.
 
 ## What is included
 
-- `app.py` - Flask application and Python Q-learning simulation
-- `templates/index.html` - interactive website with explanations and controls
-- `static/style.css` - page styling
-- `static/script.js` - client-side logic for interaction and drawing
-- `requirements.txt` - needed Python package
+- `templates/index.html` - interactive website with the RL playground
+- `static/style.css` - page styling and animations
+- `static/script.js` - client-side RL logic, drag animation, and training
+- `requirements.txt` - Flask dependency for serving the page
+- `app.py` - minimal Flask app (serves the page; RL runs client-side)
 
 ## Run the project
 
@@ -32,7 +32,8 @@ It uses Python and Flask to simulate a simple reward-based agent learning to rea
 
 ## How it works
 
-- The website shows a simple explanation of machine learning.
-- Users can change the number of points, noise, training steps, and learning rate.
-- The Python backend creates example points and trains a straight-line model with gradient descent.
-- The site draws the examples and the learned line so students can see how training changes the model.
+- The page shows a grid with a draggable ball (agent), a goal square, and optional obstacles you can toggle by clicking cells.
+- Students can move the ball manually, or run a simple Q-learning training in the browser and then watch the learned greedy path.
+- The UI includes smooth animations and visual feedback to make the learning concepts vivid and engaging.
+
+If you want, I can further polish the visuals, add a reward/loss chart, or export training results.

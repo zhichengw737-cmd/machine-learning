@@ -1,113 +1,284 @@
-const episodesInput = document.getElementById('episodes');
-const alphaInput = document.getElementById('alpha');
-const gammaInput = document.getElementById('gamma');
-const epsilonInput = document.getElementById('epsilon');
-const simulateButton = document.getElementById('simulateButton');
-const summary = document.getElementById('summary');
-const canvas = document.getElementById('plotCanvas');
-const ctx = canvas.getContext('2d');
+// Reinforcement Learning playground script - RL-only, with drag and smooth animation
+const rlCanvas = document.getElementById('rlCanvas');
+const ctx = rlCanvas.getContext('2d');
 
-function drawGrid(size) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+const GRID = 5;
+let agent = { x: 0, y: 0 };
+let agentPx = 0, agentPy = 0; // pixel position for smooth animation
+let targetPx = 0, targetPy = 0;
+let animating = false;
+let dragging = false;
+let dragOffset = { x: 0, y: 0 };
+let obstacles = new Set();
+const goal = { x: GRID - 1, y: GRID - 1 };
+let reward = 0;
+let qTable = {};
 
-    const cellWidth = canvas.width / size;
-    const cellHeight = canvas.height / size;
-    ctx.strokeStyle = '#d4dde4';
-    ctx.lineWidth = 1;
-
-    for (let i = 0; i <= size; i++) {
-        ctx.beginPath();
-        ctx.moveTo(i * cellWidth, 0);
-        ctx.lineTo(i * cellWidth, canvas.height);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, i * cellHeight);
-        ctx.lineTo(canvas.width, i * cellHeight);
-        ctx.stroke();
-    }
+function cellToPx(x, y) {
+    const w = rlCanvas.width / GRID;
+    const h = rlCanvas.height / GRID;
+    return { px: x * w + w / 2, py: y * h + h / 2 };
 }
 
-function drawPath(path, goal) {
-    const size = path.reduce((max, p) => Math.max(max, p.x, p.y), 0) + 1;
-    const cellWidth = canvas.width / size;
-    const cellHeight = canvas.height / size;
+function pxToCell(px, py) {
+    const w = rlCanvas.width / GRID;
+    const h = rlCanvas.height / GRID;
+    const x = Math.floor(px / w);
+    const y = Math.floor(py / h);
+    return { x: Math.max(0, Math.min(GRID - 1, x)), y: Math.max(0, Math.min(GRID - 1, y)) };
+}
 
+function keyOf(x, y) { return `${x},${y}`; }
+
+function drawGrid() {
+    // background gradient
+    const g = ctx.createLinearGradient(0, 0, rlCanvas.width, rlCanvas.height);
+    g.addColorStop(0, '#f0fbff');
+    g.addColorStop(1, '#eef6fc');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, rlCanvas.width, rlCanvas.height);
+
+    const w = rlCanvas.width / GRID;
+    const h = rlCanvas.height / GRID;
+
+    // cells
+    ctx.strokeStyle = 'rgba(30,50,70,0.08)';
+    ctx.lineWidth = 2;
+    for (let i = 0; i <= GRID; i++) {
+        ctx.beginPath(); ctx.moveTo(i * w, 0); ctx.lineTo(i * w, rlCanvas.height); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, i * h); ctx.lineTo(rlCanvas.width, i * h); ctx.stroke();
+    }
+
+    // obstacles
+    for (const k of obstacles) {
+        const [ox, oy] = k.split(',').map(Number);
+        ctx.fillStyle = '#8a8f98';
+        ctx.fillRect(ox * w + 6, oy * h + 6, w - 12, h - 12);
+    }
+
+    // goal
     ctx.fillStyle = '#5a9c8d';
-    ctx.fillRect(goal.x * cellWidth, goal.y * cellHeight, cellWidth, cellHeight);
-
-    ctx.strokeStyle = '#e76f51';
-    ctx.lineWidth = 3;
     ctx.beginPath();
-    for (let i = 0; i < path.length; i++) {
-        const px = path[i].x * cellWidth + cellWidth / 2;
-        const py = path[i].y * cellHeight + cellHeight / 2;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-    }
-    ctx.stroke();
+    ctx.roundRect(goal.x * w + 8, goal.y * h + 8, w - 16, h - 16, 8);
+    ctx.fill();
+}
 
-    ctx.fillStyle = '#2a6f97';
-    for (const [index, point] of path.entries()) {
-        const px = point.x * cellWidth + cellWidth / 2;
-        const py = point.y * cellHeight + cellHeight / 2;
-        ctx.beginPath();
-        ctx.arc(px, py, 10, 0, Math.PI * 2);
-        ctx.fill();
-        if (index === 0) {
-            ctx.fillStyle = '#f4a261';
-            ctx.fillText('Start', px - 18, py - 16);
-            ctx.fillStyle = '#2a6f97';
+function drawAgent() {
+    const r = Math.min(rlCanvas.width, rlCanvas.height) / (GRID * 6);
+    // shadow
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.ellipse(agentPx, agentPy + r * 1.4, r * 1.4, r * 0.6, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ball
+    const grad = ctx.createRadialGradient(agentPx - r/2, agentPy - r/2, r/6, agentPx, agentPy, r * 1.6);
+    grad.addColorStop(0, '#fff8f0');
+    grad.addColorStop(1, '#2a6f97');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(agentPx, agentPy, r, 0, Math.PI * 2);
+    ctx.fill();
+
+    // glossy highlight
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.beginPath();
+    ctx.ellipse(agentPx - r/2, agentPy - r/2, r/2, r/3, -0.6, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function render() {
+    ctx.clearRect(0, 0, rlCanvas.width, rlCanvas.height);
+    drawGrid();
+    drawAgent();
+}
+
+function animateTo(px, py, duration = 220) {
+    animating = true;
+    const startX = agentPx, startY = agentPy;
+    const dx = px - startX, dy = py - startY;
+    const start = performance.now();
+    return new Promise(resolve => {
+        function step(now) {
+            const t = Math.min(1, (now - start) / duration);
+            // easeOutCubic
+            const e = 1 - Math.pow(1 - t, 3);
+            agentPx = startX + dx * e;
+            agentPy = startY + dy * e;
+            render();
+            if (t < 1) requestAnimationFrame(step);
+            else { animating = false; resolve(); }
         }
+        requestAnimationFrame(step);
+    });
+}
+
+async function moveAgentToCell(nx, ny) {
+    // check obstacle
+    if (obstacles.has(keyOf(nx, ny))) return; // can't move into obstacle
+    agent.x = nx; agent.y = ny;
+    const { px, py } = cellToPx(agent.x, agent.y);
+    await animateTo(px, py);
+    // update reward
+    if (agent.x === goal.x && agent.y === goal.y) reward += 10; else reward -= 1;
+    document.getElementById('rl-reward').textContent = reward;
+}
+
+// initialize pixel pos
+(function init() {
+    const p = cellToPx(agent.x, agent.y);
+    agentPx = p.px; agentPy = p.py; targetPx = p.px; targetPy = p.py;
+    render();
+})();
+
+// drag behavior
+let isPointerDown = false;
+rlCanvas.addEventListener('pointerdown', (e) => {
+    const rect = rlCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    const dist = Math.hypot(x - agentPx, y - agentPy);
+    if (dist < 30) {
+        dragging = true; isPointerDown = true;
+        dragOffset.x = agentPx - x; dragOffset.y = agentPy - y;
+    } else {
+        // toggle obstacle on cell click
+        const cell = pxToCell(x, y);
+        const k = keyOf(cell.x, cell.y);
+        if (cell.x === goal.x && cell.y === goal.y) return;
+        if (cell.x === agent.x && cell.y === agent.y) return;
+        if (obstacles.has(k)) obstacles.delete(k); else obstacles.add(k);
+        render();
+    }
+});
+
+rlCanvas.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const rect = rlCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    agentPx = x + dragOffset.x; agentPy = y + dragOffset.y;
+    render();
+});
+
+rlCanvas.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false; isPointerDown = false;
+    // snap to nearest cell
+    const cell = pxToCell(agentPx, agentPy);
+    agent.x = cell.x; agent.y = cell.y;
+    const p = cellToPx(agent.x, agent.y);
+    animateTo(p.px, p.py);
+});
+
+rlCanvas.addEventListener('pointerleave', () => { if (dragging) { dragging = false; const p = cellToPx(agent.x, agent.y); animateTo(p.px, p.py); } });
+
+// control buttons
+function rlKey(x, y) { return `${x},${y}`; }
+
+function chooseAction(stateKey, epsilon) {
+    if (!qTable[stateKey] || Math.random() < epsilon) {
+        return ['up','down','left','right'][Math.floor(Math.random()*4)];
+    }
+    const actions = qTable[stateKey];
+    return Object.keys(actions).reduce((a,b)=> actions[a] >= actions[b] ? a : b);
+}
+
+function nextStateFrom(x, y, action) {
+    let nx = x, ny = y;
+    if (action === 'up') ny = Math.max(0, ny - 1);
+    if (action === 'down') ny = Math.min(GRID-1, ny + 1);
+    if (action === 'left') nx = Math.max(0, nx - 1);
+    if (action === 'right') nx = Math.min(GRID-1, nx + 1);
+    if (obstacles.has(keyOf(nx, ny))) return { x, y }; // blocked
+    return { x: nx, y: ny };
+}
+
+function rlTrain(episodes, alpha, gamma, epsilon) {
+    qTable = {};
+    const history = [];
+    for (let e = 0; e < episodes; e++) {
+        let state = { x: 0, y: 0 };
+        let total = 0;
+        let steps = 0;
+        while (!(state.x === goal.x && state.y === goal.y) && steps < 200) {
+            const key = rlKey(state.x, state.y);
+            qTable[key] = qTable[key] || { up:0, down:0, left:0, right:0 };
+            const action = chooseAction(key, epsilon);
+            const ns = nextStateFrom(state.x, state.y, action);
+            const rewardStep = (ns.x === goal.x && ns.y === goal.y) ? 10 : -1;
+            total += rewardStep;
+            const nextKey = rlKey(ns.x, ns.y);
+            qTable[nextKey] = qTable[nextKey] || { up:0, down:0, left:0, right:0 };
+            const bestNext = Math.max(...Object.values(qTable[nextKey]));
+            qTable[key][action] += alpha * (rewardStep + gamma * bestNext - qTable[key][action]);
+            state = ns;
+            steps += 1;
+        }
+        history.push(total);
+    }
+    return history;
+}
+
+// UI buttons
+document.getElementById('rl-reset').addEventListener('click', async () => {
+    agent = { x: 0, y: 0 };
+    obstacles = new Set();
+    reward = 0; document.getElementById('rl-reward').textContent = reward;
+    const p = cellToPx(agent.x, agent.y); await animateTo(p.px, p.py);
+});
+
+['rl-up','rl-down','rl-left','rl-right'].forEach(id => {
+    const dir = id.split('-')[1];
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', ()=> moveAgentToCell(
+        dir==='left'?agent.x-1:dir==='right'?agent.x+1:agent.x,
+        dir==='up'?agent.y-1:dir==='down'?agent.y+1:agent.y
+    ));
+});
+
+document.getElementById('rl-train').addEventListener('click', ()=>{
+    const episodes = Number(document.getElementById('rl-episodes').value);
+    const alpha = Number(document.getElementById('rl-alpha').value);
+    const gamma = Number(document.getElementById('rl-gamma').value);
+    const epsilon = Number(document.getElementById('rl-epsilon').value);
+    document.getElementById('rl-train').disabled = true;
+    setTimeout(()=>{
+        const hist = rlTrain(episodes, alpha, gamma, epsilon);
+        document.getElementById('rl-reward').textContent = hist.slice(-1)[0];
+        document.getElementById('rl-train').disabled = false;
+        alert('Training finished. Click "Show Learned Path" to watch the agent.');
+    }, 50);
+});
+
+document.getElementById('rl-run').addEventListener('click', async ()=>{
+    // follow greedy policy
+    let sim = { x: 0, y: 0 };
+    const path = [ { ...sim } ];
+    for (let i=0;i<100;i++){
+        if (sim.x===goal.x && sim.y===goal.y) break;
+        const key = rlKey(sim.x, sim.y);
+        const action = qTable[key] ? Object.keys(qTable[key]).reduce((a,b)=> qTable[key][a] >= qTable[key][b] ? a : b) : ['up','down','left','right'][Math.floor(Math.random()*4)];
+        const ns = nextStateFrom(sim.x, sim.y, action);
+        sim = ns; path.push({ ...sim });
+    }
+    // animate path
+    for (const stepCell of path) {
+        await moveAgentToCell(stepCell.x, stepCell.y);
+        await new Promise(r => setTimeout(r, 120));
+    }
+});
+
+// make roundRect available in older browsers
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+        if (w < 2 * r) r = w / 2;
+        if (h < 2 * r) r = h / 2;
+        this.beginPath();
+        this.moveTo(x + r, y);
+        this.arcTo(x + w, y, x + w, y + h, r);
+        this.arcTo(x + w, y + h, x, y + h, r);
+        this.arcTo(x, y + h, x, y, r);
+        this.arcTo(x, y, x + w, y, r);
+        this.closePath();
+        return this;
     }
 }
-
-function updateSummary(data) {
-    const rewards = data.reward_history;
-    const lastReward = rewards[rewards.length - 1];
-    const averageReward = (rewards.reduce((sum, value) => sum + value, 0) / rewards.length).toFixed(2);
-
-    summary.innerHTML = `
-        <h3>Training result</h3>
-        <p><strong>Episodes:</strong> ${rewards.length}</p>
-        <p><strong>Last episode reward:</strong> ${lastReward}</p>
-        <p><strong>Average reward:</strong> ${averageReward}</p>
-        <p>${data.explanation.agent}</p>
-        <p>${data.explanation.reinforce}</p>
-        <p>${data.explanation.goal}</p>
-    `;
-}
-
-async function runSimulation() {
-    const payload = {
-        episodes: document.getElementById('episodes').value,
-        alpha: document.getElementById('alpha').value,
-        gamma: document.getElementById('gamma').value,
-        epsilon: document.getElementById('epsilon').value
-    };
-
-    simulateButton.disabled = true;
-    simulateButton.textContent = 'Training...';
-
-    try {
-        const response = await fetch('/simulate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        const data = await response.json();
-        drawGrid(data.grid_size);
-        drawPath(data.path, data.goal);
-        updateSummary(data);
-    } catch (error) {
-        summary.innerHTML = '<p>Sorry, something went wrong. Try refreshing the page.</p>';
-        console.error(error);
-    } finally {
-        simulateButton.disabled = false;
-        simulateButton.textContent = 'Run Simulation';
-    }
-}
-
-simulateButton.addEventListener('click', runSimulation);
-runSimulation();

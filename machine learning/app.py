@@ -1,81 +1,49 @@
 from flask import Flask, render_template, request, jsonify
 import random
+import statistics
 
 app = Flask(__name__)
 
-GRID_SIZE = 5
-ACTIONS = ['up', 'down', 'left', 'right']
 
-def state_key(state):
-    return f'{state[0]},{state[1]}'
-
-
-def step(state, action):
-    x, y = state
-    if action == 'up':
-        y = max(0, y - 1)
-    elif action == 'down':
-        y = min(GRID_SIZE - 1, y + 1)
-    elif action == 'left':
-        x = max(0, x - 1)
-    elif action == 'right':
-        x = min(GRID_SIZE - 1, x + 1)
-    return x, y
+def generate_points(n_points, noise, true_m=2.0, true_b=1.0):
+    points = []
+    for _ in range(n_points):
+        x = random.random()
+        y = true_m * x + true_b + random.gauss(0, noise)
+        points.append((x, y))
+    return points
 
 
-def choose_action(state, q_table, epsilon):
-    key = state_key(state)
-    if random.random() < epsilon or key not in q_table:
-        return random.choice(ACTIONS)
-    return max(ACTIONS, key=lambda action: q_table[key].get(action, 0.0))
-
-
-def train_q_learning(episodes, alpha, gamma, epsilon):
-    q_table = {}
+def train_linear_regression(points, epochs, lr):
+    # Simple batch gradient descent for y = m*x + b
+    m = 0.0
+    b = 0.0
+    n = len(points)
     history = []
-    goal = (GRID_SIZE - 1, GRID_SIZE - 1)
 
-    for _ in range(episodes):
-        state = (0, 0)
-        total_reward = 0.0
-        steps = 0
+    for _ in range(epochs):
+        dm = 0.0
+        db = 0.0
+        mse = 0.0
+        for x, y in points:
+            y_pred = m * x + b
+            err = y - y_pred
+            mse += err * err
+            dm += -2 * x * err
+            db += -2 * err
 
-        while state != goal and steps < 50:
-            key = state_key(state)
-            q_table.setdefault(key, {action: 0.0 for action in ACTIONS})
-            action = choose_action(state, q_table, epsilon)
-            next_state = step(state, action)
-            reward = 10.0 if next_state == goal else -1.0
-            total_reward += reward
+        mse = mse / n
+        # gradients averaged
+        dm /= n
+        db /= n
 
-            next_key = state_key(next_state)
-            q_table.setdefault(next_key, {action: 0.0 for action in ACTIONS})
-            best_next = max(q_table[next_key].values())
-            q_table[key][action] += alpha * (reward + gamma * best_next - q_table[key][action])
+        # update
+        m -= lr * dm
+        b -= lr * db
 
-            state = next_state
-            steps += 1
+        history.append(round(mse, 6))
 
-        history.append(round(total_reward, 2))
-
-    return q_table, history, goal
-
-
-def simulate_agent(q_table, goal):
-    state = (0, 0)
-    path = [state]
-
-    for _ in range(50):
-        if state == goal:
-            break
-        key = state_key(state)
-        action = max(ACTIONS, key=lambda a: q_table.get(key, {}).get(a, 0.0))
-        state = step(state, action)
-        path.append(state)
-        if state == goal:
-            break
-
-    return path
+    return m, b, history
 
 
 @app.route('/')
@@ -86,23 +54,25 @@ def index():
 @app.route('/simulate', methods=['POST'])
 def simulate():
     data = request.get_json() or {}
-    episodes = int(data.get('episodes', 50))
-    alpha = float(data.get('alpha', 0.5))
-    gamma = float(data.get('gamma', 0.9))
-    epsilon = float(data.get('epsilon', 0.2))
+    n_points = int(data.get('points', 20))
+    noise = float(data.get('noise', 0.1))
+    epochs = int(data.get('epochs', 100))
+    lr = float(data.get('lr', 0.1))
 
-    q_table, history, goal = train_q_learning(episodes, alpha, gamma, epsilon)
-    path = simulate_agent(q_table, goal)
+    true_m = 2.0
+    true_b = 1.0
+    points = generate_points(n_points, noise, true_m=true_m, true_b=true_b)
+    m, b, loss_history = train_linear_regression(points, epochs, lr)
 
     response = {
-        'grid_size': GRID_SIZE,
-        'path': [{'x': x, 'y': y} for x, y in path],
-        'goal': {'x': goal[0], 'y': goal[1]},
-        'reward_history': history,
+        'points': [{'x': round(x, 4), 'y': round(y, 4)} for x, y in points],
+        'fitted': {'m': round(m, 4), 'b': round(b, 4)},
+        'true': {'m': true_m, 'b': true_b},
+        'loss_history': loss_history,
         'explanation': {
-            'agent': 'The agent starts in the grid and chooses moves. It learns from rewards instead of examples.',
-            'reinforce': 'Each time the agent gets a reward, it remembers which actions were better. Good actions get stronger over time.',
-            'goal': 'The agent wants to reach the goal. Positive rewards help it understand what to do.'
+            'what': 'This demo fits a straight line y = m*x + b to noisy sample points using gradient descent.',
+            'how': 'The program updates parameters m and b to reduce mean squared error between the line and points.',
+            'try': 'Increase points and epochs to get a better fit; increase noise to make the task harder.'
         }
     }
     return jsonify(response)

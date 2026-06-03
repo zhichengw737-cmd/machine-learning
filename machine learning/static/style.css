@@ -84,3 +84,30 @@ section {
         flex-direction: column;
     }
 }
+
+/* RL demo styles */
+.rl-demo { max-width: 900px; margin: 20px auto; padding: 20px; background: white; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.rl-controls { display:flex; gap:20px; align-items:flex-start; }
+.rl-buttons { display:flex; flex-direction:column; gap:8px; align-items:center; }
+.rl-buttons button { width:48px; height:48px; font-size:18px; border-radius:8px; border:none; background:#2a6f97; color:#fff; cursor:pointer; }
+.rl-settings { display:flex; flex-direction:column; gap:8px; }
+.rl-settings label { font-size:14px; }
+.rl-action-row { display:flex; gap:8px; margin-top:8px; }
+.rl-display { display:flex; gap:12px; align-items:center; margin-top:12px; }
+#rl-info { font-size:14px; }
+.rl-explain { margin-top:12px; }
+
+/* Fancy visual touches for RL canvas */
+.rl-canvas-wrap { box-shadow: 0 12px 30px rgba(42,111,151,0.18); border-radius: 14px; overflow: hidden; }
+#rlCanvas { background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(240,250,255,0.4)); display:block; }
+.rl-panel { padding: 12px 16px; display:flex; flex-direction:column; gap:8px; min-width:220px; }
+.rl-panel .panel-row { display:flex; gap:8px; }
+.rl-panel input { width:100%; padding:6px 8px; border-radius:8px; border:1px solid #d7e6ee; }
+.rl-panel button { padding:8px 12px; border-radius:10px; border:none; background:linear-gradient(180deg,#2a6f97,#1d5672); color:#fff; cursor:pointer; box-shadow:0 8px 18px rgba(29,86,114,0.18); }
+.rl-panel .panel-info { margin-top:8px; font-size:14px; color:#123; }
+
+/* responsive */
+@media (max-width: 860px) {
+    .rl-controls-main { flex-direction:column; align-items:center; }
+    .rl-panel { width:100%; }
+}

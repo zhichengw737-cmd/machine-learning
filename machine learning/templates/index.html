@@ -3,48 +3,41 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reinforcement Learning for Middle School</title>
+    <title>Line Fitting Demo for Middle School</title>
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
     <header>
-        <h1>What is Reinforcement Learning?</h1>
-        <p>Help the agent learn by trying actions and earning rewards.</p>
+        <h1>What is Model Fitting?</h1>
+        <p>Fit a straight line to noisy points using gradient descent.</p>
     </header>
 
-    <section class="explanation">
-        <h2>Simple Explanation</h2>
-        <p>Reinforcement learning is learning through rewards and penalties. The agent takes actions and learns which actions are best by trying them.</p>
-        <div class="box">
-            <h3>Agent</h3>
-            <p>The agent is a little computer learner that chooses moves in a grid.</p>
-        </div>
-        <div class="box">
-            <h3>Environment</h3>
-            <p>The grid world is the environment. The agent sees where it is and decides where to go next.</p>
-        </div>
-        <div class="box">
-            <h3>Reward</h3>
-            <p>The agent gets positive reward for good moves and negative reward for wrong moves. It uses reward to improve its choices.</p>
-        </div>
-    </section>
+    <section class="interactive rl-only">
+        <h2>Reinforcement Learning Playground</h2>
+        <p>Move the ball to the goal, train the agent, and watch it learn. Drag the ball to set a new start position.</p>
 
-    <section class="interactive">
-        <h2>Try the Reinforcement Learning Simulation</h2>
-        <div class="controls">
-            <label>Training episodes: <input id="episodes" type="number" min="5" max="200" value="50" /></label>
-            <label>Learning rate: <input id="alpha" type="number" min="0.1" max="1.0" step="0.1" value="0.5" /></label>
-            <label>Future reward factor: <input id="gamma" type="number" min="0.0" max="1.0" step="0.1" value="0.9" /></label>
-            <label>Exploration chance: <input id="epsilon" type="number" min="0.0" max="1.0" step="0.05" value="0.2" /></label>
-            <button id="simulateButton">Run Simulation</button>
-        </div>
-
-        <div class="results">
-            <div class="plot-container">
-                <canvas id="plotCanvas" width="620" height="320"></canvas>
+        <div class="rl-controls-main">
+            <div class="rl-canvas-wrap">
+                <canvas id="rlCanvas" width="520" height="520"></canvas>
             </div>
-            <div class="summary" id="summary">
-                <p>Press the button to train the agent and see the path it learns to reach the goal.</p>
+            <div class="rl-panel">
+                <div class="panel-row">
+                    <label>Episodes: <input id="rl-episodes" type="number" value="300" min="1"/></label>
+                    <label>Alpha: <input id="rl-alpha" type="number" step="0.05" value="0.6"/></label>
+                </div>
+                <div class="panel-row">
+                    <label>Gamma: <input id="rl-gamma" type="number" step="0.05" value="0.9"/></label>
+                    <label>Epsilon: <input id="rl-epsilon" type="number" step="0.05" value="0.2"/></label>
+                </div>
+                <div class="panel-row action-row">
+                    <button id="rl-train">Train Agent</button>
+                    <button id="rl-run">Show Learned Path</button>
+                    <button id="rl-reset">Reset</button>
+                </div>
+                <div class="panel-info">
+                    <p>Reward: <span id="rl-reward">0</span></p>
+                    <p>Tip: drag the ball to change start, click grid cells to add/remove a small obstacle.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -56,6 +49,49 @@
             <li>Positive reward means a good move; negative reward means a wrong move.</li>
             <li>Over many episodes, the agent finds the best path to the goal.</li>
         </ul>
+    </section>
+
+    <section class="rl-demo">
+        <h2>Reinforcement Learning (Interactive)</h2>
+        <p>Try being the agent: make moves and see rewards, or let the agent train itself to reach the goal.</p>
+
+        <div class="rl-controls">
+            <div class="rl-buttons">
+                <button id="rl-up">↑</button>
+                <div>
+                    <button id="rl-left">←</button>
+                    <button id="rl-right">→</button>
+                </div>
+                <button id="rl-down">↓</button>
+            </div>
+
+            <div class="rl-settings">
+                <label>Episodes: <input id="rl-episodes" type="number" value="200" min="1"/></label>
+                <label>Alpha: <input id="rl-alpha" type="number" step="0.05" value="0.5"/></label>
+                <label>Gamma: <input id="rl-gamma" type="number" step="0.05" value="0.9"/></label>
+                <label>Epsilon: <input id="rl-epsilon" type="number" step="0.05" value="0.2"/></label>
+                <div class="rl-action-row">
+                    <button id="rl-train">Train Agent</button>
+                    <button id="rl-run">Show Learned Path</button>
+                    <button id="rl-reset">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="rl-display">
+            <canvas id="rlCanvas" width="320" height="320"></canvas>
+            <div id="rl-info">Reward: <span id="rl-reward">0</span></div>
+        </div>
+
+        <div class="rl-explain box">
+            <h3>Reinforcement Learning — short</h3>
+            <p>Reinforcement learning is learning from rewards. The agent chooses actions, receives rewards, and updates its policy to get more reward over time.</p>
+            <ul>
+                <li><strong>Action:</strong> move up/down/left/right.</li>
+                <li><strong>Reward:</strong> +10 for reaching the goal, -1 per step.</li>
+                <li><strong>Exploration:</strong> try random moves sometimes so the agent discovers better routes.</li>
+            </ul>
+        </div>
     </section>
 
     <script src="/static/script.js"></script>
