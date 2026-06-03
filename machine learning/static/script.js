@@ -2,7 +2,7 @@
 const rlCanvas = document.getElementById('rlCanvas');
 const ctx = rlCanvas.getContext('2d');
 
-const GRID = 5;
+const GRID = 11;
 let agent = { x: 0, y: 0 };
 let agentPx = 0, agentPy = 0; // pixel position for smooth animation
 let animating = false;
@@ -48,13 +48,45 @@ function drawGrid() {
     // obstacles
     for (const k of obstacles) {
         const [ox, oy] = k.split(',').map(Number);
-        ctx.fillStyle = '#8a8f98';
-        ctx.fillRect(ox * w + 6, oy * h + 6, w - 12, h - 12);
+        // darker stone-like walls with subtle inner bevel
+        const x = ox * w + 4, y = oy * h + 4, ww = w - 8, hh = h - 8;
+        const g2 = ctx.createLinearGradient(x, y, x + ww, y + hh);
+        g2.addColorStop(0, '#0f2b37');
+        g2.addColorStop(1, '#163c4a');
+        ctx.fillStyle = g2;
+        ctx.fillRect(x, y, ww, hh);
+        // light edge
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x + 0.5, y + 0.5, ww - 1, hh - 1);
     }
 
     // goal (rounded rectangle)
-    ctx.fillStyle = '#5a9c8d';
+    // glowing target
+    const gx = goal.x * w + w / 2, gy = goal.y * h + h / 2;
+    // pulse
+    const t = performance.now() / 500;
+    const pulse = 0.6 + 0.25 * Math.sin(t);
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(86,182,150,${0.18 * pulse})`;
+    ctx.shadowBlur = 28 * pulse;
+    ctx.shadowColor = 'rgba(86,182,150,0.65)';
+    ctx.ellipse(gx, gy, w * 0.6, h * 0.6, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // core goal badge
+    const grad = ctx.createLinearGradient(gx - w/4, gy - h/4, gx + w/4, gy + h/4);
+    grad.addColorStop(0, '#b6f1db');
+    grad.addColorStop(1, '#2aa683');
+    ctx.fillStyle = grad;
     drawRoundedRect(goal.x * w + 8, goal.y * h + 8, w - 16, h - 16, 8);
+    ctx.fill();
+    // small white center
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.beginPath();
+    ctx.arc(gx, gy, Math.min(w,h) * 0.08, 0, Math.PI * 2);
     ctx.fill();
 }
 
@@ -112,10 +144,16 @@ function animateTo(px, py, duration = 220) {
 async function moveAgentToCell(nx, ny) {
     // check obstacle
     if (obstacles.has(rlKey(nx, ny))) return; // can't move into obstacle
+    // if trying to move to same cell (no-op), do nothing and don't penalize
+    if (nx === agent.x && ny === agent.y) {
+        // ensure rendering still shows current position
+        render();
+        return;
+    }
     agent.x = nx; agent.y = ny;
     const { px, py } = cellToPx(agent.x, agent.y);
     await animateTo(px, py);
-    // update reward
+    // update reward only when a real move happened
     if (agent.x === goal.x && agent.y === goal.y) reward += 10; else reward -= 1;
     document.getElementById('rl-reward').textContent = reward;
 }
@@ -125,7 +163,7 @@ function resizeCanvasToFit() {
     const wrap = document.querySelector('.rl-canvas-wrap');
     if (!wrap) return;
     const rect = wrap.getBoundingClientRect();
-    const size = Math.min(rect.width, 520); // cap at 520
+    const size = Math.min(rect.width, 680); // cap larger for bigger grid
     rlCanvas.width = Math.floor(size);
     rlCanvas.height = Math.floor(size);
     // recalc agent pixel pos
@@ -137,6 +175,8 @@ window.addEventListener('resize', () => resizeCanvasToFit());
 
 // initialize pixel pos
 (function init() {
+    // generate a challenging maze and render
+    generateMaze();
     resizeCanvasToFit();
 })();
 
@@ -151,6 +191,47 @@ rlCanvas.addEventListener('click', (e) => {
     if (obstacles.has(k)) obstacles.delete(k); else obstacles.add(k);
     render();
 });
+
+// Maze generation: random obstacles but ensure start->goal connectivity
+function isConnected() {
+    const start = { x: 0, y: 0 };
+    const targetKey = rlKey(goal.x, goal.y);
+    const q = [start];
+    const seen = new Set([rlKey(start.x, start.y)]);
+    while (q.length) {
+        const s = q.shift();
+        if (rlKey(s.x, s.y) === targetKey) return true;
+        const neigh = [ {x:s.x+1,y:s.y},{x:s.x-1,y:s.y},{x:s.x,y:s.y+1},{x:s.x,y:s.y-1} ];
+        for (const n of neigh) {
+            if (n.x < 0 || n.y < 0 || n.x >= GRID || n.y >= GRID) continue;
+            const k = rlKey(n.x, n.y);
+            if (seen.has(k)) continue;
+            if (obstacles.has(k)) continue;
+            seen.add(k);
+            q.push(n);
+        }
+    }
+    return false;
+}
+
+function generateMaze(density = 0.36, maxAttempts = 200) {
+    // fill obstacles randomly but keep start and goal free and ensure connectivity
+    let attempts = 0;
+    do {
+        obstacles.clear();
+        for (let x = 0; x < GRID; x++) {
+            for (let y = 0; y < GRID; y++) {
+                if ((x === 0 && y === 0) || (x === goal.x && y === goal.y)) continue;
+                if (Math.random() < density) obstacles.add(rlKey(x, y));
+            }
+        }
+        attempts += 1;
+        // lower density slightly each attempt to help find a path
+        if (attempts > 25) density = Math.max(0.12, density - 0.02);
+    } while (!isConnected() && attempts < maxAttempts);
+    // ensure start agent position is free
+    agent = { x: 0, y: 0 };
+}
 
 function chooseAction(stateKey, epsilon) {
     if (!qTable[stateKey] || Math.random() < epsilon) {
@@ -224,7 +305,6 @@ function attachListeners() {
         // wait a bit for animation to stop
         await new Promise(r => setTimeout(r, 50));
         agent = { x: 0, y: 0 };
-        obstacles = new Set();
         reward = 0;
         document.getElementById('rl-reward').textContent = reward;
         const p = cellToPx(agent.x, agent.y);
@@ -283,6 +363,8 @@ function attachListeners() {
             const key = rlKey(sim.x, sim.y);
             const action = qTable[key] ? Object.keys(qTable[key]).reduce((a,b)=> qTable[key][a] >= qTable[key][b] ? a : b) : ['up','down','left','right'][Math.floor(Math.random()*4)];
             const ns = nextStateFrom(sim.x, sim.y, action);
+            // if action results in no movement, stop building path (agent stuck)
+            if (ns.x === sim.x && ns.y === sim.y) break;
             sim = ns;
             path.push({ ...sim });
         }
