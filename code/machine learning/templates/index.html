@@ -9,30 +9,64 @@
 <body>
     <div class="container">
         <h1>🔴 Reinforcement Learning Playground</h1>
-        <p class="subtitle">Watch the ball learn how to navigate the maze step-by-step!</p>
+        <p class="subtitle">Watch the ball decode the structural guiding arrows step-by-step!</p>
 
-        <div class="control-panel">
-            <div class="maze-controls">
-                <button id="maze1-btn" class="btn active">Maze 1 (Learning)</button>
-                <button id="maze2-btn" class="btn" disabled>Maze 2 (Mastered)</button>
-            </div>
-
-            <div class="dashboard">
-                <div class="stat-box">
-                    <span class="stat-label">Training Count:</span>
-                    <span id="training-count" class="stat-value">0 / 5</span>
+        <div class="playground-layout">
+            <div class="left-panel">
+                <div class="control-panel">
+                    <div class="maze-controls">
+                        <button id="maze1-btn" class="btn active">Maze 1 (Learning)</button>
+                        <button id="maze2-btn" class="btn" disabled>Maze 2 (Mastered)</button>
+                    </div>
+                    <div class="dashboard">
+                        <div class="stat-box">
+                            <span class="stat-label">Training Attempt:</span>
+                            <span id="training-count" class="stat-value">0 / 5</span>
+                        </div>
+                        <button id="action-btn" class="btn btn-primary">Train & Run (Step 1)</button>
+                        <button id="reset-btn" class="btn btn-danger">Reset Simulation</button>
+                    </div>
                 </div>
-                <button id="action-btn" class="btn btn-primary">Train & Run (Step 1)</button>
-                <button id="reset-btn" class="btn btn-danger">Reset Entire Simulation</button>
+
+                <div class="narrative-box">
+                    <p id="narrative-text">The ball sees arrows on the ground but has no idea what they mean. Click "Train & Run" to start its journey.</p>
+                </div>
+
+                <div class="grid-container">
+                    <div id="grid" class="grid"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="narrative-box">
-            <p id="narrative-text">The ball is completely lost. Click "Train & Run" to start its first attempt!</p>
-        </div>
-
-        <div class="grid-container">
-            <div id="grid" class="grid"></div>
+            <div class="right-panel">
+                <h3>🧠 AI's Internal Dictionary</h3>
+                <p class="table-subtitle">What the ball currently thinks about the symbols:</p>
+                <table class="opinion-table">
+                    <thead>
+                        <tr>
+                            <th>Arrow Symbol</th>
+                            <th>AI's current Interpretation / Opinion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="arrow-cell">↑</td>
+                            <td id="opinion-up" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                        <tr>
+                            <td class="arrow-cell">→</td>
+                            <td id="opinion-right" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                        <tr>
+                            <td class="arrow-cell">↓</td>
+                            <td id="opinion-down" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                        <tr>
+                            <td class="arrow-cell">←</td>
+                            <td id="opinion-left" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
