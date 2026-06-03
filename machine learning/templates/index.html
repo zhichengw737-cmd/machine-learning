@@ -19,14 +19,7 @@
         <div class="rl-controls-main">
                     <div class="rl-canvas-wrap">
                     <canvas id="rlCanvas" width="520" height="520"></canvas>
-                    <div class="rl-arrows">
-                        <button id="rl-up" class="arrow">↑</button>
-                        <div class="rl-left-right">
-                            <button id="rl-left" class="arrow">←</button>
-                            <button id="rl-right" class="arrow">→</button>
-                        </div>
-                        <button id="rl-down" class="arrow">↓</button>
-                    </div>
+
                 </div>
             <div class="rl-panel">
                 <div class="panel-row">
@@ -39,8 +32,7 @@
                 </div>
                 <div class="panel-row action-row">
                     <button id="rl-train">Train Agent</button>
-                    <button id="rl-run">Show Learned Path</button>
-                    <button id="rl-reset">Reset</button>
+                    <button id="rl-run">Show Learned Path</button>                    <button id="rl-stop" disabled>Stop</button>                    <button id="rl-reset">Reset</button>
                 </div>
                 <div class="panel-info">
                     <p>Reward: <span id="rl-reward">0</span></p>
@@ -60,7 +52,7 @@
             <li>Exploration vs. practice: sometimes it tries random moves to discover new routes; other times it uses what it already learned.</li>
         </ul>
 
-        <h3>Parameters — explained like a teacher</h3>
+        <h3>Parameters</h3>
         <p><strong>Episodes</strong>: think of this as the number of practice runs. More runs give the robot more experience.</p>
         <p><strong>Alpha (learning rate)</strong>: how quickly the robot updates its memory after each example. A small alpha means slow, careful learning; a large alpha means quick but possibly unstable changes.</p>
         <p><strong>Gamma (future reward factor)</strong>: how much the robot cares about future rewards. A higher gamma makes it plan for longer paths to the goal.</p>
