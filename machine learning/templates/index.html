@@ -65,10 +65,17 @@
         </ul>
 
         <h3>Parameters</h3>
-        <p><strong>Episodes</strong>: think of this as the number of practice runs. More runs give the robot more experience.</p>
-        <p><strong>Alpha (learning rate)</strong>: how quickly the robot updates its memory after each example. A small alpha means slow, careful learning; a large alpha means quick but possibly unstable changes.</p>
-        <p><strong>Gamma (future reward factor)</strong>: how much the robot cares about future rewards. A higher gamma makes it plan for longer paths to the goal.</p>
-        <p><strong>Epsilon (exploration chance)</strong>: the fraction of the time the robot tries something random. A little exploration helps it find better routes it did not see before.</p>
+        <!-- <p><strong>Episodes</strong>: think of this as the number of practice runs. More runs give the robot more experience.</p> -->
+         <p><strong>Episodes</strong>: Times the ball challenges the maze. </p>
+
+        <!-- <p><strong>Alpha (learning rate)</strong>: how quickly the robot updates its memory after each example. A small alpha means slow, careful learning; a large alpha means quick but possibly unstable changes.</p> -->
+        <p><strong>Alpha (learning rate)</strong>: The speed of the ball learn when it hit the walls. Lower means soornly the ball will forget he hit the wall. Higher means the ball will remember the hit for a longer time.</p>
+
+        <!-- <p><strong>Gamma (future reward factor)</strong>: how much the robot cares about future rewards. A higher gamma makes it plan for longer paths to the goal.</p> -->
+        <p><strong>Gamma (future reward factor)</strong>: How far the ball see? Lower means the ball see closer. Higher means the ball can see further.</p>
+
+        <!-- <p><strong>Epsilon (exploration chance)</strong>: the fraction of the time the robot tries something random. A little exploration helps it find better routes it did not see before.</p> -->
+        <p><strong>Epsilon (exploration chance)</strong>: The chance the ball will try a new route instead of the best known route. A little exploration helps it find better routes it did not see before.</p>
 
         <h3>Class activity idea</h3>
         <p>Ask students to change one parameter at a time and observe the learned path. Which parameter made the robot learn faster? Which made it take longer routes? Discuss why exploration helps in a room with hidden obstacles.</p>
