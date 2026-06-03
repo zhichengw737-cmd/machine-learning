@@ -1,0 +1,35 @@
+/* Custom Arrow Styles inside cells */
+.arrow-hint {
+    color: rgba(0, 128, 255, 0.25);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.arrow-fixed {
+    color: #007bff;
+    font-weight: bold;
+    font-size: 22px;
+    text-shadow: 0 0 4px rgba(0,123,255,0.4);
+}
+
+/* Narrative Output Panel */
+.narrative-box {
+    background-color: #f8f9fa;
+    border-left: 5px solid #007bff;
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+/* Flash effect when Maze 2 is unlocked */
+@keyframes flash {
+    0% { background-color: #28a745; }
+    50% { background-color: #ffc107; }
+    100% { background-color: #28a745; }
+}
+.unlocked-flash {
+    animation: flash 1.5s infinite;
+    color: white !important;
+}

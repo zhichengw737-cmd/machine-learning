@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcement Learning Playground</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔴 Reinforcement Learning Playground</h1>
+        <p class="subtitle">Watch the ball learn how to navigate the maze step-by-step!</p>
+
+        <div class="control-panel">
+            <div class="maze-controls">
+                <button id="maze1-btn" class="btn active">Maze 1 (Learning)</button>
+                <button id="maze2-btn" class="btn" disabled>Maze 2 (Mastered)</button>
+            </div>
+
+            <div class="dashboard">
+                <div class="stat-box">
+                    <span class="stat-label">Training Count:</span>
+                    <span id="training-count" class="stat-value">0 / 5</span>
+                </div>
+                <button id="action-btn" class="btn btn-primary">Train & Run (Step 1)</button>
+                <button id="reset-btn" class="btn btn-danger">Reset Entire Simulation</button>
+            </div>
+        </div>
+
+        <div class="narrative-box">
+            <p id="narrative-text">The ball is completely lost. Click "Train & Run" to start its first attempt!</p>
+        </div>
+
+        <div class="grid-container">
+            <div id="grid" class="grid"></div>
+        </div>
+    </div>
+
+    <script src="../static/script.js"></script>
+</body>
+</html>
