@@ -139,6 +139,11 @@ function runSimulation() {
         rewardValEl.style.color = "#10b981";
     }
 
+    const historyLogEl = document.getElementById('move-history-log');
+    if (historyLogEl) {
+        historyLogEl.innerHTML = '<div style="color: #22c55e; font-weight: bold;">[Step 0] Start at (0,0) → 0 pts</div>';
+    }
+
     let path = [];
 
     if (currentMaze === 1) {
@@ -187,12 +192,20 @@ function animateBallPath(path, index) {
         targetCell.appendChild(ball);
     }
 
+    //Get the current maze layout to evaluate the move's reward points.
+    const layout = currentMaze === 1 ? maze1Layout : maze2Layout;
+
+    // Default status for spaces with no rules
+    let currentMoveText = "0 (Open Path)";
+    let currentMoveColor = "#64748b"; // Gray
+
     // Evaluate Reward Points
     if (index > 0) {
         const [prevR, prevC] = path[index - 1];
         const arrows = currentMaze === 1 ? maze1Arrows : maze2Arrows;
         const arrow = arrows[`${prevR},${prevC}`];
 
+        // Check if there was a guiding arrow on the previous block
         if (arrow) {
             let followedCorrectly = false;
             if (arrow === "↑" && r === prevR - 1 && c === prevC) followedCorrectly = true;
@@ -202,14 +215,41 @@ function animateBallPath(path, index) {
 
             if (followedCorrectly) {
                 rewardPoints += 10;
+
+                // Update the last move points display when the arrow was followed correctly
+                currentMoveText = "+10 (Followed Arrow)";
+                currentMoveColor = "#10b981";
             } else {
                 rewardPoints -= 10;
+                // Update the last move points display when the arrow was ignored or followed incorrectly
+                currentMoveText = "-10 (Ignored Arrow)";
+                currentMoveColor = "#ef4444"; // Red
             }
 
+            // Check if the ball has arrived at the Goal (Grid value is 3)
+            if (layout[r][c] === 3) {
+                rewardPoints += 100;
+                currentMoveText = "+100 (Goal Reached!)";
+                currentMoveColor = "#3b82f6"; // Blue
+            }
+
+            //Update the total reward points display
             const rewardValEl = document.getElementById('reward-value');
             if (rewardValEl) {
                 rewardValEl.textContent = rewardPoints;
                 rewardValEl.style.color = rewardPoints >= 0 ? "#10b981" : "#ef4444";
+            }
+
+            //Append the current move's reward points and status to the history log with appropriate color coding
+            const historyLogEl = document.getElementById('move-history-log');
+            if (historyLogEl) {
+                const newLogItem = document.createElement('div');
+                newLogItem.style.color = currentMoveColor;
+                newLogItem.textContent = `[Step ${index}] Moved to (${r},${c}) → ${currentMoveText}` + ` | Total: ${rewardPoints} pts`;
+                historyLogEl.appendChild(newLogItem);
+            
+            //Auto-scroll the history log to the latest entry
+                historyLogEl.scrollTop = historyLogEl.scrollHeight;
             }
         }
     }
@@ -224,19 +264,19 @@ function handleTrainingOutcome() {
 
     if (currentMaze === 1) {
         if (trainingTimes === 1) {
-            narrativeTextEl.textContent = "❌ Result: Doesn't know how to get to the endpoint.";
+            narrativeTextEl.textContent = "❌ Result: Doesn't know how to get to the endpoint." + " I get " + rewardPoints + " points. Is there any guilde for me?";
             actionBtn.textContent = "Train & Run (Step 2)";
         } else if (trainingTimes === 2) {
-            narrativeTextEl.textContent = "❓ Result: Seems like there are some arrows for guidance.";
+            narrativeTextEl.textContent = "❓ Result: Seems like there are some arrows for guidance." + " I get " + rewardPoints + " points. I should try to follow the arrows.";
             actionBtn.textContent = "Train & Run (Step 3)";
         } else if (trainingTimes === 3) {
             narrativeTextEl.textContent = "🔍 Result: The ball is beginning to observe correlations between arrows and walls. I have gotten 100 points but now I only have " + rewardPoints + " points. I must go to the wrong way.";
             actionBtn.textContent = "Train & Run (Step 4)";
         } else if (trainingTimes === 4) {
-            narrativeTextEl.textContent = "💡 Result: The ball is starting to grasp arrow orientations relative to paths.";
+            narrativeTextEl.textContent = "💡 Result: The ball is starting to grasp arrow orientations relative to paths." + " I get " + rewardPoints + " points. I am close to understand!";
             actionBtn.textContent = "Train & Run (Final Step)";
         } else if (trainingTimes === 5) {
-            narrativeTextEl.textContent = "🏆 Result: Knowing the arrows' meaning! It unlocked the map key and reached the endpoint!";
+            narrativeTextEl.textContent = "🏆 Result: Knowing the arrows' meaning! It unlocked the map key and reached the endpoint!" + " I get " + rewardPoints + " points.";
             actionBtn.style.display = 'none';
             maze2Btn.disabled = false;
             maze2Btn.classList.add('unlocked-glow');
