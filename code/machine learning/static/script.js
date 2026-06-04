@@ -57,7 +57,7 @@ const maze1Arrows = {
 };
 
 const maze2Arrows = {
-    "0,1": "→", "0,2": "→","0,3": "↓" ,"1,3": "↓", "2,3": "→", "2,4": "→",
+    "0,0": "→","0,1": "→", "0,2": "→","0,3": "↓" ,"1,3": "↓", "2,3": "→", "2,4": "→",
     "2,5": "→", "2,6": "↓", "3,6": "↓","4,6": "←","4,5": "←","4,4": "←",
     "4,3": "↓","5,3": "↓", "6,3": "↓", "7,3": "→","7,4": "→","7,5": "→","7,6": "→"
 };
@@ -127,6 +127,25 @@ function initGrid() {
         }
     }
     updateOpinionTable();
+
+    //maze2Btn.disabled = true; // Ensure Maze 2 is locked until training is complete
+
+    // Dynamically checks if Maze 2 should be unlocked
+    updateMazeUnlockStatus(); 
+}
+
+// Only enable Maze 2 button when trainingTimes reaches 5, and optionally add a glow effect to highlight the moment it unlocks. Remove the glow if trainingTimes drops below 5 (in case of reset).
+function updateMazeUnlockStatus() {
+    if (trainingTimes >= 5) {
+        maze2Btn.disabled = false;
+        // Optional: Keep glow effect if it's the exact moment it unlocks
+        if (trainingTimes === 5 && currentMaze === 1 && !isMoving) {
+            maze2Btn.classList.add('unlocked-glow');
+        }
+    } else {
+        maze2Btn.disabled = true;
+        maze2Btn.classList.remove('unlocked-glow');
+    }
 }
 
 function updateOpinionTable() {
@@ -168,7 +187,12 @@ function runSimulation() {
     let path = [];
 
     if (currentMaze === 1) {
-        trainingTimes++;
+        //trainingTimes++;
+
+        //limit the maximum training times to 5, and only increment when the "Train & Run" button is clicked in Maze 1, allowing users to see the final trained result at 5 trainings without further increments on additional clicks.
+        if(trainingTimes < 5) {
+            trainingTimes++;
+        }
         trainingCountEl.textContent = `${trainingTimes} / 5`;
 
         if (trainingTimes === 1) {
@@ -308,7 +332,10 @@ function handleTrainingOutcome() {
             actionBtn.textContent = "Train & Run (Final Step)";
         } else if (trainingTimes === 5) {
             narrativeTextEl.textContent = "🏆 Result: Knowing the arrows' meaning! It unlocked the map key and reached the endpoint!" + " I get " + rewardPoints + " points.";
-            actionBtn.style.display = 'none';
+            //actionBtn.style.display = 'inline-block';
+            
+            //reun maze1 with the fully trained knowledge to show the perfect path again, and also unlock maze 2 with a glow effect to highlight the moment it unlocks.
+            actionBtn.textContent = "Run Maze 1 (Mastered)";
             maze2Btn.disabled = false;
             maze2Btn.classList.add('unlocked-glow');
         }
@@ -337,7 +364,7 @@ maze2Btn.addEventListener('click', () => {
     maze2Btn.classList.remove('unlocked-glow');
     
     actionBtn.style.display = 'inline-block';
-    actionBtn.textContent = "Run Maze 2";
+    actionBtn.textContent = "Run Maze";
     actionBtn.disabled = false;
     narrativeTextEl.textContent = "The ball already knows the meaning of arrows. No training required!";
     initGrid();
