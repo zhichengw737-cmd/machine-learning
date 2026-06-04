@@ -354,6 +354,19 @@ maze1Btn.addEventListener('click', () => {
         actionBtn.style.display = 'inline-block';
         actionBtn.textContent = `Train & Run (Step ${trainingTimes + 1})`;
     }
+
+    // Reset reward points when switching back to Maze 1 to reflect the training progress accurately.
+    rewardPoints = 0;
+    const rewardValEl = document.getElementById('reward-value');
+    if (rewardValEl) {
+        rewardValEl.textContent = rewardPoints;
+        rewardValEl.style.color = "#10b981";
+    }
+
+    // Clear history log when switching mazes to avoid confusion with previous maze's logs
+    const historyLogEl = document.getElementById('move-history-log');
+    historyLogEl.innerHTML = ''; 
+
     initGrid();
 });
 
@@ -367,6 +380,19 @@ maze2Btn.addEventListener('click', () => {
     actionBtn.textContent = "Run Maze";
     actionBtn.disabled = false;
     narrativeTextEl.textContent = "The ball already knows the meaning of arrows. No training required!";
+    
+    // Reset reward points when entering Maze 2 to reflect the new challenge accurately.
+    rewardPoints = 0;
+    const rewardValEl = document.getElementById('reward-value');
+    if (rewardValEl) {
+        rewardValEl.textContent = rewardPoints;
+        rewardValEl.style.color = "#10b981";
+    }
+
+    // Clear history log when switching mazes to avoid confusion with previous maze's logs
+    const historyLogEl = document.getElementById('move-history-log');
+    historyLogEl.innerHTML = ''; 
+
     initGrid();
 });
 
