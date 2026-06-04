@@ -4,6 +4,9 @@ let currentMaze = 1;
 let trainingTimes = 0;
 let isMoving = false;
 
+//Reward points variable to track the ball's progress.
+let rewardPoints = 0;
+
 // Fixed Complex Structural Mazes (0: Open Path, 1: Wall/Barrier, 2: Start, 3: Goal)
 const maze1Layout = [
     [2, 0, 1, 1, 1, 1, 1, 1],
@@ -31,7 +34,8 @@ const maze2Layout = [
 const maze1Arrows = {
     "0,1": "↓", "1,1": "→", "1,2": "→", "1,3": "→", "1,4": "→", 
     "1,5": "↓", "2,5": "↓", "3,5": "→","3,6": "↓","4,6": "↓" ,
-    "5,6": "↓", "6,6": "↓","7,4": "→","7,5": "→" ,"7,6": "→"
+    "5,6": "↓", "6,6": "↓","6,4":"↓","5,4":"↓","5,3":"→","4,3":"↓",
+    "3,3":"↓","3,2":"→","3,1":"→","4,1":"","7,4": "→","7,5": "→" ,"7,6": "→"
 };
 
 const maze2Arrows = {
@@ -63,6 +67,8 @@ const opUp = document.getElementById('opinion-up');
 const opRight = document.getElementById('opinion-right');
 const opDown = document.getElementById('opinion-down');
 const opLeft = document.getElementById('opinion-left');
+
+
 
 // Initialize Grid Board Map
 function initGrid() {
@@ -125,6 +131,14 @@ function runSimulation() {
     isMoving = true;
     actionBtn.disabled = true;
 
+    // Reset reward points on new run
+    rewardPoints = 0;
+    const rewardValEl = document.getElementById('reward-value');
+    if (rewardValEl) {
+        rewardValEl.textContent = rewardPoints;
+        rewardValEl.style.color = "#10b981";
+    }
+
     let path = [];
 
     if (currentMaze === 1) {
@@ -173,9 +187,36 @@ function animateBallPath(path, index) {
         targetCell.appendChild(ball);
     }
 
+    // Evaluate Reward Points
+    if (index > 0) {
+        const [prevR, prevC] = path[index - 1];
+        const arrows = currentMaze === 1 ? maze1Arrows : maze2Arrows;
+        const arrow = arrows[`${prevR},${prevC}`];
+
+        if (arrow) {
+            let followedCorrectly = false;
+            if (arrow === "↑" && r === prevR - 1 && c === prevC) followedCorrectly = true;
+            if (arrow === "→" && r === prevR && c === prevC + 1) followedCorrectly = true;
+            if (arrow === "↓" && r === prevR + 1 && c === prevC) followedCorrectly = true;
+            if (arrow === "←" && r === prevR && c === prevC - 1) followedCorrectly = true;
+
+            if (followedCorrectly) {
+                rewardPoints += 10;
+            } else {
+                rewardPoints -= 10;
+            }
+
+            const rewardValEl = document.getElementById('reward-value');
+            if (rewardValEl) {
+                rewardValEl.textContent = rewardPoints;
+                rewardValEl.style.color = rewardPoints >= 0 ? "#10b981" : "#ef4444";
+            }
+        }
+    }
+
     setTimeout(() => {
         animateBallPath(path, index + 1);
-    }, 600); // Accelerated tick cycle slightly for comfortable viewing over 8 units
+    }, 300); // Accelerated tick cycle slightly for comfortable viewing over 8 units
 }
 
 function handleTrainingOutcome() {
@@ -189,7 +230,7 @@ function handleTrainingOutcome() {
             narrativeTextEl.textContent = "❓ Result: Seems like there are some arrows for guidance.";
             actionBtn.textContent = "Train & Run (Step 3)";
         } else if (trainingTimes === 3) {
-            narrativeTextEl.textContent = "🔍 Result: The ball is beginning to observe correlations between arrows and walls.";
+            narrativeTextEl.textContent = "🔍 Result: The ball is beginning to observe correlations between arrows and walls. I have gotten 100 points but now I only have " + rewardPoints + " points. I must go to the wrong way.";
             actionBtn.textContent = "Train & Run (Step 4)";
         } else if (trainingTimes === 4) {
             narrativeTextEl.textContent = "💡 Result: The ball is starting to grasp arrow orientations relative to paths.";
