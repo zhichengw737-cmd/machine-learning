@@ -139,7 +139,7 @@ function runSimulation() {
             path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,3], [1,2], [1,1], [0,1]];
         } else if (trainingTimes === 3) {
             // Makes it past the first deep corner, but takes a dead end path turn
-            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [3,5], [3,6]];
+            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [3,5], [3,6], [4,6], [5,6], [6,6], [7,6], [7,5], [7,4], [6,4], [5,4], [5,3], [4,3], [3,3]];
         } else if (trainingTimes === 4) {
             // Follows correctly far down the corridor loop, stalling right near the lower exit
             path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [3,5], [3,6], [4,6], [5,6], [6,6]];
