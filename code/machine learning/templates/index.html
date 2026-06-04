@@ -67,11 +67,19 @@
                     </tbody>
                 </table>
 
-                <tr></tr>
-
-                <div id="reward-box" class="stat-box">
-                            <span class="stat-label">Reward Points:</span>
-                            <span id="reward-value" class="stat-value" style="color: #10b981; margin-left: 5px;">0</span>
+                // Reward dashboard
+                <div class="reward-dashboard" style="margin-top: 20px;">
+                    <div id="reward-box" class="stat-box" style="margin-bottom: 10px;">
+                        <span class="stat-label">Total Reward Points:</span>
+                        <span id="reward-value" class="stat-value" style="color: #10b981; margin-left: 5px;">0</span>
+                    </div>
+                    
+                    <div class="stat-box" style="font-weight: 600; padding: 12px; background: #f8fafc;">
+                        <div class="stat-label" style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Move & Reward History:</div>
+                        <div id="move-history-log" style="max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; display: flex; flex-direction: column; gap: 4px;">
+                            <div style="color: #64748b;">Waiting for simulation...</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
