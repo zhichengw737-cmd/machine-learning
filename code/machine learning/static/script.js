@@ -175,7 +175,7 @@ function animateBallPath(path, index) {
 
     setTimeout(() => {
         animateBallPath(path, index + 1);
-    }, 300); // Accelerated tick cycle slightly for comfortable viewing over 8 units
+    }, 600); // Accelerated tick cycle slightly for comfortable viewing over 8 units
 }
 
 function handleTrainingOutcome() {
