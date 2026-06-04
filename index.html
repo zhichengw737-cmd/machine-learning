@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Supervised Learning Playground</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #f6f7fb;
+  color: #1f2937;
+}
+
+header {
+  padding: 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+header p {
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+}
+
+main {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+}
+
+.left, .right {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.left { flex: 2; }
+.right { flex: 1; }
+
+.image-box {
+  height: 360px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+select {
+  margin-top: 12px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.dictionary table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.dictionary th, .dictionary td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.log {
+  margin-top: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 10px;
+  height: 120px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+.log .info { color: #6b7280; }
+.log .success { color: #16a34a; font-weight: 600; }
+.log .error { color: #dc2626; font-weight: 600; }
+
+.prediction-success {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.prediction-error {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.explanation {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 0 24px 24px;
+  border: 1px solid #e5e7eb;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🐾 Supervised Learning Playground</h1>
+  <p>Learn how AI recognizes cats and dogs using supervised learning.</p>
+
+  <div class="controls">
+    <button class="btn-primary" onclick="train()">Train AI</button>
+    <button class="btn-primary" onclick="test()">Test AI</button>
+    <button class="btn-secondary" onclick="reset()">Reset</button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <h3>Input Image</h3>
+
+    <select id="inputSelect" onchange="showInput()">
+      <option value="cat1">Cat 1</option>
+      <option value="cat2">Cat 2</option>
+      <option value="cat3">Cat 3</option>
+      <option value="dog1">Dog 1</option>
+      <option value="dog2">Dog 2</option>
+      <option value="dog3">Dog 3</option>
+    </select>
+
+    <div class="image-box">
+      <img id="image">
+    </div>
+  </div>
+
+  <div class="right">
+    <h3>🧠 AI's Internal Dictionary</h3>
+
+    <table class="dictionary">
+      <tr><th>Class</th><th>Status</th></tr>
+      <tr><td>Cat</td><td id="cat">Learning (0/2)</td></tr>
+      <tr><td>Dog</td><td id="dog">Learning (0/2)</td></tr>
+    </table>
+
+    <h3>Prediction</h3>
+    <p id="prediction">Waiting...</p>
+
+    <h3>History</h3>
+    <div class="log" id="log"></div>
+  </div>
+</main>
+
+<div class="explanation">
+  <h3>What is Supervised Learning?</h3>
+
+  <p>
+    <span style="color:#2563eb; font-weight:600;">Supervised learning</span>
+    means the AI learns from
+    <span style="color:#16a34a; font-weight:600;">labeled examples</span>.
+    More examples usually lead to better understanding.
+  </p>
+
+  <p>
+    In this demo, the AI is shown images together with their correct labels:
+    <span style="color:#16a34a; font-weight:600;">“This is a CAT”</span> or
+    <span style="color:#16a34a; font-weight:600;">“This is a DOG”</span>.
+    This process is called
+    <span style="color:#2563eb; font-weight:600;">training</span>.
+  </p>
+
+  <p>
+    After seeing enough different examples, the AI can recognize
+    <span style="color:#dc2626; font-weight:600;">new images it has never seen before</span>.
+    This is the goal of supervised learning.
+  </p>
+</div>
+
+<script>
+const dataset = {
+  cat1: { img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131", label: "cat" },
+  cat2: { img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6", label: "cat" },
+  cat3: { img: "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e", label: "cat" },
+  dog1: { img: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d", label: "dog" },
+  dog2: { img: "https://images.unsplash.com/photo-1507146426996-ef05306b995a", label: "dog" },
+  dog3: { img: "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8", label: "dog" }
+};
+
+let memory = { cat: 0, dog: 0 };
+
+let trainedSamples = {
+  cat1:false, cat2:false, cat3:false,
+  dog1:false, dog2:false, dog3:false
+};
+
+function log(text, type="info") {
+  const box = document.getElementById("log");
+  box.innerHTML += `<div class="${type}">${text}</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
+function showInput() {
+  image.src = dataset[inputSelect.value].img;
+}
+
+function updateUI() {
+  cat.textContent = memory.cat >= 2 ? "Recognized ✅" : `Learning (${memory.cat}/2)`;
+  dog.textContent = memory.dog >= 2 ? "Recognized ✅" : `Learning (${memory.dog}/2)`;
+}
+
+function train() {
+  const key = inputSelect.value;
+  const item = dataset[key];
+
+  if (trainedSamples[key]) {
+    log("This image has already been used for training.", "error");
+    return;
+  }
+
+  trainedSamples[key] = true;
+
+  if (memory[item.label] < 2) {
+    memory[item.label]++;
+    log("Teacher: This is a " + item.label.toUpperCase(), "info");
+    log("AI learns from a new example.", "success");
+  }
+
+  updateUI();
+}
+
+function test() {
+  const item = dataset[inputSelect.value];
+
+  if (memory[item.label] >= 2) {
+    const emoji = item.label === "cat" ? "🐱" : "🐶";
+    prediction.innerHTML =
+      `AI thinks this is: <span class="prediction-success">${emoji} ${item.label.toUpperCase()}</span>`;
+    log("Prediction: " + item.label.toUpperCase(), "success");
+  } else {
+    prediction.innerHTML =
+      `AI thinks this is: <span class="prediction-error">❗ Unknown</span>`;
+    log("Prediction: Unknown", "error");
+  }
+}
+
+function reset() {
+  memory = { cat: 0, dog: 0 };
+  trainedSamples = {
+    cat1:false, cat2:false, cat3:false,
+    dog1:false, dog2:false, dog3:false
+  };
+
+  prediction.textContent = "Waiting...";
+  logBox = document.getElementById("log");
+  logBox.innerHTML = "";
+  log("System reset.", "info");
+
+  updateUI();
+}
+
+showInput();
+</script>
+
+</body>
+</html>
