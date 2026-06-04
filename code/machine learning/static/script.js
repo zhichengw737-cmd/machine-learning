@@ -14,12 +14,12 @@ let currentStepCount = 0;
 const maze1Layout = [
     [2, 0, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 1, 1],
-    [1, 1, 1, 1, 1, 0, 1, 1],
-    [1, 0, 0, 0, 1, 0, 0, 1],
-    [1, 0, 1, 0, 1, 1, 0, 1],
-    [1, 0, 1, 0, 0, 1, 0, 1],
-    [1, 1, 1, 1, 0, 1, 0, 1],
-    [1, 1, 1, 1, 0, 0, 0, 3]
+    [1, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 0, 1, 0, 1, 0, 0],
+    [1, 1, 0, 1, 0, 0, 0, 1],
+    [1, 1, 0, 0, 1, 1, 1, 1],
+    [1, 1, 1, 0, 0, 0, 0, 3]
 ];
 
 const maze2Layout = [
@@ -35,10 +35,25 @@ const maze2Layout = [
 
 // Persistent Guiding Arrows placed ON THE BARRIERS (Wall positions '1') adjacent to the path
 const maze1Arrows = {
-    "0,0": "→","0,1": "↓", "1,1": "→", "1,2": "→", "1,3": "→", "1,4": "→", 
-    "1,5": "↓", "2,5": "↓", "3,5": "→","3,6": "↓","4,6": "↓" ,
-    "5,6": "↓", "6,6": "↓","6,4":"↓","5,4":"↓","5,3":"→","4,3":"↓",
-    "3,3":"↓","3,2":"→","3,1":"→","4,1":"","7,4": "→","7,5": "→" ,"7,6": "→"
+    "0,0": "→",
+    "0,1": "↓", 
+    "1,1": "→", "1,2": "→", "1,3": "→", "1,4": "→", 
+    "1,5": "↓", 
+    "2,5": "→", 
+    "2,6": "↓","3,6": "↓","4,6": "↓" ,
+    "4,7": "←",
+    "5,6": "←", 
+    "5,5": "←",
+    "5,4":"↑","4,4":"↑",
+    "3,4":"←","3,3":"←","3,2":"←",
+    "3,1":"↓",
+    "4,1":"→",
+    "4,2":"↓",
+    "5,2":"↓",
+    "6,2":"→",
+    "6,3":"↓",
+    "7,3": "→",
+    "7,4": "→","7,5": "→" ,"7,6": "→"
 };
 
 const maze2Arrows = {
@@ -52,7 +67,7 @@ const opinionStages = {
     0: { up: "Unrecognized pattern", right: "Unrecognized pattern", down: "Unrecognized pattern", left: "Unrecognized pattern" },
     1: { up: "Just a wall pattern?", right: "Environmental static noise", down: "Meaningless barrier shape", left: "Ignoring wall icons" },
     2: { up: "Just a wall pattern?", right: "Environmental static noise", down: "Meaningless barrier shape", left: "Ignoring wall icons" },
-    3: { up: "Could mean: Steer clear upwards?", right: "Slightly correlates with right turn near walls", down: "Might mean: Follow barrier downwards?", left: "Seems to imply leftward opening" },
+    3: { up: "It should have some meanning.", right: "Slightly correlates with right turn near walls", down: "Might mean: Follow barrier downwards?", left: "Seems to imply leftward opening" },
     4: { up: "High Probability: Navigate Up", right: "Strong correlation with corridor turning Right", down: "High Probability: Navigate Down", left: "Strong correlation with corridor turning Left" },
     5: { up: "Confirmed: Move UP ⬆️", right: "Confirmed: Move RIGHT ➡️", down: "Confirmed: Move DOWN ⬇️", left: "Confirmed: Move LEFT ⬅️" }
 };
@@ -157,20 +172,20 @@ function runSimulation() {
         trainingCountEl.textContent = `${trainingTimes} / 5`;
 
         if (trainingTimes === 1) {
-            // Randomly wandering near the top left corner for exactly 10 steps
+            // Randomly wandering near the first corner
             path = [[0,0], [0,1], [1,1], [1,2], [1,1], [0,1], [0,0], [0,1], [1,1], [1,2]];
         } else if (trainingTimes === 2) {
-            // Another sequence exploring the initial corridor for 10 steps
-            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,3], [1,2], [1,1], [0,1]];
+            //  Hit the second corner but then goes back and forth without understanding the arrows' guidance.
+            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [1,3], [1,2], [1,1], [0,1]];
         } else if (trainingTimes === 3) {
-            // Makes it past the first deep corner, but takes a dead end path turn
-            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [3,5], [3,6], [4,6], [5,6], [6,6], [7,6], [7,5], [7,4], [6,4], [5,4], [5,3], [4,3], [3,3]];
+            // Hit the forth corner and go back
+            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [4,7], [4,6], [5,6], [4,6], [4,7]];
         } else if (trainingTimes === 4) {
-            // Follows correctly far down the corridor loop, stalling right near the lower exit
-            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [3,5], [3,6], [4,6], [5,6], [6,6]];
+            // Follows correctly the arrows expect the up arrow.
+            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4]];
         } else if (trainingTimes === 5) {
             // Decodes the layout perfectly, tracing wall direction indicators directly to goal
-            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [3,5], [3,6], [4,6], [5,6], [6,6], [7,6], [7,5], [7,4], [7,7]];
+            path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4], [3,3], [3,2], [3,1], [4,1], [4,2], [5,2], [6,2], [6,3], [7,3], [7,4], [7,5], [7,6], [7,7]];
         }
     } else {
         // Maze 2 Advanced Path mapping around barriers smoothly
@@ -286,7 +301,7 @@ function handleTrainingOutcome() {
             narrativeTextEl.textContent = "❓ Result: Seems like there are some arrows for guidance." + " I get " + rewardPoints + " point! I may go to the wrong way. I should try to follow the arrows.";
             actionBtn.textContent = "Train & Run (Step 3)";
         } else if (trainingTimes === 3) {
-            narrativeTextEl.textContent = "🔍 Result: The ball is beginning to observe correlations between arrows and walls. I have gotten 100 points but now I only have " + rewardPoints + " points. I must go to the wrong way.";
+            narrativeTextEl.textContent = "🔍 Result: The ball is beginning to observe correlations between arrows and walls. I should have more points, but I only have " + rewardPoints + " points. I must go to the wrong way.";
             actionBtn.textContent = "Train & Run (Step 4)";
         } else if (trainingTimes === 4) {
             narrativeTextEl.textContent = "💡 Result: The ball is starting to grasp arrow orientations relative to paths." + " I get " + rewardPoints + " points. I almost find the way!";
