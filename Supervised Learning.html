@@ -5,76 +5,143 @@
 <title>Supervised Learning Playground</title>
 
 <style>
+/* ================= Global ================= */
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  background: #f6f7fb;
+  /* 🎨 Changed to a soft, warm cream background to eliminate eye strain */
+  background: #fdf8f5;
   color: #1f2937;
 }
 
-header {
-  padding: 24px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+/* ================= Hero Header ================= */
+.hero {
+  /* 🎨 Soft light-orange tint for the header */
+  background: linear-gradient(135deg, #fff1e6, #fdf8f5);
+  border-bottom: 2px solid #ffd8be;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
-}
-
-header p {
-  margin-top: 8px;
-  color: #6b7280;
-}
-
-.controls {
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 32px;
   display: flex;
-  gap: 12px;
-  margin-top: 16px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+.hero-left h1 {
+  margin: 0;
+  font-size: 36px;
+  /* 🎨 Friendly dark amber for the title instead of harsh black */
+  color: #7c2d12;
+}
+
+.hero-left p {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #475569;
+}
+
+/* ✅ Try it yourself CTA */
+.hero-cta {
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  /* 🎨 Changed to a distinct, inviting orange-brown for the call-to-action */
+  color: #c2410c;
+}
+
+/* Flow pills */
+.hero-flow {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
 }
 
+.hero-flow span {
+  background: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.hero-flow .arrow {
+  background: none;
+  box-shadow: none;
+  font-size: 16px;
+}
+
+/* Header Buttons */
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(249, 115, 22, 0.2);
+}
+
 .btn-primary {
-  background: #2563eb;
+  /* 🎨 Vibrant energetic orange reserved specifically for action buttons */
+  background: #f97316;
   color: white;
 }
 
-.btn-secondary {
-  background: #e5e7eb;
+.btn-primary:hover {
+  background: #ea580c;
 }
 
+.btn-secondary {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+/* ================= Layout ================= */
 main {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  gap: 24px;
-  padding: 24px;
+  gap: 28px;
+  padding: 28px;
 }
 
 .left, .right {
   background: white;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 22px;
+  padding: 24px;
+  /* 🎨 Clean, soft shadow for a premium feel */
+  box-shadow: 0 10px 25px rgba(124, 45, 18, 0.05);
+  border: 1px solid #f7e6db;
 }
 
 .left { flex: 2; }
 .right { flex: 1; }
 
+/* ================= Image ================= */
 .image-box {
-  height: 360px;
-  background: #f3f4f6;
-  border-radius: 12px;
-  margin-top: 16px;
+  height: 380px;
+  border-radius: 20px;
+  background: #f8fafc;
+  margin-top: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  border: 1px dashed #cbd5e1;
 }
 
 .image-box img {
@@ -83,81 +150,133 @@ main {
   object-fit: cover;
 }
 
-select {
-  margin-top: 12px;
-  padding: 8px;
-  border-radius: 6px;
+/* ================= Selector ================= */
+.animal-label {
+  font-weight: 600;
+  margin-top: 14px;
+  display: block;
 }
 
+.animal-select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 8px;
+  border-radius: 14px;
+  border: 2px solid #ffedd5;
+  font-size: 16px;
+  /* 🎨 Soft dropdown color palette */
+  background: linear-gradient(180deg, #fff7ed, #ffedd5);
+  cursor: pointer;
+  color: #7c2d12;
+  font-weight: 500;
+}
+
+/* ================= Mission ================= */
+.mission {
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  border: 2px dashed #ffb787;
+  font-size: 15px;
+  max-width: 320px;
+}
+
+.mission-complete {
+  background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+  border-color: #4ade80;
+}
+
+/* ================= Dictionary ================= */
 .dictionary table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .dictionary th, .dictionary td {
-  padding: 10px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
 }
+
+/* ================= Prediction & Log ================= */
+.prediction-success { color: #16a34a; font-weight: 600; }
+.prediction-error { color: #dc2626; font-weight: 600; }
 
 .log {
   margin-top: 16px;
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 10px;
-  height: 120px;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 12px;
+  height: 130px;
   overflow-y: auto;
-  font-size: 13px;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
 }
 
 .log .info { color: #6b7280; }
 .log .success { color: #16a34a; font-weight: 600; }
 .log .error { color: #dc2626; font-weight: 600; }
 
-.prediction-success {
-  color: #16a34a;
-  font-weight: 600;
-}
-
-.prediction-error {
-  color: #dc2626;
-  font-weight: 600;
-}
-
+/* ================= Explanation ================= */
 .explanation {
+  max-width: 1200px;
+  margin: 0 auto 32px;
   background: white;
-  border-radius: 12px;
-  padding: 24px;
-  margin: 0 24px 24px;
-  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 10px 25px rgba(124, 45, 18, 0.05);
+  border: 1px solid #f7e6db;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🐾 Supervised Learning Playground</h1>
-  <p>Learn how AI recognizes cats and dogs using supervised learning.</p>
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-left">
+      <h1>🐾 Supervised Learning Playground</h1>
+      <p>Teach an AI to recognize cats and dogs step by step.</p>
 
-  <div class="controls">
-    <button class="btn-primary" onclick="train()">Train AI</button>
-    <button class="btn-primary" onclick="test()">Test AI</button>
-    <button class="btn-secondary" onclick="reset()">Reset</button>
+      <div class="hero-cta">
+        👉 Try it yourself below! Train the AI and complete the mini mission.
+      </div>
+
+      <div class="hero-flow">
+        <span>🧠 Learn</span>
+        <span class="arrow">→</span>
+        <span>🔁 Train</span>
+        <span class="arrow">→</span>
+        <span>✅ Predict</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" onclick="train()">Train AI</button>
+      <button class="btn-primary" onclick="test()">Test AI</button>
+      <button class="btn-secondary" onclick="reset()">Reset</button>
+    </div>
   </div>
 </header>
 
 <main>
   <div class="left">
-    <h3>Input Image</h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h3 style="margin:0;">Input Image</h3>
+      <div id="mission" class="mission">
+        <strong>🎯 Mini Mission</strong><br>
+        Teach the AI to recognize <b>cats</b> and <b>dogs</b>.
+      </div>
+    </div>
 
-    <select id="inputSelect" onchange="showInput()">
-      <option value="cat1">Cat 1</option>
-      <option value="cat2">Cat 2</option>
-      <option value="cat3">Cat 3</option>
-      <option value="dog1">Dog 1</option>
-      <option value="dog2">Dog 2</option>
-      <option value="dog3">Dog 3</option>
+    <label class="animal-label">🐾 Choose an animal:</label>
+    <select id="inputSelect" onchange="showInput()" class="animal-select">
+      <option value="cat1">🐱 Cat 1</option>
+      <option value="cat2">🐱 Cat 2</option>
+      <option value="cat3">🐱 Cat 3</option>
+      <option value="dog1">🐶 Dog 1</option>
+      <option value="dog2">🐶 Dog 2</option>
+      <option value="dog3">🐶 Dog 3</option>
     </select>
 
     <div class="image-box">
@@ -166,12 +285,11 @@ select {
   </div>
 
   <div class="right">
-    <h3>🧠 AI's Internal Dictionary</h3>
-
+    <h3>🧠 AI Brain</h3>
     <table class="dictionary">
       <tr><th>Class</th><th>Status</th></tr>
-      <tr><td>Cat</td><td id="cat">Learning (0/2)</td></tr>
-      <tr><td>Dog</td><td id="dog">Learning (0/2)</td></tr>
+      <tr><td>Cat</td><td id="cat">🐾 Learning 0/2</td></tr>
+      <tr><td>Dog</td><td id="dog">🐾 Learning 0/2</td></tr>
     </table>
 
     <h3>Prediction</h3>
@@ -183,26 +301,26 @@ select {
 </main>
 
 <div class="explanation">
-  <h3>What is Supervised Learning?</h3>
+  <h3>📘 What is Supervised Learning?</h3>
 
   <p>
-    <span style="color:#2563eb; font-weight:600;">Supervised learning</span>
+    <span style="color:#f97316;font-weight:600;">Supervised learning</span>
     means the AI learns from
-    <span style="color:#16a34a; font-weight:600;">labeled examples</span>.
+    <span style="color:#16a34a;font-weight:600;">labeled examples</span>.
     More examples usually lead to better understanding.
   </p>
 
   <p>
-    In this demo, the AI is shown images together with their correct labels:
-    <span style="color:#16a34a; font-weight:600;">“This is a CAT”</span> or
-    <span style="color:#16a34a; font-weight:600;">“This is a DOG”</span>.
+    In this playground, the AI is shown images together with their correct labels:
+    <span style="color:#16a34a;font-weight:600;">“This is a CAT”</span> or
+    <span style="color:#16a34a;font-weight:600;">“This is a DOG”</span>.
     This process is called
-    <span style="color:#2563eb; font-weight:600;">training</span>.
+    <span style="color:#f97316;font-weight:600;">training</span>.
   </p>
 
   <p>
     After seeing enough different examples, the AI can recognize
-    <span style="color:#dc2626; font-weight:600;">new images it has never seen before</span>.
+    <span style="color:#dc2626;font-weight:600;">new images it has never seen before</span>.
     This is the goal of supervised learning.
   </p>
 </div>
@@ -218,11 +336,7 @@ const dataset = {
 };
 
 let memory = { cat: 0, dog: 0 };
-
-let trainedSamples = {
-  cat1:false, cat2:false, cat3:false,
-  dog1:false, dog2:false, dog3:false
-};
+let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
 
 function log(text, type="info") {
   const box = document.getElementById("log");
@@ -235,33 +349,36 @@ function showInput() {
 }
 
 function updateUI() {
-  cat.textContent = memory.cat >= 2 ? "Recognized ✅" : `Learning (${memory.cat}/2)`;
-  dog.textContent = memory.dog >= 2 ? "Recognized ✅" : `Learning (${memory.dog}/2)`;
+  cat.textContent = memory.cat >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.cat}/2`;
+  dog.textContent = memory.dog >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.dog}/2`;
+
+  const mission = document.getElementById("mission");
+  if (memory.cat >= 2 && memory.dog >= 2) {
+    mission.classList.add("mission-complete");
+    mission.innerHTML =
+      "🎉 <strong>Mission Completed!</strong><br>The AI can now recognize cats and dogs!";
+  }
 }
 
 function train() {
   const key = inputSelect.value;
-  const item = dataset[key];
-
   if (trainedSamples[key]) {
-    log("This image has already been used for training.", "error");
+    log("This image was already used for training.", "error");
     return;
   }
-
   trainedSamples[key] = true;
+  const item = dataset[key];
 
   if (memory[item.label] < 2) {
     memory[item.label]++;
     log("Teacher: This is a " + item.label.toUpperCase(), "info");
     log("AI learns from a new example.", "success");
   }
-
   updateUI();
 }
 
 function test() {
   const item = dataset[inputSelect.value];
-
   if (memory[item.label] >= 2) {
     const emoji = item.label === "cat" ? "🐱" : "🐶";
     prediction.innerHTML =
@@ -276,16 +393,9 @@ function test() {
 
 function reset() {
   memory = { cat: 0, dog: 0 };
-  trainedSamples = {
-    cat1:false, cat2:false, cat3:false,
-    dog1:false, dog2:false, dog3:false
-  };
-
+  trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
   prediction.textContent = "Waiting...";
-  logBox = document.getElementById("log");
-  logBox.innerHTML = "";
-  log("System reset.", "info");
-
+  document.getElementById("log").innerHTML = "<div class='info'>System reset.</div>";
   updateUI();
 }
 
