@@ -7,6 +7,9 @@ let isMoving = false;
 //Reward points variable to track the ball's progress.
 let rewardPoints = 0;
 
+// Step counter to display the current step number in the Move & Reward History log.
+let currentStepCount = 0;
+
 // Fixed Complex Structural Mazes (0: Open Path, 1: Wall/Barrier, 2: Start, 3: Goal)
 const maze1Layout = [
     [2, 0, 1, 1, 1, 1, 1, 1],
@@ -32,7 +35,7 @@ const maze2Layout = [
 
 // Persistent Guiding Arrows placed ON THE BARRIERS (Wall positions '1') adjacent to the path
 const maze1Arrows = {
-    "0,1": "↓", "1,1": "→", "1,2": "→", "1,3": "→", "1,4": "→", 
+    "0,0": "→","0,1": "↓", "1,1": "→", "1,2": "→", "1,3": "→", "1,4": "→", 
     "1,5": "↓", "2,5": "↓", "3,5": "→","3,6": "↓","4,6": "↓" ,
     "5,6": "↓", "6,6": "↓","6,4":"↓","5,4":"↓","5,3":"→","4,3":"↓",
     "3,3":"↓","3,2":"→","3,1":"→","4,1":"","7,4": "→","7,5": "→" ,"7,6": "→"
@@ -133,6 +136,9 @@ function runSimulation() {
 
     // Reset reward points on new run
     rewardPoints = 0;
+    // Reset step counter for the Move & Reward History log
+    currentStepCount = 0;
+
     const rewardValEl = document.getElementById('reward-value');
     if (rewardValEl) {
         rewardValEl.textContent = rewardPoints;
@@ -201,6 +207,10 @@ function animateBallPath(path, index) {
 
     // Evaluate Reward Points
     if (index > 0) {
+        // Increment the step counter for the Move & Reward History log
+        currentStepCount++;
+
+        // Check for guiding arrows on the previous block and evaluate if the move followed them correctly
         const [prevR, prevC] = path[index - 1];
         const arrows = currentMaze === 1 ? maze1Arrows : maze2Arrows;
         const arrow = arrows[`${prevR},${prevC}`];
@@ -243,9 +253,15 @@ function animateBallPath(path, index) {
             //Append the current move's reward points and status to the history log with appropriate color coding
             const historyLogEl = document.getElementById('move-history-log');
             if (historyLogEl) {
+
+                // Clear the history log on the first step of a new run to avoid confusion with previous runs' logs
+                if (currentStepCount === 1) {
+                    historyLogEl.innerHTML = '';
+                }
+
                 const newLogItem = document.createElement('div');
                 newLogItem.style.color = currentMoveColor;
-                newLogItem.textContent = `[Step ${index}] Moved to (${r},${c}) → ${currentMoveText}` + ` | Total: ${rewardPoints} pts`;
+                newLogItem.textContent = `[Step ${currentStepCount}] Moved to (${r},${c}) → ${currentMoveText}` + ` | Total: ${rewardPoints} pts`;
                 historyLogEl.appendChild(newLogItem);
             
             //Auto-scroll the history log to the latest entry
@@ -264,16 +280,16 @@ function handleTrainingOutcome() {
 
     if (currentMaze === 1) {
         if (trainingTimes === 1) {
-            narrativeTextEl.textContent = "❌ Result: Doesn't know how to get to the endpoint." + " I get " + rewardPoints + " points. Is there any guilde for me?";
+            narrativeTextEl.textContent = "❌ Result: Doesn't know how to get to the endpoint." + " I only get " + rewardPoints + " points. How can I reach the goal and get more points?";
             actionBtn.textContent = "Train & Run (Step 2)";
         } else if (trainingTimes === 2) {
-            narrativeTextEl.textContent = "❓ Result: Seems like there are some arrows for guidance." + " I get " + rewardPoints + " points. I should try to follow the arrows.";
+            narrativeTextEl.textContent = "❓ Result: Seems like there are some arrows for guidance." + " I get " + rewardPoints + " point! I may go to the wrong way. I should try to follow the arrows.";
             actionBtn.textContent = "Train & Run (Step 3)";
         } else if (trainingTimes === 3) {
             narrativeTextEl.textContent = "🔍 Result: The ball is beginning to observe correlations between arrows and walls. I have gotten 100 points but now I only have " + rewardPoints + " points. I must go to the wrong way.";
             actionBtn.textContent = "Train & Run (Step 4)";
         } else if (trainingTimes === 4) {
-            narrativeTextEl.textContent = "💡 Result: The ball is starting to grasp arrow orientations relative to paths." + " I get " + rewardPoints + " points. I am close to understand!";
+            narrativeTextEl.textContent = "💡 Result: The ball is starting to grasp arrow orientations relative to paths." + " I get " + rewardPoints + " points. I almost find the way!";
             actionBtn.textContent = "Train & Run (Final Step)";
         } else if (trainingTimes === 5) {
             narrativeTextEl.textContent = "🏆 Result: Knowing the arrows' meaning! It unlocked the map key and reached the endpoint!" + " I get " + rewardPoints + " points.";
@@ -318,6 +334,9 @@ resetBtn.addEventListener('click', () => {
     currentMaze = 1;
     trainingTimes = 0;
     isMoving = false;
+
+    // Reset step counter for the Move & Reward History log
+    currentStepCount = 0;
     
     trainingCountEl.textContent = "0 / 5";
     actionBtn.style.display = 'inline-block';
