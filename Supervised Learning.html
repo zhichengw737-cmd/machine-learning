@@ -14,6 +14,24 @@ body {
   color: #1f2937;
 }
 
+.teacher {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.learning {
+  color: #16a34a;
+}
+
+.observation {
+  color: #9333ea;
+}
+
+.prediction-log {
+  color: #dc2626;
+  font-weight: 600;
+}
+
 /* ================= Hero Header ================= */
 .hero {
   /* 🎨 Soft light-orange tint for the header */
@@ -402,12 +420,41 @@ main {
 <div class="explanation">
   <h3>📘 What is Supervised Learning?</h3>
 
-  <p>
-    <span style="color:#f97316;font-weight:600;">Supervised learning</span>
-    means the AI learns from
-    <span style="color:#16a34a;font-weight:600;">labeled examples</span>.
-    More examples usually lead to better understanding.
-  </p>
+<p>
+  <span style="color:#f97316;font-weight:600;">Supervised learning</span>
+  means the AI learns from
+  <span style="color:#16a34a;font-weight:600;">labeled examples</span>
+  provided by a teacher.
+</p>
+
+<p>
+  In this playground, the teacher shows the AI an image and provides the correct label,
+  such as <span style="color:#16a34a;font-weight:600;">“This is a CAT”</span> or
+  <span style="color:#16a34a;font-weight:600;">“This is a DOG”</span>.
+  This process is called
+  <span style="color:#f97316;font-weight:600;">training</span>.
+</p>
+
+<p>
+  At the same time, the teacher also highlights important
+  <span style="color:#f97316;font-weight:600;">features</span>
+  (such as ear shape or whiskers for cats, and snout shape for dogs).
+  The AI does not discover these features by itself — instead,
+  it <span style="color:#16a34a;font-weight:600;">learns and stores them from the teacher</span>.
+</p>
+
+<p>
+  As the AI sees more examples, it strengthens its understanding of these features.
+  This is why more training leads to
+  <span style="color:#f97316;font-weight:600;">higher confidence</span> in predictions.
+</p>
+
+<p>
+  When given a new image, the AI compares what it sees with what it has learned,
+  estimates probabilities for each class, and chooses the most likely one.
+  If the features are mixed (like in the final challenge), the AI may still make a prediction,
+  but with lower confidence.
+</p>
 
   <p>
     In this playground, the AI is shown images together with their correct labels:
@@ -485,16 +532,13 @@ function log(text, type="info") {
 function showInput() {
   image.src = dataset[inputSelect.value].img;
 
-  
+  // reset visuals
   hideFeatureCircles();
 
-  
-  document.getElementById("prediction").innerHTML = "Waiting...";
-
-  
+  // reset UI
+  prediction.innerHTML = "Waiting...";
   document.getElementById("log").innerHTML = "";
 
-  
   updateButtons();
 }
 
@@ -610,38 +654,33 @@ function train() {
   const item = dataset[key];
   const labelUpper = item.label.toUpperCase();
 
-  // ✅ Prevent training Shiba
+  // block Shiba training
   if (key === "shiba1") {
-    log("This example is for testing only. Training is disabled.", "error");
-    displayFeatureCircles(item);
+    log("This example is for testing only.", "error");
     return;
   }
 
-  // ✅ Prevent duplicate training
   if (trainedSamples[key]) {
     log("This image was already used for training.", "error");
-    displayFeatureCircles(item);
     return;
   }
 
   trainedSamples[key] = true;
 
-  // ✅ Teacher gives label
-  log(`Teacher: This is a ${labelUpper}.`, "info");
+  log(`Teacher: This is a ${labelUpper}.`, "teacher");
 
   if (!categoryDiscovered[item.label]) {
 
     categoryDiscovered[item.label] = true;
     memory[item.label]++;
 
-    // ✅ First time learning
     if (item.label === "cat") {
-      log("Teacher: Key features → pointy ears, long whiskers.", "info");
-      log("AI Learning: Stored features [Pointy Ears] and [Long Whiskers].", "success");
+      log("Teacher: Key features → pointy ears, long whiskers.", "teacher");
+      log("AI Learning: Stored features [Pointy Ears] and [Long Whiskers].", "learning");
 
     } else if (item.label === "dog") {
-      log("Teacher: Key features → floppy ears, long snout.", "info");
-      log("AI Learning: Stored features [Floppy Ears] and [Long Snout].", "success");
+      log("Teacher: Key features → floppy ears, long snout.", "teacher");
+      log("AI Learning: Stored features [Floppy Ears] and [Long Snout].", "learning");
     }
 
   } else {
@@ -650,12 +689,11 @@ function train() {
       memory[item.label]++;
     }
 
-    // ✅ Reinforcement but still shows features
     if (item.label === "cat") {
-      log("AI Learning: Reinforced features → pointy ears, long whiskers.", "success");
+      log("AI Learning: Reinforced features → pointy ears, long whiskers.", "learning");
 
     } else if (item.label === "dog") {
-      log("AI Learning: Reinforced features → floppy ears, long snout.", "success");
+      log("AI Learning: Reinforced features → floppy ears, long snout.", "learning");
     }
   }
 
@@ -675,7 +713,16 @@ function test() {
   const dogLevel = memory.dog;
   const fullyTrained = catLevel >= 2 && dogLevel >= 2;
 
-  // ✅ SHIBA CASE
+  // ✅ status
+  if (catLevel === 0 && dogLevel === 0) {
+    log("Model status: Not trained", "observation");
+  } else if (catLevel < 2 || dogLevel < 2) {
+    log("Model status: Partially trained", "observation");
+  } else {
+    log("Model status: Fully trained", "observation");
+  }
+
+  // ✅ SHIBA
   if (key === "shiba1") {
 
     if (!fullyTrained) {
@@ -687,24 +734,24 @@ function test() {
     dogProb = 100 - catProb;
   }
 
-  // ✅ CAT IMAGES
+  // ✅ CAT
   else if (key.startsWith("cat")) {
 
     if (catLevel === 0) {
-      catProb = Math.floor(Math.random() * 5) + 47; // 47–51
+      catProb = Math.floor(Math.random() * 5) + 47;
       dogProb = 100 - catProb;
 
     } else if (catLevel === 1) {
-      catProb = Math.floor(Math.random() * 11) + 60; // 60–70
+      catProb = Math.floor(Math.random() * 11) + 60;
       dogProb = 100 - catProb;
 
     } else {
-      catProb = Math.floor(Math.random() * 11) + 85; // 85–95
+      catProb = Math.floor(Math.random() * 11) + 85;
       dogProb = 100 - catProb;
     }
   }
 
-  // ✅ DOG IMAGES
+  // ✅ DOG
   else if (key.startsWith("dog")) {
 
     if (dogLevel === 0) {
@@ -721,7 +768,7 @@ function test() {
     }
   }
 
-  // ✅ FINAL DECISION
+  // ✅ Decision
   const predictionLabel =
     key === "shiba1"
       ? "CAT"
@@ -735,14 +782,23 @@ function test() {
   else confidenceText = "Low confidence";
 
   prediction.innerHTML =
-    `AI Prediction: <span class="prediction-success">${predictionLabel}</span><br>
+    `AI Prediction: <span class="prediction-success">
+      ${predictionLabel === "CAT" ? "🐱 CAT" : "🐶 DOG"}
+    </span><br>
      Confidence: ${confidence}% (${confidenceText})`;
 
-  log(`Cat probability: ${catProb}%`, "info");
-  log(`Dog probability: ${dogProb}%`, "info");
-  log(`Prediction: ${predictionLabel} (${confidence}%)`, "success");
+  // ✅ Probability bars
+  function createBar(value) {
+    const filled = Math.round(value / 10);
+    return "█".repeat(filled) + "░".repeat(10 - filled);
+  }
 
-  // ✅ ✅ ✅ Feature observation (ONLY when learned)
+  log(`Cat: ${createBar(catProb)} ${catProb}%`, "info");
+  log(`Dog: ${createBar(dogProb)} ${dogProb}%`, "info");
+
+  log(`Prediction: ${predictionLabel} (${confidence}%)`, "prediction-log");
+
+  // ✅ Feature observation
   const canSeeFeatures =
     (item.label === "cat" && memory.cat > 0) ||
     (item.label === "dog" && memory.dog > 0) ||
@@ -750,26 +806,27 @@ function test() {
 
   if (canSeeFeatures) {
 
-    log("AI Observation:", "info");
+    log("AI Observation:", "observation");
 
     if (item.label === "cat") {
-      log("• Pointy ears detected", "info");
-      log("• Long whiskers detected", "info");
+      log("• Pointy ears detected", "observation");
+      log("• Long whiskers detected", "observation");
 
     } else if (item.label === "dog") {
-      log("• Floppy ears detected", "info");
-      log("• Long snout detected", "info");
+      log("• Floppy ears detected", "observation");
+      log("• Long snout detected", "observation");
 
-    } else if (item.label === "unknown") {
-      log("• Pointy ears detected (cat-like)", "info");
-      log("• Long snout detected (dog-like)", "info");
+    } else {
+      log("• Pointy ears detected (cat-like)", "observation");
+      log("• Long snout detected (dog-like)", "observation");
     }
 
     displayFeatureCircles(item);
 
   } else {
+
     hideFeatureCircles();
-    log("AI has not learned visual features yet.", "info");
+    log("AI has not learned visual features yet.", "observation");
   }
 }
 
