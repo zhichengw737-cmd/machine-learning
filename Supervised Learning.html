@@ -2,165 +2,141 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Supervised Learning Playground</title>
+<title>🚀 AI Training Academy: Cats vs Dogs</title>
 
 <style>
-/* ================= Global ================= */
+/* ================= Global Gamified Themes ================= */
 body {
   margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  /* 🎨 Soft, warm cream background to eliminate eye strain */
-  background: #fdf8f5;
-  color: #1f2937;
+  font-family: 'Segoe UI', Inter, Arial, sans-serif;
+  /* 🍊 Vibrant, playful orange gradient background */
+  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 50%, #fdba74 100%);
+  min-height: 100vh;
+  color: #1e293b;
 }
 
-.teacher {
-  color: #2563eb;
-  font-weight: 600;
-}
+/* Character Color Rules */
+.teacher { color: #b45309; font-weight: bold; }
+.learning { color: #15803d; font-weight: bold; }
+.observation { color: #db2777; font-weight: bold; }
+.prediction-log { color: #dc2626; font-weight: bold; }
 
-.learning {
-  color: #16a34a;
-}
-
-.observation {
-  color: #9333ea;
-}
-
-.prediction-log {
-  color: #dc2626;
-  font-weight: 600;
-}
-
-/* ================= Hero Header ================= */
+/* ================= Academy Header ================= */
 .hero {
-  /* 🎨 Soft light-orange tint for the header */
-  background: linear-gradient(135deg, #fff1e6, #fdf8f5);
-  border-bottom: 2px solid #ffd8be;
+  /* 💗 Energetic Pink to Orange transition */
+  background: linear-gradient(135deg, #ec4899, #f97316);
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.3);
 }
 
-.hero-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 36px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.hero-left h1 {
+.hero h1 {
   margin: 0;
-  font-size: 36px;
-  /* 🎨 Friendly dark amber for the title instead of harsh black */
-  color: #7c2d12;
+  font-size: 38px;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-.hero-left p {
-  margin-top: 8px;
-  font-size: 16px;
-  color: #475569;
+.hero p {
+  margin: 8px 0 0 0;
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.95;
 }
 
-/* ✅ Try it yourself CTA */
-.hero-cta {
-  margin-top: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  /* 🎨 Distinct, inviting orange-brown for the call-to-action */
-  color: #c2410c;
-}
-
-/* Flow pills */
+/* Map Quest Flow Steps */
 .hero-flow {
-  margin-top: 14px;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .hero-flow span {
-  background: white;
-  padding: 6px 12px;
-  border-radius: 999px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-.hero-flow .arrow {
-  background: none;
-  box-shadow: none;
-  font-size: 16px;
-}
-
-/* Header Buttons */
-.controls {
-  display: flex;
-  gap: 12px;
-}
-
-button {
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(249, 115, 22, 0.2);
-}
-
-.btn-primary {
-  /* 🎨 Vibrant energetic orange reserved specifically for action buttons */
-  background: #f97316;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #ea580c;
-}
-
-.btn-secondary {
-  background: #e2e8f0;
-  color: #475569;
-}
-
-/* ================= Layout ================= */
+/* ================= Layout Structure ================= */
 main {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 30px auto;
   display: flex;
-  gap: 28px;
-  padding: 28px;
+  gap: 30px;
+  padding: 0 20px;
 }
 
 .left, .right {
-  background: white;
-  border-radius: 22px;
-  padding: 24px;
-  /* 🎨 Clean, soft shadow for a premium feel */
-  box-shadow: 0 10px 25px rgba(124, 45, 18, 0.05);
-  border: 1px solid #f7e6db;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 10px 25px rgba(124, 45, 18, 0.08);
+  border: 2px solid #fffff0;
 }
 
-.left { flex: 1.8; }
-.right { flex: 1.2; }
+.left { flex: 1.4; }
+.right { flex: 1.6; display: flex; flex-direction: column; gap: 20px; }
 
-/* ================= Image Container & Overlay Circles ================= */
+/* ================= Target Mission Card ================= */
+.mission {
+  padding: 16px;
+  border-radius: 16px;
+  background: #fffbeb;
+  border: 2px dashed #f59e0b;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.mission-complete {
+  background: #f0fdf4;
+  border-color: #22c55e;
+  animation: celebrate 0.5s ease;
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* Selector Dropdown */
+.animal-label {
+  font-weight: 700;
+  font-size: 15px;
+  color: #7c2d12;
+}
+
+.animal-select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0 16px;
+  border-radius: 14px;
+  border: 2px solid #fed7aa;
+  font-size: 16px;
+  font-weight: 600;
+  background: #fff7ed;
+  color: #7c2d12;
+  cursor: pointer;
+}
+
+/* ================= Interactive Lab Screen ================= */
 .image-box {
   height: 380px;
   border-radius: 20px;
-  background: #f8fafc;
-  margin-top: 18px;
+  background: #27272a; /* Dark sleek slate holds focus */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border: 1px dashed #cbd5e1;
-  position: relative; /* Context parent for absolute markers */
+  position: relative;
+  border: 3px solid #fdba74;
 }
 
 .image-box img {
@@ -169,207 +145,227 @@ main {
   object-fit: cover;
 }
 
-/* Feature highlight ring overlay */
+/* Target Crosshair Rings */
 .feature-circle {
   position: absolute;
-  border: 3px solid #ff4757;
+  /* 💗 Neon Pink Target Rings */
+  border: 4px dashed #ec4899;
   border-radius: 50%;
-  background: rgba(255, 71, 87, 0.12);
-  box-shadow: 0 0 14px rgba(255, 71, 87, 0.75), inset 0 0 8px rgba(255, 71, 87, 0.4);
+  background: rgba(236, 72, 153, 0.2);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
   pointer-events: none;
   transform: translate(-50%, -50%);
-  display: none; /* Managed completely via JS injection */
-  animation: pulseHighlight 1.5s infinite alternate;
-  z-index: 10;
+  display: none;
+  animation: targetPulse 0.8s infinite alternate;
 }
 
-@keyframes pulseHighlight {
-  from { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
-  to { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+@keyframes targetPulse {
+  from { transform: translate(-50%, -50%) scale(0.92); opacity: 0.8; }
+  to { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
 }
 
-/* ================= Selector ================= */
-.animal-label {
-  font-weight: 600;
-  margin-top: 14px;
-  display: block;
+/* ================= Gaming Control Dashboard ================= */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-.animal-select {
-  width: 100%;
-  padding: 14px 16px;
-  margin-top: 8px;
+button {
+  flex: 1;
+  padding: 14px;
   border-radius: 14px;
-  border: 2px solid #ffedd5;
-  font-size: 16px;
-  /* 🎨 Soft dropdown color palette */
-  background: linear-gradient(180deg, #fff7ed, #ffedd5);
+  border: none;
   cursor: pointer;
-  color: #7c2d12;
-  font-weight: 500;
-}
-
-/* ================= Mission ================= */
-.mission {
-  padding: 18px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #fff7ed, #ffedd5);
-  border: 2px dashed #ffb787;
   font-size: 15px;
-  max-width: 320px;
+  font-weight: 700;
+  transition: all 0.15s ease;
 }
 
-.mission-complete {
-  background: linear-gradient(135deg, #dcfce7, #f0fdf4);
-  border-color: #4ade80;
+/* 🟩 Slime Green Action Buttons */
+.btn-train {
+  background: #22c55e;
+  color: white;
+  box-shadow: 0 4px 0 #15803d;
 }
 
-/* ================= Dictionary & Features ================= */
-.dictionary table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 14px;
+.btn-train:hover:not(:disabled) {
+  background: #16a34a;
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #15803d;
 }
 
-.dictionary th, .dictionary td {
-  padding: 12px;
-  border-bottom: 1px solid #f1f5f9;
-  vertical-align: top;
+/* 💗 Hot Pink Secondary Action Buttons */
+.btn-test {
+  background: #ec4899;
+  color: white;
+  box-shadow: 0 4px 0 #be185d;
 }
 
-.feature-box {
-  margin-top: 8px;
-  display: none; /* Hidden until first training session */
+.btn-test:hover:not(:disabled) {
+  background: #db2777;
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #be185d;
 }
 
-.feature-tag {
-  display: inline-block;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 6px;
+.btn-reset {
+  background: #ffedd5;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+  flex: 0.5;
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* ================= Sci-Fi AI Brain Dashboard ================= */
+.brain-container {
+  border: 2px solid #fed7aa;
+  border-radius: 18px;
+  padding: 16px;
   background: #fff7ed;
+}
+
+.brain-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #fed7aa;
+}
+.brain-row:last-child { border-bottom: none; }
+
+.brain-class { font-weight: 800; font-size: 18px; width: 80px; color: #7c2d12; }
+.brain-details { flex: 1; margin-left: 10px; }
+
+.status-badge {
+  font-size: 13px;
+  font-weight: 700;
   color: #c2410c;
-  border: 1px dashed #ffb787;
-  margin: 2px;
-  font-weight: 500;
+  margin-bottom: 4px;
 }
 
-.feature-tag.reinforced {
-  background: #dcfce7;
-  color: #16a34a;
-  border: 1px solid #4ade80;
-}
-
-/* Progress indicator micro-bar */
 .progress-container {
   width: 100%;
-  background-color: #e2e8f0;
-  border-radius: 4px;
-  margin-top: 6px;
-  height: 6px;
+  background: #ffedd5;
+  border-radius: 8px;
+  height: 10px;
   overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #f97316;
+  background: #f97316;
   width: 0%;
-  transition: width 0.4s ease;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* 🟩 Green filling when fully complete! */
+.progress-bar.complete { background: #22c55e; }
+
+.feature-box { margin-top: 6px; display: none; }
+.feature-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #fed7aa;
+  color: #7c2d12;
+  margin: 2px;
+  font-weight: 600;
+}
+.feature-tag.reinforced {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
 }
 
-.progress-bar.complete {
-  background-color: #16a34a;
+/* ================= Core Output Screens ================= */
+.live-prediction {
+  background: #451a03; /* Deep roasted chocolate tone */
+  color: #fdf8f5;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
 }
+.live-prediction h4 { margin: 0 0 6px 0; font-size: 13px; text-transform: uppercase; color: #fba518; letter-spacing: 0.5px; }
+#prediction { font-size: 20px; font-weight: 800; margin: 0; }
 
-/* ================= Prediction & Log ================= */
-.prediction-success { color: #16a34a; font-weight: 600; }
-.prediction-error { color: #dc2626; font-weight: 600; }
-
+.log-container h3 { margin: 0 0 8px 0; font-size: 16px; color: #7c2d12; }
 .log {
-  margin-top: 16px;
-  background: #f8fafc;
-  border-radius: 14px;
-  padding: 12px;
-  height: 130px;
+  background: #fffdfa;
+  border: 2px solid #fed7aa;
+  border-radius: 16px;
+  padding: 14px;
+  height: 160px;
   overflow-y: auto;
-  font-size: 14px;
-  border: 1px solid #e2e8f0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
 }
 
-.log .info { color: #6b7280; }
-.log .success { color: #16a34a; font-weight: 600; }
-.log .error { color: #dc2626; font-weight: 600; }
-
-/* ================= Explanation ================= */
-.explanation {
+/* ================= Story Explanations ================= */
+.explanation-hub {
   max-width: 1200px;
-  margin: 0 auto 32px;
-  background: white;
-  border-radius: 22px;
-  padding: 28px;
-  box-shadow: 0 10px 25px rgba(124, 45, 18, 0.05);
-  border: 1px solid #f7e6db;
+  margin: 0 auto 50px;
+  padding: 0 20px;
 }
+.explanation-hub h3 { text-align: center; font-size: 24px; color: #7c2d12; margin-bottom: 20px; }
+
+.cards-grid {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(124, 45, 18, 0.04);
+  border: 2px solid #fed7aa;
+}
+.card-icon { font-size: 32px; margin-bottom: 10px; }
+.card h4 { margin: 0 0 8px 0; font-size: 18px; color: #c2410c; }
+.card p { margin: 0; font-size: 14px; color: #475569; line-height: 1.5; }
 </style>
 </head>
 
 <body>
 
 <header class="hero">
-  <div class="hero-content">
-    <div class="hero-left">
-      <h1>🐾 Supervised Learning Playground</h1>
-      <p>Teach an AI to recognize cats and dogs step by step.</p>
-
-      <div class="hero-cta">
-        👉 Try it yourself below! Train the AI and complete the mini mission.
-      </div>
-
-      <div class="hero-flow">
-        <span>🧠 Learn</span>
-        <span class="arrow">→</span>
-        <span>🔁 Train</span>
-        <span class="arrow">→</span>
-        <span>✅ Predict</span>
-      </div>
-    </div>
-
-    
+  <h1>🚀 AI Training Academy</h1>
+  <p>Can you teach a robot brain to tell the difference between cats and dogs?</p>
+  <div class="hero-flow">
+    <span>🧠 1. Pick a Subject</span>
+    <span>📥 2. Teach Traits</span>
+    <span>🔬 3. Run Test Matrix</span>
   </div>
 </header>
 
 <main>
   <div class="left">
-    <div>
+    <div id="mission" class="mission">
+      <strong>🎯 Current Quest:</strong> Train your AI on both species until it reaches Master Rank!
+    </div>
 
-  <!-- Title -->
-  <h3 style="margin-bottom:10px;">Input Image</h3>
-
-  <!-- ✅ Controls moved here -->
-  <div class="controls" style="margin-bottom:14px;">
-    <button class="btn-primary" onclick="train()">Train AI</button>
-    <button class="btn-primary" onclick="test()">Test AI</button>
-    <button class="btn-secondary" onclick="reset()">Reset</button>
-  </div>
-
-  <!-- ✅ Mission stays below -->
-  <div id="mission" class="mission">
-    <strong>🎯 Mini Mission</strong><br>
-    Teach the AI to recognize <b>cats</b> and <b>dogs</b>.
-  </div>
-
-</div>
-
-    <label class="animal-label">🐾 Choose an animal:</label>
+    <label class="animal-label">📸 Select a Subject Photo:</label>
     <select id="inputSelect" onchange="showInput()" class="animal-select">
-      <option value="cat1">🐱 Cat 1</option>
-      <option value="cat2">🐱 Cat 2</option>
-      <option value="cat3">🐱 Cat 3</option>
-      <option value="dog1">🐶 Dog 1</option>
-      <option value="dog2">🐶 Dog 2</option>
-      <option value="dog3">🐶 Dog 3</option>
-      <option value="shiba1">🦊 Shiba Inu (Confusing Case)</option>
+      <option value="cat1">🐱 Candidate: Cat 1</option>
+      <option value="cat2">🐱 Candidate: Cat 2</option>
+      <option value="cat3">🐱 Candidate: Cat 3</option>
+      <option value="dog1">🐶 Candidate: Dog 1</option>
+      <option value="dog2">🐶 Candidate: Dog 2</option>
+      <option value="dog3">🐶 Candidate: Dog 3</option>
+      <option value="shiba1">🦊 Final Boss: Mystery Shiba (Tricky!)</option>
     </select>
+
+    <div class="controls">
+      <button class="btn-train" onclick="train()">🏋️‍♂️ Train AI</button>
+      <button class="btn-test" onclick="test()">🔬 Run Test</button>
+      <button class="btn-reset" onclick="reset()">🔄 Wipe Memory</button>
+    </div>
 
     <div class="image-box" id="imageBoxContainer">
       <img id="image">
@@ -379,100 +375,68 @@ main {
   </div>
 
   <div class="right">
-    <h3>🧠 AI Brain (Feature Dictionary)</h3>
-    <table class="dictionary">
-      <tr>
-        <th style="width: 25%;">Class</th>
-        <th>Status & Learned Features</th>
-      </tr>
-      <tr>
-        <td><b>Cat</b></td>
-        <td>
-          <div id="catStatus">🐾 Learning 0/2</div>
+    <div class="brain-container">
+      <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #7c2d12;">🧠 AI Matrix Storage</h3>
+      
+      <div class="brain-row">
+        <div class="brain-class">🐱 Cat</div>
+        <div class="brain-details">
+          <div id="catStatus" class="status-badge">🌱 Level 0/2</div>
           <div class="progress-container"><div id="catBar" class="progress-bar"></div></div>
           <div id="catFeatures" class="feature-box">
             <span id="f_cat_ears" class="feature-tag">📐 Pointy Ears</span>
-            <span id="f_cat_whiskers" class="feature-tag">🐱 Long Whiskers</span>
+            <span id="f_cat_whiskers" class="feature-tag">🐱 Whiskers</span>
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td><b>Dog</b></td>
-        <td>
-          <div id="dogStatus">🐾 Learning 0/2</div>
+        </div>
+      </div>
+
+      <div class="brain-row">
+        <div class="brain-class">🐶 Dog</div>
+        <div class="brain-details">
+          <div id="dogStatus" class="status-badge">🌱 Level 0/2</div>
           <div class="progress-container"><div id="dogBar" class="progress-bar"></div></div>
           <div id="dogFeatures" class="feature-box">
             <span id="f_dog_ears" class="feature-tag">🐶 Floppy Ears</span>
             <span id="f_dog_snout" class="feature-tag">👃 Long Snout</span>
           </div>
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+    </div>
 
-    <h3>Prediction</h3>
-    <p id="prediction">Waiting...</p>
+    <div class="live-prediction">
+      <h4>📡 Core Processor Output</h4>
+      <p id="prediction">Awaiting Inputs...</p>
+    </div>
 
-    <h3>History</h3>
-    <div class="log" id="log"></div>
+    <div class="log-container">
+      <h3>📜 Live Data Logs</h3>
+      <div class="log" id="log"></div>
+    </div>
   </div>
 </main>
 
-<div class="explanation">
-  <h3>📘 What is Supervised Learning?</h3>
-
-<p>
-  <span style="color:#f97316;font-weight:600;">Supervised learning</span>
-  means the AI learns from
-  <span style="color:#16a34a;font-weight:600;">labeled examples</span>
-  provided by a teacher.
-</p>
-
-<p>
-  In this playground, the teacher shows the AI an image and provides the correct label,
-  such as <span style="color:#16a34a;font-weight:600;">“This is a CAT”</span> or
-  <span style="color:#16a34a;font-weight:600;">“This is a DOG”</span>.
-  This process is called
-  <span style="color:#f97316;font-weight:600;">training</span>.
-</p>
-
-<p>
-  At the same time, the teacher also highlights important
-  <span style="color:#f97316;font-weight:600;">features</span>
-  (such as ear shape or whiskers for cats, and snout shape for dogs).
-  The AI does not discover these features by itself — instead,
-  it <span style="color:#16a34a;font-weight:600;">learns and stores them from the teacher</span>.
-</p>
-
-<p>
-  As the AI sees more examples, it strengthens its understanding of these features.
-  This is why more training leads to
-  <span style="color:#f97316;font-weight:600;">higher confidence</span> in predictions.
-</p>
-
-<p>
-  When given a new image, the AI compares what it sees with what it has learned,
-  estimates probabilities for each class, and chooses the most likely one.
-  If the features are mixed (like in the final challenge), the AI may still make a prediction,
-  but with lower confidence.
-</p>
-
-  <p>
-    In this playground, the AI is shown images together with their correct labels:
-    <span style="color:#16a34a;font-weight:600;">“This is a CAT”</span> or
-    <span style="color:#16a34a;font-weight:600;">“This is a DOG”</span>.
-    This process is called
-    <span style="color:#f97316;font-weight:600;">training</span>.
-  </p>
-
-  <p>
-    After seeing enough different examples, the AI extracts key <span style="color:#f97316;font-weight:600;">features</span> (like ear shape or whisker patterns) to distinguish between classes. Once it gathers enough mathematical feature maps, it can recognize
-    <span style="color:#dc2626;font-weight:600;">new images it has never seen before</span>.
-    This is the goal of supervised learning.
-  </p>
+<div class="explanation-hub">
+  <h3>📘 How Does This Supervised Learning Lab Work?</h3>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🏷️</div>
+      <h4>1. Labeled Guides</h4>
+      <p>Supervised learning means the AI learns using an answer key! You act as the human teacher providing explicit guidance like <b>"This is a Cat."</b></p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔍</div>
+      <h4>2. Feature Mapping</h4>
+      <p>The AI doesn't look at the animal as a whole. Instead, it measures specific physical traits (like snout length or ear triangles) to map connections.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h4>3. Statistical Weight</h4>
+      <p>When you feed more examples, internal parameters strengthen. Facing unfamiliar shapes (like our Shiba), it makes mathematically weighted decisions!</p>
+    </div>
+  </div>
 </div>
 
 <script>
-// Pixel-perfect coordinate setups calculated based on Unsplash's native focus crops
 const dataset = {
   cat1: { 
     img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131", 
@@ -511,12 +475,13 @@ const dataset = {
     c2: { top: "35%", left: "47%", size: "140px" }
   },
   shiba1: {
-    img: "https://images.unsplash.com/photo-1578133507770-a35cc3c786e6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    img: "https://images.unsplash.com/photo-1578133507770-a35cc3c786e6?q=80&w=1470&auto=format&fit=crop",
     label: "unknown",
     c1: { top: "20%", left: "60%", size: "75px" },
     c2: { top: "30%", left: "45%", size: "60px" }
   }
 };
+
 let memory = { cat: 0, dog: 0 };
 let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
 let categoryDiscovered = { cat: false, dog: false };
@@ -530,33 +495,27 @@ function log(text, type="info") {
 function showInput() {
   image.src = dataset[inputSelect.value].img;
   hideFeatureCircles();
-  prediction.innerHTML = "💡 <i>Ready to test or train!</i>";
+  prediction.innerHTML = "💡 <i>Systems online. Ready to analyze!</i>";
   document.getElementById("log").innerHTML = "";
   updateButtons();
 }
 
 function updateButtons() {
   const key = inputSelect.value;
-  const trainBtn = document.querySelector("button[onclick='train()']");
-  const testBtn = document.querySelector("button[onclick='test()']");
+  const trainBtn = document.querySelector(".btn-train");
+  const testBtn = document.querySelector(".btn-test");
   const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
 
   if (key === "shiba1") {
     trainBtn.disabled = true;
-    trainBtn.style.opacity = "0.5";
-    trainBtn.style.cursor = "not-allowed";
   } else {
     trainBtn.disabled = false;
-    trainBtn.style.opacity = "1";
-    trainBtn.style.cursor = "pointer";
   }
 
   if (key === "shiba1" && !fullyTrained) {
     testBtn.disabled = true;
-    testBtn.style.opacity = "0.5";
   } else {
     testBtn.disabled = false;
-    testBtn.style.opacity = "1";
   }
 }
 
@@ -584,8 +543,8 @@ function displayFeatureCircles(item) {
 }
 
 function updateUI() {
-  catStatus.textContent = memory.cat >= 2 ? "🥇 Mastered!" : `🌱 Learning Level ${memory.cat}/2`;
-  dogStatus.textContent = memory.dog >= 2 ? "🥇 Mastered!" : `🌱 Learning Level ${memory.dog}/2`;
+  catStatus.textContent = memory.cat >= 2 ? "🥇 Master Rank!" : `🌱 Learning Level ${memory.cat}/2`;
+  dogStatus.textContent = memory.dog >= 2 ? "🥇 Master Rank!" : `🌱 Learning Level ${memory.dog}/2`;
 
   const catPct = Math.min((memory.cat / 2) * 100, 100);
   catBar.style.width = `${catPct}%`;
@@ -622,11 +581,10 @@ function updateUI() {
   const mission = document.getElementById("mission");
   if (memory.cat >= 2 && memory.dog >= 2) {
     mission.classList.add("mission-complete");
-    mission.innerHTML =
-      "🏆 <strong>MISSION COMPLETE!</strong><br>Awesome! The AI can now accurately tell Cats and Dogs apart!";
+    mission.innerHTML = "🏆 <strong>QUEST COMPLETE!</strong><br>Success! The model features have aligned perfectly!";
   } else {
     mission.classList.remove("mission-complete");
-    mission.innerHTML = "<strong>🎯 Mini Mission</strong><br>Teach the AI to recognize <b>cats</b> and <b>dogs</b>.";
+    mission.innerHTML = "<strong>🎯 Current Quest:</strong> Train your AI on both species until it reaches Master Rank!";
   }
   updateButtons();
 }
@@ -638,36 +596,34 @@ function train() {
   const emoji = item.label === "cat" ? "🐱" : "🐶";
 
   if (key === "shiba1") {
-    log("⚠️ <b>Oops!</b> This trickster Shiba is reserved for testing only!", "error");
+    log("⚠️ <b>System Blocked:</b> The Mystery Boss cannot be manually trained!", "error");
     return;
   }
 
   if (trainedSamples[key]) {
-    log("🔁 <b>Brain Loop!</b> AI has already memorized this specific image.", "error");
+    log("🔁 <b>Brain Loop:</b> This image signature is already completely mapped.", "error");
     return;
   }
 
   trainedSamples[key] = true;
-
-  log(`👩‍🏫 <b>Teacher says:</b> "This is a <b>${emoji} ${labelUpper}</b>!"`, "teacher");
+  log(`👩‍🏫 <b>Teacher Engine:</b> "This candidate is a <b>${emoji} ${labelUpper}</b>!"`, "teacher");
 
   if (!categoryDiscovered[item.label]) {
     categoryDiscovered[item.label] = true;
     memory[item.label]++;
 
     if (item.label === "cat") {
-      log("🔍 <i>Hint unlocked:</i> Look closely at the pointy ears & long whiskers!", "teacher");
-      log("🧠 <b>AI Mind:</b> Stored new traits → 📐 [Pointy Ears] and 🐱 [Long Whiskers]!", "learning");
+      log("🔍 <i>Trait Found:</i> Pointy ears & whiskers targeted.", "teacher");
+      log("🧠 <b>AI Mind:</b> Mapping parameters → 📐 [Pointy Ears] and 🐱 [Whiskers]!", "learning");
     } else if (item.label === "dog") {
-      log("🔍 <i>Hint unlocked:</i> Look closely at the floppy ears & long snout!", "teacher");
-      log("🧠 <b>AI Mind:</b> Stored new traits → 🐶 [Floppy Ears] and 👃 [Long Snout]!", "learning");
+      log("🔍 <i>Trait Found:</i> Floppy ears & long snout targeted.", "teacher");
+      log("🧠 <b>AI Mind:</b> Mapping parameters → 🐶 [Floppy Ears] and 👃 [Long Snout]!", "learning");
     }
   } else {
     if (memory[item.label] < 2) {
       memory[item.label]++;
     }
-
-    log(`⚡ <b>Brain Level Up!</b> AI reinforced its ${emoji} ${labelUpper} detection power!`, "learning");
+    log(`⚡ <b>Node Reinforced!</b> AI strengthened its internal ${emoji} ${labelUpper} weights!`, "learning");
   }
 
   updateUI();
@@ -685,19 +641,19 @@ function test() {
   const dogLevel = memory.dog;
   const fullyTrained = catLevel >= 2 && dogLevel >= 2;
 
-  log("🤖 <b>🤖 [BEEP BOOP]</b> Scanning picture features...", "observation");
+  log("🤖 <b>[BEEP BOOP]</b> Extracting local coordinate vectors...", "observation");
 
   if (catLevel === 0 && dogLevel === 0) {
-    log("📊 <b>AI Brain Status:</b> 🚫 Untrained (Guessing blindly!)", "observation");
+    log("📊 <b>AI Status:</b> 🚫 Untrained (Blind Guess Mode)", "observation");
   } else if (catLevel < 2 || dogLevel < 2) {
-    log("📊 <b>AI Brain Status:</b> 🧪 Learning (Still a bit confused!)", "observation");
+    log("📊 <b>AI Status:</b> 🧪 Unstable Matrix (Partial Knowledge)", "observation");
   } else {
-    log("📊 <b>AI Brain Status:</b> ⚡ Fully Trained Master Mode!", "observation");
+    log("📊 <b>AI Status:</b> ⚡ Full Master Mode Architecture!", "observation");
   }
 
   if (key === "shiba1") {
     if (!fullyTrained) {
-      log("🔒 <b>Challenge Locked!</b> Complete training before testing the Secret Case!", "error");
+      log("🔒 <b>Lockout!</b> Max out training stats to unlock the Boss File test!", "error");
       return;
     }
     catProb = Math.floor(Math.random() * 13) + 48; 
@@ -719,25 +675,26 @@ function test() {
 
   let confidenceText = "";
   let confidenceEmoji = "";
-  if (confidence >= 85) { confidenceText = "High Confidence!"; confidenceEmoji = "🔥"; }
-  else if (confidence >= 60) { confidenceText = "Medium Confidence"; confidenceEmoji = "🤔"; }
-  else { confidenceText = "Pure Guesswork!"; confidenceEmoji = "🎲"; }
+  if (confidence >= 85) { confidenceText = "High Precision!"; confidenceEmoji = "🔥"; }
+  else if (confidence >= 60) { confidenceText = "Moderate Match"; confidenceEmoji = "🤔"; }
+  else { confidenceText = "Wild Guess!"; confidenceEmoji = "🎲"; }
 
+  /* Neon green classification highlight string */
   prediction.innerHTML =
-    `🎯 AI Predicts: <span class="prediction-success">
+    `🎯 Predicted Class: <span style="color: #22c55e;">
       ${predictionLabel === "CAT" ? "🐱 CAT" : "🐶 DOG"}
     </span><br>
-     Power Gauge: ${confidence}% (${confidenceEmoji} ${confidenceText})`;
+     <span style="font-size: 14px; color: #fdba74;">Signal Strength: ${confidence}% (${confidenceEmoji} ${confidenceText})</span>`;
 
-  // Upgraded custom colored emoji progress bar builder
+  /* Dynamic Custom Emoji Signal Bar Components */
   function createSmartBar(value, colorEmoji) {
     const filled = Math.round(value / 10);
     return colorEmoji.repeat(filled) + "⬜".repeat(10 - filled);
   }
 
   log(`🐱 Cat Signal: ${createSmartBar(catProb, "🟩")} <b>${catProb}%</b>`, "info");
-  log(`🐶 Dog Signal: ${createSmartBar(dogProb, "🟦")} <b>${dogProb}%</b>`, "info");
-  log(`🚨 <b>Final Choice:</b> AI locked in ${predictionLabel === "CAT" ? "🐱 CAT" : "🐶 DOG"} (${confidence}%)`, "prediction-log");
+  log(`🐶 Dog Signal: ${createSmartBar(dogProb, "🟥")} <b>${dogProb}%</b>`, "info");
+  log(`🚨 <b>Decision Locked:</b> Match assigned to ${predictionLabel === "CAT" ? "🐱 CAT" : "🐶 DOG"} (${confidence}%)`, "prediction-log");
 
   const canSeeFeatures =
     (item.label === "cat" && memory.cat > 0) ||
@@ -745,20 +702,20 @@ function test() {
     (item.label === "unknown" && fullyTrained);
 
   if (canSeeFeatures) {
-    log("💡 <b>AI X-Ray Vision Engaged:</b>", "observation");
+    log("💡 <b>Computer Vision Indicators Active:</b>", "observation");
     if (item.label === "cat") {
-      log("• ✅ Pointy ears detected!", "observation");
-      log("• ✅ Long whiskers spotted!", "observation");
+      log("• 📐 Rigid bounding box matches [Pointy Ears]", "observation");
+      log("• 🐱 Pixel coordinates match [Whiskers]", "observation");
     } else if (item.label === "dog") {
-      log("• ✅ Floppy ears detected!", "observation");
-      log("• ✅ Long snout spotted!", "observation");
+      log("• 🐶 Fallen texture map matches [Floppy Ears]", "observation");
+      log("• 👃 Linear slope matches [Long Snout]", "observation");
     } else {
-      log("• 🤔 Wait... Pointy ears (Cat trait) but a Long Snout (Dog trait)?!", "observation");
+      log("• 🤔 Paradox: Pointy ears (Cat map) & Long Snout (Dog map) found combined!", "observation");
     }
     displayFeatureCircles(item);
   } else {
     hideFeatureCircles();
-    log("🙈 <b>AI Blindness:</b> Features are invisible because AI hasn't learned them yet!", "observation");
+    log("🙈 <b>Vision Failure:</b> Layer weights are blank. Cannot draw target overlays.", "observation");
   }
 }
 
@@ -766,8 +723,8 @@ function reset() {
   memory = { cat: 0, dog: 0 };
   trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
   categoryDiscovered = { cat: false, dog: false };
-  prediction.textContent = "Waiting...";
-  document.getElementById("log").innerHTML = "<div class='info'>🔄 Memory wiped! Ready for a fresh lesson.</div>";
+  prediction.textContent = "Awaiting Inputs...";
+  document.getElementById("log").innerHTML = "<div class='info'>🔄 Storage matrices wiped. Let's restart the loop!</div>";
   hideFeatureCircles();
   updateUI();
 }
