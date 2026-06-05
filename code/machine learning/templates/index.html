@@ -67,17 +67,26 @@
                     </tbody>
                 </table>
 
-                // Reward dashboard
-                <div class="reward-dashboard" style="margin-top: 20px;">
-                    <div id="reward-box" class="stat-box" style="margin-bottom: 10px;">
-                        <span class="stat-label">Total Reward Points:</span>
-                        <span id="reward-value" class="stat-value" style="color: #10b981; margin-left: 5px;">0</span>
+                <!--<div class="reward-dashboard" style="margin-top: 20px;"> -->
+                    <div class="reward-dashboard">
+                        <!--<h3 style="margin-bottom: 10px;">🎯 Reward Dashboard</h3> -->
+                        <h3>🎯 Reward Dashboard</h3>
+                    <!--<div id="reward-box" class="stat-box" style="margin-bottom: 10px;"> -->
+                    <div id="reward-box" class="reward-score-card">
+                        <!-- <span class="stat-label">Total Reward Points:</span>-->
+                        <span class="reward-card-label">Total Reward Points:</span>
+                        <!--<span id="reward-value" class="stat-value" style="color: #10b981; margin-left: 5px;">0</span> -->
+                        <span id="reward-value" class="reward-card-value">0</span>
                     </div>
                     
-                    <div class="stat-box" style="font-weight: 600; padding: 12px; background: #f8fafc;">
-                        <div class="stat-label" style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Move & Reward History:</div>
-                        <div id="move-history-log" style="max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; display: flex; flex-direction: column; gap: 4px;">
-                            <div style="color: #64748b;">Waiting for simulation...</div>
+                    <!--<div class="stat-box" style="font-weight: 600; padding: 12px; background: #f8fafc;">-->
+                    <div class="history-log-card">                        
+                        <!--<div class="stat-label" style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Move & Reward History:</div> -->
+                        <div class="history-log-header">Move & Reward History:</div>
+                        <!--<div id="move-history-log" style="max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; display: flex; flex-direction: column; gap: 4px;">-->
+                        <div id="move-history-log" class="history-log-content">
+                            <!--<div style="color: #64748b;">Waiting for simulation...</div>-->
+                            <div class="history-placeholder">Waiting for simulation...</div>
                         </div>
                     </div>
                 </div>
@@ -87,8 +96,10 @@
 
   
         <div class="educational-section">
-            <h2 class="edu-title">🧠 How Does the Ball's Brain Actually Work?</h2>
-            <p class="edu-subtitle">In AI, we use 4 secret rules to help the ball learn. Here is what they mean in our maze game:</p>
+            <div class="edu-header-container">
+                <h2 class="edu-title">🧠 How Does the Ball's Brain Actually Work?</h2>
+                <p class="edu-subtitle">In AI, we use 4 secret rules to help the ball learn. Here is what they mean in our maze game:</p>
+            </div>
             
             <div class="rl-intro-box">
                 <h3>🤖 What is Reinforcement Learning (RL)?</h3>
@@ -106,7 +117,11 @@
                 </p>
             </div>
 
-            <br>
+            <hr class="edu-divider">
+
+            <p class="edu-subtitle" style="margin-bottom: 20px; font-weight: bold; color: #1e293b;">
+                🎛️ The 4 Secret Tuning Knobs (Parameters):
+            </p>
 
             <div class="param-grid">
                 
@@ -177,8 +192,6 @@
             </div>
         </div>
         
-</body>
-</html>
 
     <script src="../static/script.js"></script>
 </body>
