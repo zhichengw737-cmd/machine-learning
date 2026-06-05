@@ -249,6 +249,24 @@ h1 {
     color: white !important;
 }
 
+/* Reinforcement Learning Core Concept Box */
+.rl-intro-box {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 35px;
+    border-left: 6px solid #6366f1;
+}
+
+/* Spacer rule to separate the main section header */
+.edu-divider {
+    border: 0;
+    height: 1px;
+    background: #e2e8f0;
+    margin: 30px 0;
+}
+
 /*RL Parameters Educational Section */
 
 .educational-section {
