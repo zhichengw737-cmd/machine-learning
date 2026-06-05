@@ -85,6 +85,85 @@
         </div>
     </div>
 
+    </div>
+            </div>
+        </div> <div class="educational-section">
+            <h2 class="edu-title">🧠 How Does the Ball's Brain Actually Work?</h2>
+            <p class="edu-subtitle">In AI, we use 4 secret rules to help the ball learn. Here is what they mean in our maze game:</p>
+            
+            <div class="param-grid">
+                
+                <div class="param-card card-episodes">
+                    <h3>🎮 1. Episodes</h3>
+                    <span class="param-analogy">The "Video Game Rounds"</span>
+                    <p class="param-desc">
+                        Think of an <strong>Episode</strong> as <strong>1 challenge of a game</strong>. It starts the moment the ball is at the beginning, and ends when it either gets completely lost or successfully reaches the goal! 
+                        <br><br>
+                        Every time you click "Train & Run", you are starting <strong>a brand new episode</strong> to see if the ball can do better this round. 
+                        <br><br>
+                        In this maze game, there are <strong>5 Episodes</strong> to train the ball. With each episode, it learns a little more about what the arrows mean and how to get closer to the goal!
+                    </p>
+                </div>
+
+                <div class="param-card card-alpha">
+                    <h3>🧪 2. Alpha (α)</h3>
+                    <span class="param-analogy">The "Memory Power"</span>
+                    <p class="param-desc">
+                        <strong>Alpha</strong> is the <strong>learning rate</strong> <br>
+                        It decides How fast the ball learn new steps.
+                        <br> <br>
+                        <strong>High Alpha</strong>: 
+                        <br>
+                        The ball only cares about its <strong>last step</strong> and forgets what it learned before. 
+                        <br><br>
+                        <strong>Low Alpha</strong>: 
+                        <br>
+                        The ball learns slowly, care more about its <strong>previous steps</strong> but need more time to learn the last step.
+                        <br><br>
+                        What is the optimal value?
+                        <br>
+                        <strong>Every model is different! Need to test so many times to find it.</strong>
+                        <br><br>
+                        In normal, the range is 10<sup>-5</sup> to 10<sup>-3</sup>.
+                    </p>
+                </div>
+
+                <div class="param-card card-gamma">
+                    <h3>👓 3. Gamma (γ)</h3>
+                    <span class="param-analogy">The "Future-Vision Telescope"</span>
+                    <p class="param-desc">
+                        <strong>Gamma</strong> controls how much the ball values future rewards.
+                        <br><br>
+                        <strong>Low Gamma</strong>: 
+                        <br>The ball only care about finding a quick +10 points (reward) right <strong>in front of its face</strong>. 
+                        <br><br>
+                        <strong>High Gamma</strong>: 
+                        <br>The ball wear magic telescope that let it <strong>look far down the path</strong> to hunt for the massive +100 point (reward) at the very end. 
+                        <br>
+                        High Gamma helps the AI plan ahead!
+                    </p>
+                </div>
+
+                <div class="param-card card-epsilon">
+                    <h3>🧭 4. Epsilon (ε)</h3>
+                    <span class="param-analogy">The "Curiosity Meter"</span>
+                    <p class="param-desc">
+                        <strong>Epsilon</strong> decides how much the ball will explore new actions instead of using known ones. 
+                        <br><br>
+                        <strong>High Epsilon</strong>: 
+                        <br>The ball acts like a wild explorer, ignoring what it already knows to try crazy new directions and look for secrets.
+                        <br><br>
+                        <strong>Low Epsilon</strong>: 
+                        <br>The ball says <em>"I'm playing it safe!"</em> and strictly follows the path it already trusts to finish the map safely.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        </div> <script src="../static/script.js"></script>
+</body>
+</html>
+
     <script src="../static/script.js"></script>
 </body>
 </html>
