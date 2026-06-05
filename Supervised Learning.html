@@ -510,13 +510,11 @@ const dataset = {
     c1: { top: "45%", left: "25%", size: "120px" },
     c2: { top: "35%", left: "47%", size: "140px" }
   },
-
-  // ✅ Shiba
   shiba1: {
-  img: "https://images.unsplash.com/photo-1578133507770-a35cc3c786e6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  label: "unknown",
-  c1: { top: "20%", left: "60%", size: "75px" },
-  c2: { top: "30%", left: "45%", size: "60px" }
+    img: "https://images.unsplash.com/photo-1578133507770-a35cc3c786e6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    label: "unknown",
+    c1: { top: "20%", left: "60%", size: "75px" },
+    c2: { top: "30%", left: "45%", size: "60px" }
   }
 };
 let memory = { cat: 0, dog: 0 };
@@ -525,33 +523,24 @@ let categoryDiscovered = { cat: false, dog: false };
 
 function log(text, type="info") {
   const box = document.getElementById("log");
-  box.innerHTML += `<div class="${type}">${text}</div>`;
+  box.innerHTML += `<div class="${type}" style="margin-bottom: 6px; padding: 4px 8px; border-radius: 6px; background: rgba(0,0,0,0.02);">${text}</div>`;
   box.scrollTop = box.scrollHeight;
 }
 
 function showInput() {
   image.src = dataset[inputSelect.value].img;
-
-  // reset visuals
   hideFeatureCircles();
-
-  // reset UI
-  prediction.innerHTML = "Waiting...";
+  prediction.innerHTML = "💡 <i>Ready to test or train!</i>";
   document.getElementById("log").innerHTML = "";
-
   updateButtons();
 }
 
-
 function updateButtons() {
-
   const key = inputSelect.value;
   const trainBtn = document.querySelector("button[onclick='train()']");
   const testBtn = document.querySelector("button[onclick='test()']");
-
   const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
 
-  // ✅ Disable train ONLY for Shiba
   if (key === "shiba1") {
     trainBtn.disabled = true;
     trainBtn.style.opacity = "0.5";
@@ -562,7 +551,6 @@ function updateButtons() {
     trainBtn.style.cursor = "pointer";
   }
 
-  // ✅ ✅ ✅ ONLY restrict test for Shiba
   if (key === "shiba1" && !fullyTrained) {
     testBtn.disabled = true;
     testBtn.style.opacity = "0.5";
@@ -581,7 +569,6 @@ function displayFeatureCircles(item) {
   const c1 = document.getElementById("circle1");
   const c2 = document.getElementById("circle2");
 
-  // Map coordinates explicitly using precompiled asset data configurations
   c1.style.top = item.c1.top;
   c1.style.left = item.c1.left;
   c1.style.width = item.c1.size;
@@ -592,17 +579,14 @@ function displayFeatureCircles(item) {
   c2.style.width = item.c2.size;
   c2.style.height = item.c2.size;
 
-  // Unveil onto structural bounding containers
   c1.style.display = "block";
   c2.style.display = "block";
 }
 
 function updateUI() {
-  // Update text statuses
-  catStatus.textContent = memory.cat >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.cat}/2`;
-  dogStatus.textContent = memory.dog >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.dog}/2`;
+  catStatus.textContent = memory.cat >= 2 ? "🥇 Mastered!" : `🌱 Learning Level ${memory.cat}/2`;
+  dogStatus.textContent = memory.dog >= 2 ? "🥇 Mastered!" : `🌱 Learning Level ${memory.dog}/2`;
 
-  // Update Progress Bars
   const catPct = Math.min((memory.cat / 2) * 100, 100);
   catBar.style.width = `${catPct}%`;
   if(catPct >= 100) catBar.classList.add('complete'); else catBar.classList.remove('complete');
@@ -611,7 +595,6 @@ function updateUI() {
   dogBar.style.width = `${dogPct}%`;
   if(dogPct >= 100) dogBar.classList.add('complete'); else dogBar.classList.remove('complete');
 
-  // Handle visibility and reinforcement visual updates
   if (categoryDiscovered.cat) {
     document.getElementById("catFeatures").style.display = "block";
     if (memory.cat >= 2) {
@@ -636,12 +619,11 @@ function updateUI() {
     document.getElementById("f_dog_snout").classList.remove("reinforced");
   }
 
-  // Update Mini Mission Progress
   const mission = document.getElementById("mission");
   if (memory.cat >= 2 && memory.dog >= 2) {
     mission.classList.add("mission-complete");
     mission.innerHTML =
-      "🎉 <strong>Mission Completed!</strong><br>The AI successfully extracted and mapped the patterns into its memory matrix!";
+      "🏆 <strong>MISSION COMPLETE!</strong><br>Awesome! The AI can now accurately tell Cats and Dogs apart!";
   } else {
     mission.classList.remove("mission-complete");
     mission.innerHTML = "<strong>🎯 Mini Mission</strong><br>Teach the AI to recognize <b>cats</b> and <b>dogs</b>.";
@@ -653,48 +635,39 @@ function train() {
   const key = inputSelect.value;
   const item = dataset[key];
   const labelUpper = item.label.toUpperCase();
+  const emoji = item.label === "cat" ? "🐱" : "🐶";
 
-  // block Shiba training
   if (key === "shiba1") {
-    log("This example is for testing only.", "error");
+    log("⚠️ <b>Oops!</b> This trickster Shiba is reserved for testing only!", "error");
     return;
   }
 
   if (trainedSamples[key]) {
-    log("This image was already used for training.", "error");
+    log("🔁 <b>Brain Loop!</b> AI has already memorized this specific image.", "error");
     return;
   }
 
   trainedSamples[key] = true;
 
-  log(`Teacher: This is a ${labelUpper}.`, "teacher");
+  log(`👩‍🏫 <b>Teacher says:</b> "This is a <b>${emoji} ${labelUpper}</b>!"`, "teacher");
 
   if (!categoryDiscovered[item.label]) {
-
     categoryDiscovered[item.label] = true;
     memory[item.label]++;
 
     if (item.label === "cat") {
-      log("Teacher: Key features → pointy ears, long whiskers.", "teacher");
-      log("AI Learning: Stored features [Pointy Ears] and [Long Whiskers].", "learning");
-
+      log("🔍 <i>Hint unlocked:</i> Look closely at the pointy ears & long whiskers!", "teacher");
+      log("🧠 <b>AI Mind:</b> Stored new traits → 📐 [Pointy Ears] and 🐱 [Long Whiskers]!", "learning");
     } else if (item.label === "dog") {
-      log("Teacher: Key features → floppy ears, long snout.", "teacher");
-      log("AI Learning: Stored features [Floppy Ears] and [Long Snout].", "learning");
+      log("🔍 <i>Hint unlocked:</i> Look closely at the floppy ears & long snout!", "teacher");
+      log("🧠 <b>AI Mind:</b> Stored new traits → 🐶 [Floppy Ears] and 👃 [Long Snout]!", "learning");
     }
-
   } else {
-
     if (memory[item.label] < 2) {
       memory[item.label]++;
     }
 
-    if (item.label === "cat") {
-      log("AI Learning: Reinforced features → pointy ears, long whiskers.", "learning");
-
-    } else if (item.label === "dog") {
-      log("AI Learning: Reinforced features → floppy ears, long snout.", "learning");
-    }
+    log(`⚡ <b>Brain Level Up!</b> AI reinforced its ${emoji} ${labelUpper} detection power!`, "learning");
   }
 
   updateUI();
@@ -702,7 +675,6 @@ function train() {
 }
 
 function test() {
-
   const key = inputSelect.value;
   const item = dataset[key];
 
@@ -713,130 +685,89 @@ function test() {
   const dogLevel = memory.dog;
   const fullyTrained = catLevel >= 2 && dogLevel >= 2;
 
-  // ✅ status
+  log("🤖 <b>🤖 [BEEP BOOP]</b> Scanning picture features...", "observation");
+
   if (catLevel === 0 && dogLevel === 0) {
-    log("Model status: Not trained", "observation");
+    log("📊 <b>AI Brain Status:</b> 🚫 Untrained (Guessing blindly!)", "observation");
   } else if (catLevel < 2 || dogLevel < 2) {
-    log("Model status: Partially trained", "observation");
+    log("📊 <b>AI Brain Status:</b> 🧪 Learning (Still a bit confused!)", "observation");
   } else {
-    log("Model status: Fully trained", "observation");
+    log("📊 <b>AI Brain Status:</b> ⚡ Fully Trained Master Mode!", "observation");
   }
 
-  // ✅ SHIBA
   if (key === "shiba1") {
-
     if (!fullyTrained) {
-      log("Please complete training before testing this example.", "error");
+      log("🔒 <b>Challenge Locked!</b> Complete training before testing the Secret Case!", "error");
       return;
     }
-
-    catProb = Math.floor(Math.random() * 13) + 48; // 48–60
+    catProb = Math.floor(Math.random() * 13) + 48; 
     dogProb = 100 - catProb;
   }
-
-  // ✅ CAT
   else if (key.startsWith("cat")) {
-
-    if (catLevel === 0) {
-      catProb = Math.floor(Math.random() * 5) + 47;
-      dogProb = 100 - catProb;
-
-    } else if (catLevel === 1) {
-      catProb = Math.floor(Math.random() * 11) + 60;
-      dogProb = 100 - catProb;
-
-    } else {
-      catProb = Math.floor(Math.random() * 11) + 85;
-      dogProb = 100 - catProb;
-    }
+    if (catLevel === 0) { catProb = Math.floor(Math.random() * 5) + 47; dogProb = 100 - catProb; }
+    else if (catLevel === 1) { catProb = Math.floor(Math.random() * 11) + 60; dogProb = 100 - catProb; }
+    else { catProb = Math.floor(Math.random() * 11) + 85; dogProb = 100 - catProb; }
   }
-
-  // ✅ DOG
   else if (key.startsWith("dog")) {
-
-    if (dogLevel === 0) {
-      dogProb = Math.floor(Math.random() * 5) + 47;
-      catProb = 100 - dogProb;
-
-    } else if (dogLevel === 1) {
-      dogProb = Math.floor(Math.random() * 11) + 60;
-      catProb = 100 - dogProb;
-
-    } else {
-      dogProb = Math.floor(Math.random() * 11) + 85;
-      catProb = 100 - dogProb;
-    }
+    if (dogLevel === 0) { dogProb = Math.floor(Math.random() * 5) + 47; catProb = 100 - dogProb; }
+    else if (dogLevel === 1) { dogProb = Math.floor(Math.random() * 11) + 60; catProb = 100 - dogProb; }
+    else { dogProb = Math.floor(Math.random() * 11) + 85; dogProb = 100 - dogProb; }
   }
 
-  // ✅ Decision
-  const predictionLabel =
-    key === "shiba1"
-      ? "CAT"
-      : (dogProb > catProb ? "DOG" : "CAT");
-
+  const predictionLabel = key === "shiba1" ? "CAT" : (dogProb > catProb ? "DOG" : "CAT");
   const confidence = Math.max(catProb, dogProb);
 
   let confidenceText = "";
-  if (confidence >= 85) confidenceText = "High confidence";
-  else if (confidence >= 60) confidenceText = "Medium confidence";
-  else confidenceText = "Low confidence";
+  let confidenceEmoji = "";
+  if (confidence >= 85) { confidenceText = "High Confidence!"; confidenceEmoji = "🔥"; }
+  else if (confidence >= 60) { confidenceText = "Medium Confidence"; confidenceEmoji = "🤔"; }
+  else { confidenceText = "Pure Guesswork!"; confidenceEmoji = "🎲"; }
 
   prediction.innerHTML =
-    `AI Prediction: <span class="prediction-success">
+    `🎯 AI Predicts: <span class="prediction-success">
       ${predictionLabel === "CAT" ? "🐱 CAT" : "🐶 DOG"}
     </span><br>
-     Confidence: ${confidence}% (${confidenceText})`;
+     Power Gauge: ${confidence}% (${confidenceEmoji} ${confidenceText})`;
 
-  // ✅ Probability bars
-  function createBar(value) {
+  // Upgraded custom colored emoji progress bar builder
+  function createSmartBar(value, colorEmoji) {
     const filled = Math.round(value / 10);
-    return "█".repeat(filled) + "░".repeat(10 - filled);
+    return colorEmoji.repeat(filled) + "⬜".repeat(10 - filled);
   }
 
-  log(`Cat: ${createBar(catProb)} ${catProb}%`, "info");
-  log(`Dog: ${createBar(dogProb)} ${dogProb}%`, "info");
+  log(`🐱 Cat Signal: ${createSmartBar(catProb, "🟩")} <b>${catProb}%</b>`, "info");
+  log(`🐶 Dog Signal: ${createSmartBar(dogProb, "🟦")} <b>${dogProb}%</b>`, "info");
+  log(`🚨 <b>Final Choice:</b> AI locked in ${predictionLabel === "CAT" ? "🐱 CAT" : "🐶 DOG"} (${confidence}%)`, "prediction-log");
 
-  log(`Prediction: ${predictionLabel} (${confidence}%)`, "prediction-log");
-
-  // ✅ Feature observation
   const canSeeFeatures =
     (item.label === "cat" && memory.cat > 0) ||
     (item.label === "dog" && memory.dog > 0) ||
     (item.label === "unknown" && fullyTrained);
 
   if (canSeeFeatures) {
-
-    log("AI Observation:", "observation");
-
+    log("💡 <b>AI X-Ray Vision Engaged:</b>", "observation");
     if (item.label === "cat") {
-      log("• Pointy ears detected", "observation");
-      log("• Long whiskers detected", "observation");
-
+      log("• ✅ Pointy ears detected!", "observation");
+      log("• ✅ Long whiskers spotted!", "observation");
     } else if (item.label === "dog") {
-      log("• Floppy ears detected", "observation");
-      log("• Long snout detected", "observation");
-
+      log("• ✅ Floppy ears detected!", "observation");
+      log("• ✅ Long snout spotted!", "observation");
     } else {
-      log("• Pointy ears detected (cat-like)", "observation");
-      log("• Long snout detected (dog-like)", "observation");
+      log("• 🤔 Wait... Pointy ears (Cat trait) but a Long Snout (Dog trait)?!", "observation");
     }
-
     displayFeatureCircles(item);
-
   } else {
-
     hideFeatureCircles();
-    log("AI has not learned visual features yet.", "observation");
+    log("🙈 <b>AI Blindness:</b> Features are invisible because AI hasn't learned them yet!", "observation");
   }
 }
-
 
 function reset() {
   memory = { cat: 0, dog: 0 };
   trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
   categoryDiscovered = { cat: false, dog: false };
   prediction.textContent = "Waiting...";
-  document.getElementById("log").innerHTML = "<div class='info'>System reset.</div>";
+  document.getElementById("log").innerHTML = "<div class='info'>🔄 Memory wiped! Ready for a fresh lesson.</div>";
   hideFeatureCircles();
   updateUI();
 }
