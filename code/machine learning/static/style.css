@@ -248,3 +248,78 @@ h1 {
     background-color: #22c55e !important;
     color: white !important;
 }
+
+/*RL Parameters Educational Section */
+
+.educational-section {
+    margin-top: 50px;
+    padding: 30px 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px dashed #cbd5e1;
+}
+
+.edu-title {
+    color: #1e293b;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 24px;
+}
+
+.edu-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.param-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.param-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.param-card h3 {
+    margin-top: 0;
+    margin-bottom: 4px;
+    font-size: 18px;
+}
+
+.param-analogy {
+    color: #475569;
+    display: block;
+    margin-bottom: 12px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+.param-desc {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Parameter Card Color Border Variations */
+.card-episodes { border-top: 4px solid #3b82f6; }
+.card-episodes h3 { color: #3b82f6; }
+
+.card-alpha { border-top: 4px solid #10b981; }
+.card-alpha h3 { color: #10b981; }
+
+.card-gamma { border-top: 4px solid #f59e0b; }
+.card-gamma h3 { color: #f59e0b; }
+
+.card-epsilon { border-top: 4px solid #ef4444; }
+.card-epsilon h3 { color: #ef4444; }
