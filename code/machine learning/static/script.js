@@ -263,7 +263,7 @@ function runSimulation() {
             path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4], [3,3], [3,2], [3,1], [4,1], [4,2], [5,2], [6,2], [6,3], [7,3], [7,4], [7,5], [7,6], [7,7]];
         }
     } else {
-        // Maze 2 Advanced Path mapping around barriers smoothly
+        // Maze 2 Advanced Path mapping
         // path = [[0,0], [0,1], [0,2], [0,3], [1,3], [2,3], [2,2], [2,1], [3,1], [4,1], [5,1], [6,1], [6,2], [6,3], [5,3], [4,3], [4,4], [4,5], [4,6], [3,6], [2,6], [2,5], [2,4], [1,4], [1,5], [1,6], [1,7], [7,7]];
         path = [[0,0], [1,0], [1,1], [1,2], [0,2], [0,3], [0,4], [1,4], [2,4], [2,5], [2,6], [1,6], [1,7], [2,7], [3,7], [4,7], [4,6], [5,6], [5,5], [5,4], [4,4], [4,3], [4,2], [3,2], [3,1], [3,0], [4,0], [5,0], [5,1], [6,1], [6,2], [6,3], [7,3],[7,4], [7,5], [7,6], [7,7]];
         
@@ -274,6 +274,7 @@ function runSimulation() {
     animateBallPath(path, 0);
 }
 
+// Animate the ball's movement along the defined path with a tick cycle, and evaluate reward points based on the moves made in relation to the guiding arrows and the goal.
 function animateBallPath(path, index) {
     if (index >= path.length) {
         isMoving = false;
@@ -351,7 +352,8 @@ function animateBallPath(path, index) {
                 }
 
                 const newLogItem = document.createElement('div');
-                newLogItem.style.color = currentMoveColor;
+                //newLogItem.style.color = currentMoveColor;
+                newLogItem.className = 'history-log-item';
                 newLogItem.textContent = `[Step ${currentStepCount}] Moved to (${r},${c}) → ${currentMoveText}` + ` | Total: ${rewardPoints} pts`;
                 historyLogEl.appendChild(newLogItem);
             
@@ -361,11 +363,13 @@ function animateBallPath(path, index) {
         }
     }
 
+    // Continue animating the next move after a short delay to create a tick cycle effect
     setTimeout(() => {
         animateBallPath(path, index + 1);
-    }, 300); // Accelerated tick cycle slightly for comfortable viewing over 8 units
+    }, 1000);
 }
 
+//Handle the Opinion Table updates and narrative text changes based on the training outcome after each run, reflecting the ball's learning progress and the player's training efforts in Maze 1, and the flawless performance in Maze 2 once fully trained.
 function handleTrainingOutcome() {
     updateOpinionTable();
 
