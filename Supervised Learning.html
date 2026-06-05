@@ -9,7 +9,7 @@
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  /* 🎨 Changed to a soft, warm cream background to eliminate eye strain */
+  /* 🎨 Soft, warm cream background to eliminate eye strain */
   background: #fdf8f5;
   color: #1f2937;
 }
@@ -48,7 +48,7 @@ body {
   margin-top: 12px;
   font-size: 15px;
   font-weight: 600;
-  /* 🎨 Changed to a distinct, inviting orange-brown for the call-to-action */
+  /* 🎨 Distinct, inviting orange-brown for the call-to-action */
   color: #c2410c;
 }
 
@@ -128,10 +128,10 @@ main {
   border: 1px solid #f7e6db;
 }
 
-.left { flex: 2; }
-.right { flex: 1; }
+.left { flex: 1.8; }
+.right { flex: 1.2; }
 
-/* ================= Image ================= */
+/* ================= Image Container & Overlay Circles ================= */
 .image-box {
   height: 380px;
   border-radius: 20px;
@@ -142,12 +142,32 @@ main {
   align-items: center;
   overflow: hidden;
   border: 1px dashed #cbd5e1;
+  position: relative; /* Context parent for absolute markers */
 }
 
 .image-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Feature highlight ring overlay */
+.feature-circle {
+  position: absolute;
+  border: 3px solid #ff4757;
+  border-radius: 50%;
+  background: rgba(255, 71, 87, 0.12);
+  box-shadow: 0 0 14px rgba(255, 71, 87, 0.75), inset 0 0 8px rgba(255, 71, 87, 0.4);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  display: none; /* Managed completely via JS injection */
+  animation: pulseHighlight 1.5s infinite alternate;
+  z-index: 10;
+}
+
+@keyframes pulseHighlight {
+  from { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+  to { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
 }
 
 /* ================= Selector ================= */
@@ -186,7 +206,7 @@ main {
   border-color: #4ade80;
 }
 
-/* ================= Dictionary ================= */
+/* ================= Dictionary & Features ================= */
 .dictionary table {
   width: 100%;
   border-collapse: collapse;
@@ -196,6 +216,51 @@ main {
 .dictionary th, .dictionary td {
   padding: 12px;
   border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+}
+
+.feature-box {
+  margin-top: 8px;
+  display: none; /* Hidden until first training session */
+}
+
+.feature-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px dashed #ffb787;
+  margin: 2px;
+  font-weight: 500;
+}
+
+.feature-tag.reinforced {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #4ade80;
+}
+
+/* Progress indicator micro-bar */
+.progress-container {
+  width: 100%;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  margin-top: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #f97316;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.progress-bar.complete {
+  background-color: #16a34a;
 }
 
 /* ================= Prediction & Log ================= */
@@ -279,17 +344,42 @@ main {
       <option value="dog3">🐶 Dog 3</option>
     </select>
 
-    <div class="image-box">
+    <div class="image-box" id="imageBoxContainer">
       <img id="image">
+      <div id="circle1" class="feature-circle"></div>
+      <div id="circle2" class="feature-circle"></div>
     </div>
   </div>
 
   <div class="right">
-    <h3>🧠 AI Brain</h3>
+    <h3>🧠 AI Brain (Feature Dictionary)</h3>
     <table class="dictionary">
-      <tr><th>Class</th><th>Status</th></tr>
-      <tr><td>Cat</td><td id="cat">🐾 Learning 0/2</td></tr>
-      <tr><td>Dog</td><td id="dog">🐾 Learning 0/2</td></tr>
+      <tr>
+        <th style="width: 25%;">Class</th>
+        <th>Status & Learned Features</th>
+      </tr>
+      <tr>
+        <td><b>Cat</b></td>
+        <td>
+          <div id="catStatus">🐾 Learning 0/2</div>
+          <div class="progress-container"><div id="catBar" class="progress-bar"></div></div>
+          <div id="catFeatures" class="feature-box">
+            <span id="f_cat_ears" class="feature-tag">📐 Pointy Ears</span>
+            <span id="f_cat_whiskers" class="feature-tag">🐱 Long Whiskers</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Dog</b></td>
+        <td>
+          <div id="dogStatus">🐾 Learning 0/2</div>
+          <div class="progress-container"><div id="dogBar" class="progress-bar"></div></div>
+          <div id="dogFeatures" class="feature-box">
+            <span id="f_dog_ears" class="feature-tag">🐶 Floppy Ears</span>
+            <span id="f_dog_snout" class="feature-tag">👃 Long Snout</span>
+          </div>
+        </td>
+      </tr>
     </table>
 
     <h3>Prediction</h3>
@@ -319,24 +409,56 @@ main {
   </p>
 
   <p>
-    After seeing enough different examples, the AI can recognize
+    After seeing enough different examples, the AI extracts key <span style="color:#f97316;font-weight:600;">features</span> (like ear shape or whisker patterns) to distinguish between classes. Once it gathers enough mathematical feature maps, it can recognize
     <span style="color:#dc2626;font-weight:600;">new images it has never seen before</span>.
     This is the goal of supervised learning.
   </p>
 </div>
 
 <script>
+// Pixel-perfect coordinate setups calculated based on Unsplash's native focus crops
 const dataset = {
-  cat1: { img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131", label: "cat" },
-  cat2: { img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6", label: "cat" },
-  cat3: { img: "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e", label: "cat" },
-  dog1: { img: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d", label: "dog" },
-  dog2: { img: "https://images.unsplash.com/photo-1507146426996-ef05306b995a", label: "dog" },
-  dog3: { img: "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8", label: "dog" }
+  cat1: { 
+    img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131", 
+    label: "cat",
+    c1: { top: "10%", left: "21%", size: "75px" },  // Pointy Ears (Left pointy ear)
+    c2: { top: "50%", left: "54%", size: "75px" }   // Long Whiskers (Right whisker pad)
+  },
+  cat2: { 
+    img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6", 
+    label: "cat",
+    c1: { top: "15%", left: "34%", size: "75px" },  // Pointy Ears (Right pointing ear)
+    c2: { top: "20%", left: "62%", size: "75px" }   // Long Whiskers (Lower left whisker profile)
+  },
+  cat3: { 
+    img: "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e", 
+    label: "cat",
+    c1: { top: "34%", left: "41%", size: "75px" },  // Pointy Ears (Left ear)
+    c2: { top: "15%", left: "20%", size: "75px" }   // Long Whiskers (Muzzle region)
+  },
+  dog1: { 
+    img: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d", 
+    label: "dog",
+    c1: { top: "33%", left: "34%", size: "95px" },  // Floppy Ears
+    c2: { top: "54%", left: "50%", size: "170px" }   // Long Snout
+  },
+  dog2: { 
+    img: "https://images.unsplash.com/photo-1507146426996-ef05306b995a", 
+    label: "dog",
+    c1: { top: "40%", left: "44%", size: "110px" }, // Floppy Ears
+    c2: { top: "40%", left: "67%", size: "130px" }   // Long Snout
+  },
+  dog3: { 
+    img: "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8", 
+    label: "dog",
+    c1: { top: "22%", left: "26%", size: "95px" }, // Floppy Ears
+    c2: { top: "52%", left: "62%", size: "85px" }   // Long Snout
+  }
 };
 
 let memory = { cat: 0, dog: 0 };
 let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
+let categoryDiscovered = { cat: false, dog: false };
 
 function log(text, type="info") {
   const box = document.getElementById("log");
@@ -346,17 +468,82 @@ function log(text, type="info") {
 
 function showInput() {
   image.src = dataset[inputSelect.value].img;
+  hideFeatureCircles(); // Clear any existing focus circle rings upon swapping image selects
+}
+
+function hideFeatureCircles() {
+  document.getElementById("circle1").style.display = "none";
+  document.getElementById("circle2").style.display = "none";
+}
+
+function displayFeatureCircles(item) {
+  const c1 = document.getElementById("circle1");
+  const c2 = document.getElementById("circle2");
+
+  // Map coordinates explicitly using precompiled asset data configurations
+  c1.style.top = item.c1.top;
+  c1.style.left = item.c1.left;
+  c1.style.width = item.c1.size;
+  c1.style.height = item.c1.size;
+
+  c2.style.top = item.c2.top;
+  c2.style.left = item.c2.left;
+  c2.style.width = item.c2.size;
+  c2.style.height = item.c2.size;
+
+  // Unveil onto structural bounding containers
+  c1.style.display = "block";
+  c2.style.display = "block";
 }
 
 function updateUI() {
-  cat.textContent = memory.cat >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.cat}/2`;
-  dog.textContent = memory.dog >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.dog}/2`;
+  // Update text statuses
+  catStatus.textContent = memory.cat >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.cat}/2`;
+  dogStatus.textContent = memory.dog >= 2 ? "✅ Recognized" : `🐾 Learning ${memory.dog}/2`;
 
+  // Update Progress Bars
+  const catPct = Math.min((memory.cat / 2) * 100, 100);
+  catBar.style.width = `${catPct}%`;
+  if(catPct >= 100) catBar.classList.add('complete'); else catBar.classList.remove('complete');
+
+  const dogPct = Math.min((memory.dog / 2) * 100, 100);
+  dogBar.style.width = `${dogPct}%`;
+  if(dogPct >= 100) dogBar.classList.add('complete'); else dogBar.classList.remove('complete');
+
+  // Handle visibility and reinforcement visual updates
+  if (categoryDiscovered.cat) {
+    document.getElementById("catFeatures").style.display = "block";
+    if (memory.cat >= 2) {
+      document.getElementById("f_cat_ears").classList.add("reinforced");
+      document.getElementById("f_cat_whiskers").classList.add("reinforced");
+    }
+  } else {
+    document.getElementById("catFeatures").style.display = "none";
+    document.getElementById("f_cat_ears").classList.remove("reinforced");
+    document.getElementById("f_cat_whiskers").classList.remove("reinforced");
+  }
+
+  if (categoryDiscovered.dog) {
+    document.getElementById("dogFeatures").style.display = "block";
+    if (memory.dog >= 2) {
+      document.getElementById("f_dog_ears").classList.add("reinforced");
+      document.getElementById("f_dog_snout").classList.add("reinforced");
+    }
+  } else {
+    document.getElementById("dogFeatures").style.display = "none";
+    document.getElementById("f_dog_ears").classList.remove("reinforced");
+    document.getElementById("f_dog_snout").classList.remove("reinforced");
+  }
+
+  // Update Mini Mission Progress
   const mission = document.getElementById("mission");
   if (memory.cat >= 2 && memory.dog >= 2) {
     mission.classList.add("mission-complete");
     mission.innerHTML =
-      "🎉 <strong>Mission Completed!</strong><br>The AI can now recognize cats and dogs!";
+      "🎉 <strong>Mission Completed!</strong><br>The AI successfully extracted and mapped the patterns into its memory matrix!";
+  } else {
+    mission.classList.remove("mission-complete");
+    mission.innerHTML = "<strong>🎯 Mini Mission</strong><br>Teach the AI to recognize <b>cats</b> and <b>dogs</b>.";
   }
 }
 
@@ -364,17 +551,33 @@ function train() {
   const key = inputSelect.value;
   if (trainedSamples[key]) {
     log("This image was already used for training.", "error");
+    displayFeatureCircles(dataset[key]);
     return;
   }
   trainedSamples[key] = true;
   const item = dataset[key];
+  const labelUpper = item.label.toUpperCase();
 
-  if (memory[item.label] < 2) {
+  log(`Teacher: This is a ${labelUpper}`, "info");
+  
+  if (!categoryDiscovered[item.label]) {
+    categoryDiscovered[item.label] = true;
     memory[item.label]++;
-    log("Teacher: This is a " + item.label.toUpperCase(), "info");
-    log("AI learns from a new example.", "success");
+    
+    if (item.label === "cat") {
+      log(`AI Extraction: Discovered structural features [Pointy Ears] & [Long Whiskers] simultaneously!`, "success");
+    } else {
+      log(`AI Extraction: Discovered structural features [Floppy Ears] & [Long Snout] simultaneously!`, "success");
+    }
+  } else {
+    if (memory[item.label] < 2) {
+      memory[item.label]++;
+    }
+    log(`AI Brain Optimization: Aligning and reinforcing verified nodes for ${labelUpper}.`, "success");
   }
+
   updateUI();
+  displayFeatureCircles(item); // Highlight mapped positions immediately on train execution
 }
 
 function test() {
@@ -384,18 +587,26 @@ function test() {
     prediction.innerHTML =
       `AI thinks this is: <span class="prediction-success">${emoji} ${item.label.toUpperCase()}</span>`;
     log("Prediction: " + item.label.toUpperCase(), "success");
+    
+    // Matched criteria: Render localized circles over the testing asset parameters
+    displayFeatureCircles(item);
   } else {
     prediction.innerHTML =
       `AI thinks this is: <span class="prediction-error">❗ Unknown</span>`;
     log("Prediction: Unknown", "error");
+    
+    // No model context matching -> prevent overlay generation
+    hideFeatureCircles();
   }
 }
 
 function reset() {
   memory = { cat: 0, dog: 0 };
   trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
+  categoryDiscovered = { cat: false, dog: false };
   prediction.textContent = "Waiting...";
   document.getElementById("log").innerHTML = "<div class='info'>System reset.</div>";
+  hideFeatureCircles();
   updateUI();
 }
 
