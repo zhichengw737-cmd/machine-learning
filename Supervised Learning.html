@@ -484,9 +484,20 @@ function log(text, type="info") {
 
 function showInput() {
   image.src = dataset[inputSelect.value].img;
+
+  
   hideFeatureCircles();
+
+  
+  document.getElementById("prediction").innerHTML = "Waiting...";
+
+  
+  document.getElementById("log").innerHTML = "";
+
+  
   updateButtons();
 }
+
 
 function updateButtons() {
 
@@ -596,45 +607,56 @@ function updateUI() {
 
 function train() {
   const key = inputSelect.value;
+  const item = dataset[key];
+  const labelUpper = item.label.toUpperCase();
 
+  // ✅ Prevent training Shiba
   if (key === "shiba1") {
-    log("❌ This image cannot be used for training. It is a confusing example.", "error");
-    displayFeatureCircles(dataset[key]);
+    log("This example is for testing only. Training is disabled.", "error");
+    displayFeatureCircles(item);
     return;
   }
 
+  // ✅ Prevent duplicate training
   if (trainedSamples[key]) {
     log("This image was already used for training.", "error");
-    displayFeatureCircles(dataset[key]);
+    displayFeatureCircles(item);
     return;
   }
 
   trainedSamples[key] = true;
-  const item = dataset[key];
-  const labelUpper = item.label.toUpperCase();
 
+  // ✅ Teacher gives label
   log(`Teacher: This is a ${labelUpper}.`, "info");
 
-if (item.label === "cat") {
-  log("Teacher: Key features → pointy ears, long whiskers.", "info");
-} else if (item.label === "dog") {
-  log("Teacher: Key features → floppy ears, long snout.", "info");
-}
-  
   if (!categoryDiscovered[item.label]) {
+
     categoryDiscovered[item.label] = true;
     memory[item.label]++;
-    
+
+    // ✅ First time learning
     if (item.label === "cat") {
-      log(`AI Extraction: Discovered structural features [Pointy Ears] & [Long Whiskers] simultaneously!`, "success");
-    } else {
-      log(`AI Extraction: Discovered structural features [Floppy Ears] & [Long Snout] simultaneously!`, "success");
+      log("Teacher: Key features → pointy ears, long whiskers.", "info");
+      log("AI Learning: Stored features [Pointy Ears] and [Long Whiskers].", "success");
+
+    } else if (item.label === "dog") {
+      log("Teacher: Key features → floppy ears, long snout.", "info");
+      log("AI Learning: Stored features [Floppy Ears] and [Long Snout].", "success");
     }
+
   } else {
+
     if (memory[item.label] < 2) {
       memory[item.label]++;
     }
-    log(`AI Brain Optimization: Aligning and reinforcing verified nodes for ${labelUpper}.`, "success");
+
+    // ✅ Reinforcement but still shows features
+    if (item.label === "cat") {
+      log("AI Learning: Reinforced features → pointy ears, long whiskers.", "success");
+
+    } else if (item.label === "dog") {
+      log("AI Learning: Reinforced features → floppy ears, long snout.", "success");
+    }
   }
 
   updateUI();
@@ -646,49 +668,111 @@ function test() {
   const key = inputSelect.value;
   const item = dataset[key];
 
-  // ✅ ✅ ✅ ONLY restrict Shiba
-  if (key === "shiba1" && !(memory.cat >= 2 && memory.dog >= 2)) {
-    log("⛔ Please train both CAT and DOG before testing this example.", "error");
-    return;
-  }
+  let catProb = 0;
+  let dogProb = 0;
 
-  // ✅ Shiba special case
+  const catLevel = memory.cat;
+  const dogLevel = memory.dog;
+  const fullyTrained = catLevel >= 2 && dogLevel >= 2;
+
+  // ✅ SHIBA CASE
   if (key === "shiba1") {
-    prediction.innerHTML =
-      `AI thinks this is: <span class="prediction-error">❓ UNKNOWN</span>`;
 
-    log("Prediction: UNKNOWN", "error");
-    log("Explanation:", "info");
-    log("This animal contains mixed features.", "info");
-    log("• Pointy ears (cat-like feature)", "info");
-    log("• Long snout (dog-like feature)", "info");
-    log("The model cannot make a confident decision.", "error");
+    if (!fullyTrained) {
+      log("Please complete training before testing this example.", "error");
+      return;
+    }
 
-    displayFeatureCircles(item);
-    return;
+    catProb = Math.floor(Math.random() * 13) + 48; // 48–60
+    dogProb = 100 - catProb;
   }
 
-  // ✅ ✅ ✅ normal cats and dogs ALWAYS testable
-  if (memory[item.label] >= 2) {
-    const emoji = item.label === "cat" ? "🐱" : "🐶";
+  // ✅ CAT IMAGES
+  else if (key.startsWith("cat")) {
 
-    prediction.innerHTML =
-      `AI thinks this is: <span class="prediction-success">${emoji} ${item.label.toUpperCase()}</span>`;
+    if (catLevel === 0) {
+      catProb = Math.floor(Math.random() * 5) + 47; // 47–51
+      dogProb = 100 - catProb;
 
-    log("Prediction: " + item.label.toUpperCase(), "success");
+    } else if (catLevel === 1) {
+      catProb = Math.floor(Math.random() * 11) + 60; // 60–70
+      dogProb = 100 - catProb;
+
+    } else {
+      catProb = Math.floor(Math.random() * 11) + 85; // 85–95
+      dogProb = 100 - catProb;
+    }
+  }
+
+  // ✅ DOG IMAGES
+  else if (key.startsWith("dog")) {
+
+    if (dogLevel === 0) {
+      dogProb = Math.floor(Math.random() * 5) + 47;
+      catProb = 100 - dogProb;
+
+    } else if (dogLevel === 1) {
+      dogProb = Math.floor(Math.random() * 11) + 60;
+      catProb = 100 - dogProb;
+
+    } else {
+      dogProb = Math.floor(Math.random() * 11) + 85;
+      catProb = 100 - dogProb;
+    }
+  }
+
+  // ✅ FINAL DECISION
+  const predictionLabel =
+    key === "shiba1"
+      ? "CAT"
+      : (dogProb > catProb ? "DOG" : "CAT");
+
+  const confidence = Math.max(catProb, dogProb);
+
+  let confidenceText = "";
+  if (confidence >= 85) confidenceText = "High confidence";
+  else if (confidence >= 60) confidenceText = "Medium confidence";
+  else confidenceText = "Low confidence";
+
+  prediction.innerHTML =
+    `AI Prediction: <span class="prediction-success">${predictionLabel}</span><br>
+     Confidence: ${confidence}% (${confidenceText})`;
+
+  log(`Cat probability: ${catProb}%`, "info");
+  log(`Dog probability: ${dogProb}%`, "info");
+  log(`Prediction: ${predictionLabel} (${confidence}%)`, "success");
+
+  // ✅ ✅ ✅ Feature observation (ONLY when learned)
+  const canSeeFeatures =
+    (item.label === "cat" && memory.cat > 0) ||
+    (item.label === "dog" && memory.dog > 0) ||
+    (item.label === "unknown" && fullyTrained);
+
+  if (canSeeFeatures) {
+
+    log("AI Observation:", "info");
+
+    if (item.label === "cat") {
+      log("• Pointy ears detected", "info");
+      log("• Long whiskers detected", "info");
+
+    } else if (item.label === "dog") {
+      log("• Floppy ears detected", "info");
+      log("• Long snout detected", "info");
+
+    } else if (item.label === "unknown") {
+      log("• Pointy ears detected (cat-like)", "info");
+      log("• Long snout detected (dog-like)", "info");
+    }
 
     displayFeatureCircles(item);
 
   } else {
-
-    prediction.innerHTML =
-      `AI thinks this is: <span class="prediction-error">❗ Unknown</span>`;
-
-    log("Prediction: UNKNOWN", "error");
-
     hideFeatureCircles();
+    log("AI has not learned visual features yet.", "info");
   }
 }
+
 
 function reset() {
   memory = { cat: 0, dog: 0 };
