@@ -10,7 +10,7 @@ maze1Btn.addEventListener('click', () => {
 
     // Reset reward points when switching back to Maze 1 to reflect the training progress accurately.
     rewardPoints = 0;
-    const rewardValEl = document.getElementById('reward-value');
+    //const rewardValEl = document.getElementById('reward-value');
     if (rewardValEl) {
         rewardValEl.innerHTML = rewardPoints;
         rewardValEl.style.color = "#10b981";
@@ -36,7 +36,7 @@ maze2Btn.addEventListener('click', () => {
     
     // Reset reward points when entering Maze 2 to reflect the new challenge accurately.
     rewardPoints = 0;
-    const rewardValEl = document.getElementById('reward-value');
+    //const rewardValEl = document.getElementById('reward-value');
     if (rewardValEl) {
         rewardValEl.textContent = rewardPoints;
         rewardValEl.style.color = "#10b981";
@@ -59,7 +59,7 @@ resetBtn.addEventListener('click', () => {
     // Reset step counter for the Move & Reward History log
     currentStepCount = 0;
     rewardPoints = 0;
-    rewardValue.innerHTML = 0;
+    rewardValEl.innerHTML = rewardPoints;
     //historyLogEl.innerHTML = 'Waiting for simulation...';
     
     trainingCountEl.textContent = "0 / 5";

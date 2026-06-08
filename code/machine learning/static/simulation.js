@@ -9,7 +9,7 @@ function runSimulation() {
     // Reset step counter for the Move & Reward History log
     currentStepCount = 0;
 
-    const rewardValEl = document.getElementById('reward-value');
+    //const rewardValEl = document.getElementById('reward-value');
     if (rewardValEl) {
         rewardValEl.textContent = rewardPoints;
         rewardValEl.style.color = "#10b981";
@@ -130,7 +130,7 @@ function animateBallPath(path, index) {
             }
 
             //Update the total reward points display
-            const rewardValEl = document.getElementById('reward-value');
+            //const rewardValEl = document.getElementById('reward-value');
             if (rewardValEl) {
                 rewardValEl.textContent = rewardPoints;
                 rewardValEl.style.color = rewardPoints >= 0 ? "#10b981" : "#ef4444";

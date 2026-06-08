@@ -30,7 +30,7 @@ const opDown = document.getElementById('opinion-down');
 const opLeft = document.getElementById('opinion-left');
 
 // Reward points display element
-const rewardValue = document.getElementById('reward-value');
+const rewardValEl = document.getElementById('reward-value');
 
 // Move & Reward History log element
 const historyLogEl = document.getElementById('move-history-log');
