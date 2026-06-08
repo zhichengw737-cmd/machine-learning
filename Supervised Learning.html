@@ -600,6 +600,93 @@ let memory = { cat: 0, dog: 0 };
 let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
 let categoryDiscovered = { cat: false, dog: false };
 
+// ================= COZY RETRO SOUND SYNTHESIZER =================
+let audioCtx = null;
+
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playSound(type) {
+  try {
+    initAudio();
+    if (!audioCtx) return;
+
+    const now = audioCtx.currentTime;
+    
+    if (type === 'click') {
+      // 🪵 Minecraft Style Wood/UI Click: short, tight burst of noise or low square wave
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(120, now);
+      osc.frequency.exponentialRampToValueAtTime(40, now + 0.05);
+      
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.06);
+    } 
+    else if (type === 'harvest') {
+      // 🌾 Stardew Valley Level-up / XP sparkle: Fast rising arpeggio (Square wave)
+      const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50]; // C Major scale arpeggio
+      notes.forEach((freq, index) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, now + (index * 0.05));
+        
+        gain.gain.setValueAtTime(0.04, now + (index * 0.05));
+        gain.gain.exponentialRampToValueAtTime(0.005, now + (index * 0.05) + 0.08);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + (index * 0.05));
+        osc.stop(now + (index * 0.05) + 0.09);
+      });
+    } 
+    else if (type === 'test') {
+      // 🔬 Retro verification scan blip
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(587.33, now + 0.08); // short happy jump
+      
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + 0.2);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    } 
+    else if (type === 'wipe') {
+      // 🔄 Vintage Game wrap-down / Descending grid sweep
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, now);
+      osc.frequency.linearRampToValueAtTime(80, now + 0.3);
+      
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.32);
+    }
+  } catch (e) {
+    console.log("Audio play blocked or unsupported:", e);
+  }
+}
+
 function logTerminal(text, type="info") {
   const box = document.getElementById("logTerminal");
   box.innerHTML += `<div class="log-line ${type}">⚔️ ${text}</div>`;
@@ -607,6 +694,7 @@ function logTerminal(text, type="info") {
 }
 
 function selectSlot(element) {
+  playSound('click'); // Play click sound
   document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
   element.classList.add('active');
   
@@ -680,6 +768,11 @@ function updateUI() {
 }
 
 function triggerTrain() {
+  const key = selectedValue;
+  if (trainedSamples[key]) { 
+    return logTerminal("⚠️ File coordinate layer has already been completely mined!", "error"); 
+  }
+  
   const frame = document.getElementById("imageFrame");
   frame.classList.add("scanning");
   setTimeout(() => {
@@ -691,7 +784,6 @@ function triggerTrain() {
 function train() {
   const key = selectedValue;
   const item = dataset[key];
-  if (trainedSamples[key]) { return logTerminal("⚠️ File coordinate layer has already been completely mined!", "error"); }
 
   trainedSamples[key] = true;
   logTerminal(`Assigning manual instruction label: [${item.label.toUpperCase()}]`, "teacher");
@@ -703,6 +795,7 @@ function train() {
     memory[item.label]++;
   }
 
+  playSound('harvest'); // Play Chiptune Level-up Arpeggio
   popFloatingXp(item.label === 'cat' ? 'rowCat' : 'rowDog');
   logTerminal(`📦 Extracted features added to the local inventory database.`, "learning");
   
@@ -746,6 +839,7 @@ function test() {
   const result = dogProb > catProb ? "DOG" : "CAT";
   const score = Math.max(catProb, dogProb);
 
+  playSound('test'); // Play Retro Scan Sound
   prediction.innerHTML = `🎯 Calculated Output: <b style="color:#fbbf24;">${result} Slot</b> (Probability Weight: ${score}%)`;
 
   logTerminal(`📊 Cat Weights Matrix: ${catProb}% | Dog Weights Matrix: ${dogProb}%`, "info");
@@ -763,6 +857,7 @@ function test() {
 }
 
 function reset() {
+  playSound('wipe'); // Play Descending Wipe Tone
   memory = { cat: 0, dog: 0 };
   trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
   categoryDiscovered = { cat: false, dog: false };
