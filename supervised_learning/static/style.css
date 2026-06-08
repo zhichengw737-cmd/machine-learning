@@ -1,0 +1,489 @@
+/* ================= Cozy Retro RPG Themes ================= */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  /* 🌾 Warm Stardew Valley dirt/farm gradient background */
+  background: linear-gradient(135deg, #fce7f3 0%, #ffedd5 50%, #fef3c7 100%);
+  min-height: 100vh;
+  color: #451a03;
+  padding-bottom: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Retro Fonts */
+.pixel-font { font-family: 'Press Start 2P', monospace; font-size: 11px; }
+.cozy-font { font-family: 'VT323', monospace; font-size: 20px; }
+
+/* Log Character Colors */
+.teacher { color: #b45309; font-weight: bold; }
+.learning { color: #16a34a; font-weight: bold; }
+.observation { color: #db2777; font-weight: bold; }
+.prediction-log { color: #dc2626; font-weight: bold; }
+
+
+/* ✨ Quest Complete Celebration Styles */
+.quest-completed-shine {
+  animation: goldPulse 1s infinite alternate !important;
+  background: #fef08a !important; /* Brighter gold background */
+  border-style: solid !important;
+}
+
+@keyframes goldPulse {
+  0% {
+    border-color: #eab308;
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
+  }
+  100% {
+    border-color: #facc15;
+    box-shadow: 0 0 25px rgba(250, 204, 21, 0.9), inset 0 0 15px rgba(250, 204, 21, 0.4);
+  }
+}
+
+.quest-title-pop {
+  animation: textPop 0.6s ease-out infinite alternate;
+  display: inline-block;
+}
+
+@keyframes textPop {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); color: #ca8a04; }
+}
+
+/* Confetti styling */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: 999;
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+/* ================= RPG Header Banner ================= */
+.hero {
+  /* 🪵 Rich Minecraft dark wood panel */
+  background: #5c3a21;
+  border-bottom: 6px solid #3d2514;
+  color: #fef3c7;
+  padding: 16px 20px;
+  text-align: center;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: #fbbf24;
+  text-shadow: 2px 2px 0px #000;
+  letter-spacing: -1px;
+}
+
+.hero p {
+  margin: 6px 0 0 0;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: #fcd34d;
+}
+
+/* ================= Layout Structure ================= */
+main {
+  max-width: 1200px;
+  margin: 20px auto;
+  display: flex;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+/* 📦 Stardew UI Window Box Style */
+.rpg-window {
+  background: #fffbeb;
+  border: 4px solid #7c2d12;
+  box-shadow: 
+    inset -4px -4px 0px #d97706,
+    inset 4px 4px 0px #fde68a,
+    0 6px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.left { flex: 1.2; display: flex; flex-direction: column; gap: 12px;}
+.right { flex: 1.8; display: flex; flex-direction: column; gap: 12px; }
+
+/* ================= Quest Box ================= */
+.quest-box {
+  background: #fef3c7;
+  border: 3px dashed #b45309;
+  padding: 10px;
+  margin-bottom: 4px;
+  transition: all 0.5s ease;
+}
+.quest-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #b45309;
+  margin-bottom: 4px;
+}
+
+/* ================= Fancy Grid Selection Panel ================= */
+.selection-container {
+  margin: 8px 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-title {
+  color: #7c2d12;
+  font-size: 10px;
+}
+
+.inventory-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #ecdcb9;
+  border: 3px solid #7c2d12;
+  padding: 8px;
+  box-shadow: inset 3px 3px 0px rgba(0,0,0,0.15);
+}
+
+.grid-item {
+  width: 44px;
+  height: 44px;
+  background: #fffbeb;
+  border: 3px solid #b45309;
+  box-shadow: inset -3px -3px 0px rgba(180, 83, 9, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s ease;
+}
+
+.grid-item:hover {
+  background: #fef3c7;
+  transform: scale(1.05);
+}
+
+/* Selected Active State Ring */
+.grid-item.active {
+  border-color: #16a34a;
+  background: #dcfce7;
+  box-shadow: 0 0 0 3px #22c55e, inset -3px -3px 0px rgba(22, 163, 74, 0.2);
+}
+
+/* Fancy Animated Boss Slot Frame */
+.grid-item.boss-item {
+  border-color: #db2777;
+  background: #fce7f3;
+}
+.grid-item.boss-item.active {
+  border-color: #dc2626;
+  background: #fee2e2;
+  box-shadow: 0 0 0 3px #f43f5e;
+}
+
+.item-emoji {
+  font-size: 22px;
+  user-select: none;
+}
+
+/* Retro Pixel Tooltips */
+.grid-item .tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e1b4b;
+  color: #fbbf24;
+  text-align: center;
+  padding: 6px 10px;
+  border: 2px solid #fbbf24;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+}
+
+.grid-item:hover .tooltip-text {
+  visibility: visible;
+}
+
+.active-label {
+  font-size: 18px;
+  color: #7c2d12;
+  background: #fef3c7;
+  padding: 4px 10px;
+  border-left: 4px solid #b45309;
+}
+
+/* ================= Item Frame (Image Box) ================= */
+.item-frame {
+  height: 260px; /* Reduced to safely sit within laptop viewports */
+  background: #1e1b4b; /* Dark void space */
+  border: 6px solid #451a03;
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.item-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated; /* Keeps graphics sharp */
+  transition: transform 0.2s ease;
+}
+
+/* 🟩 Blocky Minecraft-Style Scan Line */
+.item-frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: #22c55e;
+  box-shadow: 0 0 12px #22c55e;
+  opacity: 0;
+  top: 0;
+}
+.item-frame.scanning::after {
+  animation: blockScan 1s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes blockScan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+/* Target Crosshair Rings */
+.feature-circle {
+  position: absolute;
+  border: 4px dotted #f43f5e;
+  background: rgba(244, 63, 94, 0.25);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+/* ================= Controls & Pixel Buttons ================= */
+.inventory-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.pixel-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: white;
+  padding: 12px;
+  cursor: pointer;
+  border: 3px solid #000;
+  box-shadow: inset -3px -3px 0px rgba(0,0,0,0.4);
+  text-shadow: 1px 1px 0px #000;
+  image-rendering: pixelated;
+  flex: 1;
+}
+
+.btn-green { background: #16a34a; border-color: #22c55e #14532d #14532d #22c55e; }
+.btn-green:active:not(:disabled) { box-shadow: inset 3px 3px 0px rgba(0,0,0,0.6); }
+
+.btn-pink { background: #db2777; border-color: #f43f5e #500724 #500724 #f43f5e; }
+.btn-pink:active:not(:disabled) { box-shadow: inset 3px 3px 0px rgba(0,0,0,0.6); }
+
+.btn-wood { background: #b45309; border-color: #f59e0b #451a03 #451a03 #f59e0b; flex: 0.5; }
+.btn-wood:active { box-shadow: inset 3px 3px 0px rgba(0,0,0,0.6); }
+
+button:disabled {
+  background: #94a3b8 !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ================= Inventory Slots & Experience Grid ================= */
+.inventory-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #7c2d12;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  background: #f0e6d2;
+  border: 3px solid #7c2d12;
+  padding: 8px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+/* Floating XP Animation Hook */
+@keyframes floatXp {
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-25px); }
+}
+.xp-pop {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #16a34a;
+  text-shadow: 1px 1px 0 #000;
+  animation: floatXp 0.8s ease-out forwards;
+  pointer-events: none;
+}
+
+.slot-icon {
+  font-size: 24px;
+  background: #d97706;
+  border: 3px solid #451a03;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.bar-wrapper { flex: 1; margin-left: 10px; }
+
+.xp-container {
+  width: 100%;
+  background: #451a03;
+  border: 2px solid #7c2d12;
+  height: 12px;
+  padding: 1px;
+}
+
+/* 🟩 Bright Minecraft green skill/XP bar */
+.xp-bar {
+  height: 100%;
+  background: #10b981;
+  width: 0%;
+  transition: width 0.4s ease-out;
+}
+
+.loot-tags { margin-top: 4px; display: none; }
+.loot-item {
+  display: inline-block;
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  padding: 1px 6px;
+  background: #7c2d12;
+  color: #fef3c7;
+  border: 2px solid #451a03;
+  margin: 1px;
+}
+.loot-item.mastered {
+  background: #10b981;
+  color: #14532d;
+  border-color: #047857;
+}
+
+/* ================= Computer Console Screen ================= */
+.monitor-screen {
+  background: #1a120b;
+  border: 4px solid #3c2a21;
+  padding: 10px;
+  color: #f5f5f5;
+  text-align: center;
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+}
+#prediction { font-size: 20px; margin: 4px 0 0 0; color: #a7f3d0; }
+
+/* Scrollable Quest Log Terminal */
+.terminal-log {
+  background: #fafaf9;
+  border: 3px solid #7c2d12;
+  height: 105px; /* Scaled down slightly to fit smaller screens */
+  overflow-y: auto;
+  padding: 8px;
+}
+.log-line {
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  margin-bottom: 2px;
+  border-bottom: 1px dashed #e7e5e4;
+}
+
+/* ================= Guide Footer Cards ================= */
+.guide-container {
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+  padding: 0 16px;
+}
+.guide-container h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  text-align: center;
+  color: #7c2d12;
+  margin-bottom: 14px;
+}
+.grid { display: flex; gap: 12px; }
+.rpg-card {
+  flex: 1;
+  transition: transform 0.2s ease;
+  padding: 12px;
+}
+.rpg-card h4 { margin: 0 0 4px 0; color: #b45309; }
+.rpg-card p { margin: 0; font-size: 18px; }
+
+/* ================= External Links Container ================= */
+.research-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+.link-grid {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+.link-card {
+  flex: 1;
+  text-align: center;
+  background: #fffbeb;
+  border: 4px dashed #7c2d12;
+  border-radius: 4px;
+  padding: 16px;
+}
+.link-card h5 {
+  margin: 0 0 8px 0;
+  color: #7c2d12;
+}
+.rpg-link {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #16a34a;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.rpg-link:hover {
+  color: #b45309;
+  border-bottom-color: #b45309;
+}
+
+/* 🖥️ Extra protection rule for standard compact laptops */
+@media (max-height: 800px) {
+  main { margin: 10px auto; }
+  .item-frame { height: 230px; }
+  .terminal-log { height: 90px; }
+}

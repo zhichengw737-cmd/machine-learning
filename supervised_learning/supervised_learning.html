@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>🕹️ Crafting AI: Pixel Pattern Academy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../supervised_learning/static/style.css">
+
+</head>
+
+<body>
+
+<header class="hero">
+  <h1>🕹️ CRAFTING AI NETWORK</h1>
+  <p>Load custom patterns, harvest feature tokens, and level up the model matrix!</p>
+</header>
+
+<main>
+  <div class="left">
+    <div class="rpg-window">
+      <div id="questBox" class="quest-box">
+        <div class="quest-title">📜 ACTIVE QUEST:</div>
+        <div id="questText" class="cozy-font">Collect enough sample points to level up both standard matrices to Master Rank!</div>
+      </div>
+
+      <div class="selection-container">
+        <div class="pixel-font label-title">🎒 SELECT DATA MAP KEY:</div>
+        
+        <div class="inventory-grid">
+          <div class="grid-item active" data-value="cat1" onclick="selectSlot(this)">
+            <span class="item-emoji">🐱</span>
+            <span class="tooltip-text">Map File: Stray Cat A</span>
+          </div>
+          <div class="grid-item" data-value="cat2" onclick="selectSlot(this)">
+            <span class="item-emoji">🐱</span>
+            <span class="tooltip-text">Map File: Tabby Cat B</span>
+          </div>
+          <div class="grid-item" data-value="cat3" onclick="selectSlot(this)">
+            <span class="item-emoji">🐱</span>
+            <span class="tooltip-text">Map File: Calico Cat C</span>
+          </div>
+
+          <div class="grid-item" data-value="dog1" onclick="selectSlot(this)">
+            <span class="item-emoji">🐶</span>
+            <span class="tooltip-text">Map File: Hound Dog A</span>
+          </div>
+          <div class="grid-item" data-value="dog2" onclick="selectSlot(this)">
+            <span class="item-emoji">🐶</span>
+            <span class="tooltip-text">Map File: Puppy Dog B</span>
+          </div>
+          <div class="grid-item" data-value="dog3" onclick="selectSlot(this)">
+            <span class="item-emoji">🐶</span>
+            <span class="tooltip-text">Map File: Retriever C</span>
+          </div>
+
+          <div class="grid-item boss-item" data-value="shiba1" onclick="selectSlot(this)">
+            <span class="item-emoji">🦊</span>
+            <span class="tooltip-text">⚠️ BOSS: Shiba Paradox</span>
+          </div>
+        </div>
+        
+        <div id="activeItemLabel" class="cozy-font active-label">Selected: Map File: Stray Cat A</div>
+      </div>
+
+      <div class="inventory-controls">
+        <button class="pixel-btn btn-green" onclick="triggerTrain()">🏋️‍♂️ Harvest Data</button>
+        <button class="pixel-btn btn-pink" onclick="triggerTest()">🔬 Boot Test</button>
+        <button class="pixel-btn btn-wood" onclick="reset()">🔄 Wipe</button>
+      </div>
+    </div>
+
+    <div class="item-frame" id="imageFrame">
+      <img id="image" alt="retro animal render">
+      <div id="circle1" class="feature-circle"></div>
+      <div id="circle2" class="feature-circle"></div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="rpg-window">
+      <div class="inventory-title">📊 MATRIX SKILL TREE</div>
+      
+      <div id="rowCat" class="stat-row">
+        <div class="slot-icon">🐱</div>
+        <div class="bar-wrapper">
+          <div id="catRank" class="pixel-font" style="color:#7c2d12; margin-bottom:4px;">LVL 0/2 INVENTORY</div>
+          <div class="xp-container"><div id="catBar" class="xp-bar"></div></div>
+          <div id="catLoot" class="loot-tags">
+            <span class="loot-item">📐 Vector Ear Triangles</span>
+            <span class="loot-item">🐱 Linear Whiskers Cluster</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="rowDog" class="stat-row">
+        <div class="slot-icon">🐶</div>
+        <div class="bar-wrapper">
+          <div id="dogRank" class="pixel-font" style="color:#7c2d12; margin-bottom:4px;">LVL 0/2 INVENTORY</div>
+          <div class="xp-container"><div id="dogBar" class="xp-bar"></div></div>
+          <div id="dogLoot" class="loot-tags">
+            <span class="loot-item">🐶 Dropped Flap Ear Texture</span>
+            <span class="loot-item">👃 Extended Snout Coordinate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="monitor-screen">
+      <div class="pixel-font" style="color:#fbbf24; font-size:10px;">📡 MATRIX PROBABILITY ARRAY</div>
+      <p id="prediction" class="cozy-font">Awaiting vector maps...</p>
+    </div>
+
+    <div class="rpg-window" style="padding:14px;">
+      <div class="pixel-font" style="color:#7c2d12; margin-bottom:8px;">📜 QUEST LOG TERMINAL</div>
+      <div class="terminal-log" id="logTerminal"></div>
+    </div>
+  </div>
+</main>
+
+<div class="guide-container">
+  <h3>📘 CUNNING ADVENTURER'S TRAINING MANUAL</h3>
+  <div class="grid">
+    <div class="rpg-window rpg-card">
+      <h4 class="pixel-font">1. Supervised Labels</h4>
+      <p class="cozy-font">The human teacher builds the answer guide. Supervised math pairs an image array with a designated tag indicator so paths align.</p>
+    </div>
+    <div class="rpg-window rpg-card">
+      <h4 class="pixel-font">2. Feature Coordinates</h4>
+      <p class="cozy-font">An AI doesn't see characters or animals! It maps numeric clusters of gradient curves, edges, and contrast variations.</p>
+    </div>
+    <div class="rpg-window rpg-card">
+      <h4 class="pixel-font">3. Weighted Outcomes</h4>
+      <p class="cozy-font">Feeding multiple targets reinforces parameter node tracks. Unlabeled files (like the Shiba Boss) calculate based on conflicting weights!</p>
+    </div>
+  </div>
+</div>
+
+<div class="research-container">
+  <div class="rpg-window">
+    <div class="pixel-font" style="color:#7c2d12; font-size:12px; text-align:center; margin-bottom:14px;">📚 EXTENDED RESEARCH ARCHIVES</div>
+    <div class="link-grid">
+      <div class="link-card">
+        <h5 class="pixel-font">Global Overview</h5>
+        <a href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank" class="rpg-link" onclick="playSound('click')">🌐 Wikipedia Page</a>
+      </div>
+      <div class="link-card">
+        <h5 class="pixel-font">Academic Papers</h5>
+        <a href="https://scholar.google.com/scholar?q=machine+learning" target="_blank" class="rpg-link" onclick="playSound('click')">🎓 Google Scholar</a>
+      </div>
+      <div class="link-card">
+        <h5 class="pixel-font">Industry Trends</h5>
+        <a href="https://www.technologyreview.com/" target="_blank" class="rpg-link" onclick="playSound('click')">📰 MIT Tech Review</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../supervised_learning/static/script.js"></script>
+
+</body>
+</html>
