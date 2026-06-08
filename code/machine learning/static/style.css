@@ -38,10 +38,17 @@ h1 {
 .right-panel {
     flex: 0.8;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #121b28;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.right-panel h3 {
+    margin-top: 0;
+    color: #0f172a;
+    font-size: 22px;
+    margin-bottom: 15px;
 }
 
 /* Controls & Dashboard */
