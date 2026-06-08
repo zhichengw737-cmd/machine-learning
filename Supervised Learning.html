@@ -486,8 +486,9 @@ function showInput() {
 
 function updateButtons() {
   const key = inputSelect.value;
-  const trainBtn = document.querySelector(".btn-train");
-  const testBtn = document.querySelector(".btn-test");
+  // Fixed mapping targets here to sync up with correct CSS button hooks
+  const trainBtn = document.querySelector(".btn-green");
+  const testBtn = document.querySelector(".btn-pink");
   const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
 
   trainBtn.disabled = (key === "shiba1");
