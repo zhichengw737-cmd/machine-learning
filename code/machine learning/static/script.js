@@ -181,7 +181,8 @@ function initGrid() {
     updateMazeUnlockStatus();
 
     // Reset Move & Reward History log to initial state when initializing the grid to avoid confusion with previous runs
-    historyLogEl.className = 'history-placeholder';
+    //historyLogEl.className = 'history-placeholder';
+    historyLogEl.classList.add('history-placeholder');
     historyLogEl.innerHTML = 'Waiting for simulation...';
 }
 
