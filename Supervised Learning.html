@@ -18,6 +18,8 @@ body {
   min-height: 100vh;
   color: #451a03;
   padding-bottom: 20px;
+  position: relative;
+  overflow-x: hidden;
 }
 
 /* Retro Fonts */
@@ -29,6 +31,45 @@ body {
 .learning { color: #16a34a; font-weight: bold; }
 .observation { color: #db2777; font-weight: bold; }
 .prediction-log { color: #dc2626; font-weight: bold; }
+
+
+/* ✨ Quest Complete Celebration Styles */
+.quest-completed-shine {
+  animation: goldPulse 1s infinite alternate !important;
+  background: #fef08a !important; /* Brighter gold background */
+  border-style: solid !important;
+}
+
+@keyframes goldPulse {
+  0% {
+    border-color: #eab308;
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
+  }
+  100% {
+    border-color: #facc15;
+    box-shadow: 0 0 25px rgba(250, 204, 21, 0.9), inset 0 0 15px rgba(250, 204, 21, 0.4);
+  }
+}
+
+.quest-title-pop {
+  animation: textPop 0.6s ease-out infinite alternate;
+  display: inline-block;
+}
+
+@keyframes textPop {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); color: #ca8a04; }
+}
+
+/* Confetti styling */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: 999;
+  pointer-events: none;
+  border-radius: 2px;
+}
 
 /* ================= RPG Header Banner ================= */
 .hero {
@@ -87,6 +128,7 @@ main {
   border: 3px dashed #b45309;
   padding: 10px;
   margin-bottom: 4px;
+  transition: all 0.5s ease;
 }
 .quest-title {
   font-family: 'Press Start 2P', monospace;
@@ -394,7 +436,7 @@ button:disabled {
 /* ================= Guide Footer Cards ================= */
 .guide-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   padding: 0 16px;
 }
 .guide-container h3 {
@@ -412,6 +454,43 @@ button:disabled {
 }
 .rpg-card h4 { margin: 0 0 4px 0; color: #b45309; }
 .rpg-card p { margin: 0; font-size: 18px; }
+
+/* ================= External Links Container ================= */
+.research-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+.link-grid {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+.link-card {
+  flex: 1;
+  text-align: center;
+  background: #fffbeb;
+  border: 4px dashed #7c2d12;
+  border-radius: 4px;
+  padding: 16px;
+}
+.link-card h5 {
+  margin: 0 0 8px 0;
+  color: #7c2d12;
+}
+.rpg-link {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #16a34a;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.rpg-link:hover {
+  color: #b45309;
+  border-bottom-color: #b45309;
+}
 
 /* 🖥️ Extra protection rule for standard compact laptops */
 @media (max-height: 800px) {
@@ -432,7 +511,7 @@ button:disabled {
 <main>
   <div class="left">
     <div class="rpg-window">
-      <div class="quest-box">
+      <div id="questBox" class="quest-box">
         <div class="quest-title">📜 ACTIVE QUEST:</div>
         <div id="questText" class="cozy-font">Collect enough sample points to level up both standard matrices to Master Rank!</div>
       </div>
@@ -549,6 +628,26 @@ button:disabled {
   </div>
 </div>
 
+<div class="research-container">
+  <div class="rpg-window">
+    <div class="pixel-font" style="color:#7c2d12; font-size:12px; text-align:center; margin-bottom:14px;">📚 EXTENDED RESEARCH ARCHIVES</div>
+    <div class="link-grid">
+      <div class="link-card">
+        <h5 class="pixel-font">Global Overview</h5>
+        <a href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank" class="rpg-link" onclick="playSound('click')">🌐 Wikipedia Page</a>
+      </div>
+      <div class="link-card">
+        <h5 class="pixel-font">Academic Papers</h5>
+        <a href="https://scholar.google.com/scholar?q=machine+learning" target="_blank" class="rpg-link" onclick="playSound('click')">🎓 Google Scholar</a>
+      </div>
+      <div class="link-card">
+        <h5 class="pixel-font">Industry Trends</h5>
+        <a href="https://www.technologyreview.com/" target="_blank" class="rpg-link" onclick="playSound('click')">📰 MIT Tech Review</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const dataset = {
   cat1: { 
@@ -599,6 +698,7 @@ let selectedValue = "cat1";
 let memory = { cat: 0, dog: 0 };
 let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
 let categoryDiscovered = { cat: false, dog: false };
+let questCelebrated = false;
 
 // ================= COZY RETRO SOUND SYNTHESIZER =================
 let audioCtx = null;
@@ -617,7 +717,6 @@ function playSound(type) {
     const now = audioCtx.currentTime;
     
     if (type === 'click') {
-      // 🪵 Minecraft Style Wood/UI Click: short, tight burst of noise or low square wave
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'triangle';
@@ -633,8 +732,7 @@ function playSound(type) {
       osc.stop(now + 0.06);
     } 
     else if (type === 'harvest') {
-      // 🌾 Stardew Valley Level-up / XP sparkle: Fast rising arpeggio (Square wave)
-      const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50]; // C Major scale arpeggio
+      const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, index) => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
@@ -651,12 +749,11 @@ function playSound(type) {
       });
     } 
     else if (type === 'test') {
-      // 🔬 Retro verification scan blip
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(440, now);
-      osc.frequency.setValueAtTime(587.33, now + 0.08); // short happy jump
+      osc.frequency.setValueAtTime(587.33, now + 0.08);
       
       gain.gain.setValueAtTime(0.08, now);
       gain.gain.exponentialRampToValueAtTime(0.005, now + 0.2);
@@ -667,7 +764,6 @@ function playSound(type) {
       osc.stop(now + 0.22);
     } 
     else if (type === 'wipe') {
-      // 🔄 Vintage Game wrap-down / Descending grid sweep
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sawtooth';
@@ -682,8 +778,61 @@ function playSound(type) {
       osc.start(now);
       osc.stop(now + 0.32);
     }
+    else if (type === 'victory') {
+      // 🌟 Multi-tone Retro Level Up Fanfare
+      const victoryNotes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00];
+      victoryNotes.forEach((freq, index) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = (index % 2 === 0) ? 'square' : 'triangle';
+        osc.frequency.setValueAtTime(freq, now + (index * 0.08));
+        
+        gain.gain.setValueAtTime(0.06, now + (index * 0.08));
+        gain.gain.exponentialRampToValueAtTime(0.001, now + (index * 0.08) + 0.25);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + (index * 0.08));
+        osc.stop(now + (index * 0.08) + 0.26);
+      });
+    }
   } catch (e) {
     console.log("Audio play blocked or unsupported:", e);
+  }
+}
+
+// 🎊 Confetti Engine for Celebration feedback
+function spawnConfetti() {
+  const colors = ['#facc15', '#f43f5e', '#3b82f6', '#10b981', '#a855f7', '#f97316'];
+  for (let i = 0; i < 80; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Random placement along top viewport
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.top = '-10px';
+    
+    // Random sizes and custom fall paths using unique JS animations
+    const size = Math.floor(Math.random() * 6) + 6;
+    confetti.style.width = size + 'px';
+    confetti.style.height = size + 'px';
+    
+    document.body.appendChild(confetti);
+    
+    const duration = Math.random() * 1.5 + 1.5;
+    const horizontalDrift = (Math.random() - 0.5) * 200;
+    
+    confetti.animate([
+      { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
+      { transform: `translateY(105vh) translateX(${horizontalDrift}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+    ], {
+      duration: duration * 1000,
+      easing: 'ease-out',
+      fill: 'forwards'
+    });
+    
+    setTimeout(() => confetti.remove(), duration * 1000);
   }
 }
 
@@ -694,7 +843,7 @@ function logTerminal(text, type="info") {
 }
 
 function selectSlot(element) {
-  playSound('click'); // Play click sound
+  playSound('click');
   document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
   element.classList.add('active');
   
@@ -757,11 +906,22 @@ function updateUI() {
   document.getElementById("dogLoot").style.display = categoryDiscovered.dog ? "block" : "none";
 
   const quest = document.getElementById("questText");
+  const questBox = document.getElementById("questBox");
+  
   if (memory.cat >= 2 && memory.dog >= 2) {
-    document.getElementById("questText").parentElement.style.borderColor = "#22c55e";
-    quest.innerHTML = "<b style='color:#16a34a;'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly!";
+    questBox.classList.add("quest-completed-shine");
+    quest.innerHTML = "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly!";
+    
+    // Trigger special mission completion effect once
+    if (!questCelebrated) {
+      questCelebrated = true;
+      setTimeout(() => {
+        playSound('victory');
+        spawnConfetti();
+      }, 300);
+    }
   } else {
-    document.getElementById("questText").parentElement.style.borderColor = "#b45309";
+    questBox.classList.remove("quest-completed-shine");
     quest.textContent = "Collect enough sample points to level up both standard matrices to Master Rank!";
   }
   updateButtons();
@@ -795,7 +955,7 @@ function train() {
     memory[item.label]++;
   }
 
-  playSound('harvest'); // Play Chiptune Level-up Arpeggio
+  playSound('harvest');
   popFloatingXp(item.label === 'cat' ? 'rowCat' : 'rowDog');
   logTerminal(`📦 Extracted features added to the local inventory database.`, "learning");
   
@@ -839,7 +999,7 @@ function test() {
   const result = dogProb > catProb ? "DOG" : "CAT";
   const score = Math.max(catProb, dogProb);
 
-  playSound('test'); // Play Retro Scan Sound
+  playSound('test');
   prediction.innerHTML = `🎯 Calculated Output: <b style="color:#fbbf24;">${result} Slot</b> (Probability Weight: ${score}%)`;
 
   logTerminal(`📊 Cat Weights Matrix: ${catProb}% | Dog Weights Matrix: ${dogProb}%`, "info");
@@ -857,10 +1017,11 @@ function test() {
 }
 
 function reset() {
-  playSound('wipe'); // Play Descending Wipe Tone
+  playSound('wipe');
   memory = { cat: 0, dog: 0 };
   trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
   categoryDiscovered = { cat: false, dog: false };
+  questCelebrated = false;
   prediction.textContent = "Awaiting vector maps...";
   document.getElementById("logTerminal").innerHTML = "🔄 Matrix database storage wiped completely. Loop restarted!";
   
