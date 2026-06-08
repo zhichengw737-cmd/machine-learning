@@ -21,7 +21,6 @@ body {
 .observation { color: #db2777; font-weight: bold; }
 .prediction-log { color: #dc2626; font-weight: bold; }
 
-
 /* ✨ Quest Complete Celebration Styles */
 .quest-completed-shine {
   animation: goldPulse 1s infinite alternate !important;
@@ -141,9 +140,9 @@ main {
 
 .inventory-grid {
   display: flex;
-  gap: 6px;                         /* Compact gap to keep everything comfortably on one line */
-  flex-wrap: nowrap;                /* Lock all items inside a clean, single row layout */
-  justify-content: space-between;   /* Distribute card selectors evenly along the layout axis */
+  gap: 6px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   background: #ecdcb9;
   border: 3px solid #7c2d12;
   padding: 8px;
@@ -225,8 +224,8 @@ main {
 
 /* ================= Item Frame (Image Box) ================= */
 .item-frame {
-  height: 260px; /* Reduced to safely sit within laptop viewports */
-  background: #1e1b4b; /* Dark void space */
+  height: 360px; /* Reduced from 480px to find a perfect balanced middle-ground */
+  background: #1e1b4b; 
   border: 6px solid #451a03;
   box-shadow: inset 4px 4px 10px rgba(0,0,0,0.8);
   display: flex;
@@ -234,13 +233,21 @@ main {
   align-items: center;
   overflow: hidden;
   position: relative;
+  transition: all 0.2s ease;
+}
+
+/* 🎯 Live User Annotation View State Layer Rules */
+.item-frame.annotation-mode {
+  border-color: #fbbf24 !important;
+  cursor: crosshair !important;    
+  box-shadow: inset 0 0 24px rgba(250, 204, 21, 0.6), 0 0 15px rgba(250, 204, 21, 0.4);
 }
 
 .item-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated; /* Keeps graphics sharp */
+  object-fit: cover; 
+  image-rendering: auto; 
   transition: transform 0.2s ease;
 }
 
@@ -412,7 +419,7 @@ button:disabled {
 .terminal-log {
   background: #fafaf9;
   border: 3px solid #7c2d12;
-  height: 175px; /* Increased from 105px to completely fill the bottom void */
+  height: 175px; 
   overflow-y: auto;
   padding: 8px;
 }
@@ -483,8 +490,8 @@ button:disabled {
 }
 
 /* 🖥️ Extra protection rule for standard compact laptops */
-@media (max-height: 800px) {
+@media (max-height: 900px) {
   main { margin: 10px auto; }
-  .item-frame { height: 230px; }
-  .terminal-log { height: 145px; } /* Adjusted to scale gracefully on smaller laptop screens */
+  .item-frame { height: 290px; } /* Scales down nicely to maintain screen real estate */
+  .terminal-log { height: 240px; } 
 }
