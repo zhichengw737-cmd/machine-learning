@@ -236,6 +236,7 @@ h1 {
 .opinion-text {
     font-style: italic;
     color: #475569;
+    font-size: 16px;
 }
 
 /* Real-time word updates pulse effect */
