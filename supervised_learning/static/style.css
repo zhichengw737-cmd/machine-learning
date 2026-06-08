@@ -141,8 +141,9 @@ main {
 
 .inventory-grid {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;                         /* Compact gap to keep everything comfortably on one line */
+  flex-wrap: nowrap;                /* Lock all items inside a clean, single row layout */
+  justify-content: space-between;   /* Distribute card selectors evenly along the layout axis */
   background: #ecdcb9;
   border: 3px solid #7c2d12;
   padding: 8px;
@@ -411,7 +412,7 @@ button:disabled {
 .terminal-log {
   background: #fafaf9;
   border: 3px solid #7c2d12;
-  height: 105px; /* Scaled down slightly to fit smaller screens */
+  height: 175px; /* Increased from 105px to completely fill the bottom void */
   overflow-y: auto;
   padding: 8px;
 }
@@ -485,5 +486,5 @@ button:disabled {
 @media (max-height: 800px) {
   main { margin: 10px auto; }
   .item-frame { height: 230px; }
-  .terminal-log { height: 90px; }
+  .terminal-log { height: 145px; } /* Adjusted to scale gracefully on smaller laptop screens */
 }
