@@ -17,7 +17,7 @@ body {
   background: linear-gradient(135deg, #fce7f3 0%, #ffedd5 50%, #fef3c7 100%);
   min-height: 100vh;
   color: #451a03;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 /* Retro Fonts */
@@ -36,34 +36,34 @@ body {
   background: #5c3a21;
   border-bottom: 6px solid #3d2514;
   color: #fef3c7;
-  padding: 24px 20px;
+  padding: 16px 20px;
   text-align: center;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
 }
 
 .hero h1 {
   margin: 0;
   font-family: 'Press Start 2P', monospace;
-  font-size: 24px;
+  font-size: 20px;
   color: #fbbf24;
-  text-shadow: 3px 3px 0px #000;
+  text-shadow: 2px 2px 0px #000;
   letter-spacing: -1px;
 }
 
 .hero p {
-  margin: 12px 0 0 0;
+  margin: 6px 0 0 0;
   font-family: 'VT323', monospace;
-  font-size: 24px;
+  font-size: 20px;
   color: #fcd34d;
 }
 
 /* ================= Layout Structure ================= */
 main {
-  max-width: 1100px;
-  margin: 40px auto;
+  max-width: 1200px;
+  margin: 20px auto;
   display: flex;
-  gap: 24px;
-  padding: 0 20px;
+  gap: 16px;
+  padding: 0 16px;
 }
 
 /* 📦 Stardew UI Window Box Style */
@@ -73,31 +73,127 @@ main {
   box-shadow: 
     inset -4px -4px 0px #d97706,
     inset 4px 4px 0px #fde68a,
-    0 8px 0px rgba(0, 0, 0, 0.1);
+    0 6px 0px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  padding: 20px;
+  padding: 16px;
 }
 
-.left { flex: 1.3; display: flex; flex-direction: column; gap: 16px;}
-.right { flex: 1.7; display: flex; flex-direction: column; gap: 20px; }
+.left { flex: 1.2; display: flex; flex-direction: column; gap: 12px;}
+.right { flex: 1.8; display: flex; flex-direction: column; gap: 12px; }
 
 /* ================= Quest Box ================= */
 .quest-box {
   background: #fef3c7;
   border: 3px dashed #b45309;
-  padding: 12px;
-  margin-bottom: 8px;
+  padding: 10px;
+  margin-bottom: 4px;
 }
 .quest-title {
   font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   color: #b45309;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+}
+
+/* ================= Fancy Grid Selection Panel ================= */
+.selection-container {
+  margin: 8px 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-title {
+  color: #7c2d12;
+  font-size: 10px;
+}
+
+.inventory-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #ecdcb9;
+  border: 3px solid #7c2d12;
+  padding: 8px;
+  box-shadow: inset 3px 3px 0px rgba(0,0,0,0.15);
+}
+
+.grid-item {
+  width: 44px;
+  height: 44px;
+  background: #fffbeb;
+  border: 3px solid #b45309;
+  box-shadow: inset -3px -3px 0px rgba(180, 83, 9, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s ease;
+}
+
+.grid-item:hover {
+  background: #fef3c7;
+  transform: scale(1.05);
+}
+
+/* Selected Active State Ring */
+.grid-item.active {
+  border-color: #16a34a;
+  background: #dcfce7;
+  box-shadow: 0 0 0 3px #22c55e, inset -3px -3px 0px rgba(22, 163, 74, 0.2);
+}
+
+/* Fancy Animated Boss Slot Frame */
+.grid-item.boss-item {
+  border-color: #db2777;
+  background: #fce7f3;
+}
+.grid-item.boss-item.active {
+  border-color: #dc2626;
+  background: #fee2e2;
+  box-shadow: 0 0 0 3px #f43f5e;
+}
+
+.item-emoji {
+  font-size: 22px;
+  user-select: none;
+}
+
+/* Retro Pixel Tooltips */
+.grid-item .tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e1b4b;
+  color: #fbbf24;
+  text-align: center;
+  padding: 6px 10px;
+  border: 2px solid #fbbf24;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+}
+
+.grid-item:hover .tooltip-text {
+  visibility: visible;
+}
+
+.active-label {
+  font-size: 18px;
+  color: #7c2d12;
+  background: #fef3c7;
+  padding: 4px 10px;
+  border-left: 4px solid #b45309;
 }
 
 /* ================= Item Frame (Image Box) ================= */
 .item-frame {
-  height: 340px;
+  height: 260px; /* Reduced to safely sit within laptop viewports */
   background: #1e1b4b; /* Dark void space */
   border: 6px solid #451a03;
   box-shadow: inset 4px 4px 10px rgba(0,0,0,0.8);
@@ -151,14 +247,14 @@ main {
 /* ================= Controls & Pixel Buttons ================= */
 .inventory-controls {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .pixel-btn {
   font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   color: white;
-  padding: 14px;
+  padding: 12px;
   cursor: pointer;
   border: 3px solid #000;
   box-shadow: inset -3px -3px 0px rgba(0,0,0,0.4);
@@ -190,7 +286,7 @@ button:disabled {
   font-family: 'Press Start 2P', monospace;
   font-size: 11px;
   color: #7c2d12;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
   text-align: center;
 }
 
@@ -199,8 +295,8 @@ button:disabled {
   align-items: center;
   background: #f0e6d2;
   border: 3px solid #7c2d12;
-  padding: 10px;
-  margin-bottom: 12px;
+  padding: 8px;
+  margin-bottom: 8px;
   position: relative;
 }
 
@@ -223,24 +319,24 @@ button:disabled {
 }
 
 .slot-icon {
-  font-size: 28px;
+  font-size: 24px;
   background: #d97706;
   border: 3px solid #451a03;
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: inset 2px 2px 4px rgba(0,0,0,0.4);
 }
 
-.bar-wrapper { flex: 1; margin-left: 12px; }
+.bar-wrapper { flex: 1; margin-left: 10px; }
 
 .xp-container {
   width: 100%;
   background: #451a03;
   border: 2px solid #7c2d12;
-  height: 14px;
+  height: 12px;
   padding: 1px;
 }
 
@@ -252,16 +348,16 @@ button:disabled {
   transition: width 0.4s ease-out;
 }
 
-.loot-tags { margin-top: 6px; display: none; }
+.loot-tags { margin-top: 4px; display: none; }
 .loot-item {
   display: inline-block;
   font-family: 'VT323', monospace;
-  font-size: 16px;
-  padding: 2px 8px;
+  font-size: 15px;
+  padding: 1px 6px;
   background: #7c2d12;
   color: #fef3c7;
   border: 2px solid #451a03;
-  margin: 2px;
+  margin: 1px;
 }
 .loot-item.mastered {
   background: #10b981;
@@ -273,50 +369,56 @@ button:disabled {
 .monitor-screen {
   background: #1a120b;
   border: 4px solid #3c2a21;
-  padding: 14px;
+  padding: 10px;
   color: #f5f5f5;
   text-align: center;
   box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
 }
-#prediction { font-size: 22px; margin: 6px 0 0 0; color: #a7f3d0; }
+#prediction { font-size: 20px; margin: 4px 0 0 0; color: #a7f3d0; }
 
 /* Scrollable Quest Log Terminal */
 .terminal-log {
   background: #fafaf9;
   border: 3px solid #7c2d12;
-  height: 140px;
+  height: 105px; /* Scaled down slightly to fit smaller screens */
   overflow-y: auto;
-  padding: 10px;
+  padding: 8px;
 }
 .log-line {
   font-family: 'VT323', monospace;
-  font-size: 18px;
-  margin-bottom: 4px;
+  font-size: 17px;
+  margin-bottom: 2px;
   border-bottom: 1px dashed #e7e5e4;
 }
 
 /* ================= Guide Footer Cards ================= */
 .guide-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 .guide-container h3 {
   font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
   color: #7c2d12;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
-.grid { display: flex; gap: 16px; }
+.grid { display: flex; gap: 12px; }
 .rpg-card {
   flex: 1;
   transition: transform 0.2s ease;
+  padding: 12px;
 }
-.rpg-card:hover {
-  transform: scale(1.02);
+.rpg-card h4 { margin: 0 0 4px 0; color: #b45309; }
+.rpg-card p { margin: 0; font-size: 18px; }
+
+/* 🖥️ Extra protection rule for standard compact laptops */
+@media (max-height: 800px) {
+  main { margin: 10px auto; }
+  .item-frame { height: 230px; }
+  .terminal-log { height: 90px; }
 }
-.rpg-card h4 { margin: 0 0 6px 0; color: #b45309; }
 </style>
 </head>
 
@@ -335,16 +437,44 @@ button:disabled {
         <div id="questText" class="cozy-font">Collect enough sample points to level up both standard matrices to Master Rank!</div>
       </div>
 
-      <label class="pixel-font" style="color:#7c2d12;">👉 Select Image Map Slot:</label>
-      <select id="inputSelect" onchange="showInput()" class="animal-select cozy-font">
-        <option value="cat1">🐱 Map File: Stray Cat A</option>
-        <option value="cat2">🐱 Map File: Tabby Cat B</option>
-        <option value="cat3">🐱 Map File: Calico Cat C</option>
-        <option value="dog1">🐶 Map File: Hound Dog A</option>
-        <option value="dog2">🐶 Map File: Puppy Dog B</option>
-        <option value="dog3">🐶 Map File: Retriever C</option>
-        <option value="shiba1">🦊 BOSS LEVEL: Unlabeled Shiba Paradox</option>
-      </select>
+      <div class="selection-container">
+        <div class="pixel-font label-title">🎒 SELECT DATA MAP KEY:</div>
+        
+        <div class="inventory-grid">
+          <div class="grid-item active" data-value="cat1" onclick="selectSlot(this)">
+            <span class="item-emoji">🐱</span>
+            <span class="tooltip-text">Map File: Stray Cat A</span>
+          </div>
+          <div class="grid-item" data-value="cat2" onclick="selectSlot(this)">
+            <span class="item-emoji">🐱</span>
+            <span class="tooltip-text">Map File: Tabby Cat B</span>
+          </div>
+          <div class="grid-item" data-value="cat3" onclick="selectSlot(this)">
+            <span class="item-emoji">🐱</span>
+            <span class="tooltip-text">Map File: Calico Cat C</span>
+          </div>
+
+          <div class="grid-item" data-value="dog1" onclick="selectSlot(this)">
+            <span class="item-emoji">🐶</span>
+            <span class="tooltip-text">Map File: Hound Dog A</span>
+          </div>
+          <div class="grid-item" data-value="dog2" onclick="selectSlot(this)">
+            <span class="item-emoji">🐶</span>
+            <span class="tooltip-text">Map File: Puppy Dog B</span>
+          </div>
+          <div class="grid-item" data-value="dog3" onclick="selectSlot(this)">
+            <span class="item-emoji">🐶</span>
+            <span class="tooltip-text">Map File: Retriever C</span>
+          </div>
+
+          <div class="grid-item boss-item" data-value="shiba1" onclick="selectSlot(this)">
+            <span class="item-emoji">🦊</span>
+            <span class="tooltip-text">⚠️ BOSS: Shiba Paradox</span>
+          </div>
+        </div>
+        
+        <div id="activeItemLabel" class="cozy-font active-label">Selected: Map File: Stray Cat A</div>
+      </div>
 
       <div class="inventory-controls">
         <button class="pixel-btn btn-green" onclick="triggerTrain()">🏋️‍♂️ Harvest Data</button>
@@ -465,6 +595,7 @@ const dataset = {
   }
 };
 
+let selectedValue = "cat1";
 let memory = { cat: 0, dog: 0 };
 let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
 let categoryDiscovered = { cat: false, dog: false };
@@ -475,9 +606,20 @@ function logTerminal(text, type="info") {
   box.scrollTop = box.scrollHeight;
 }
 
+function selectSlot(element) {
+  document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
+  element.classList.add('active');
+  
+  selectedValue = element.getAttribute('data-value');
+  const tooltipText = element.querySelector('.tooltip-text').textContent;
+  document.getElementById('activeItemLabel').textContent = `Selected: ${tooltipText}`;
+  
+  showInput();
+}
+
 function showInput() {
   const imgEl = document.getElementById("image");
-  imgEl.src = dataset[inputSelect.value].img;
+  imgEl.src = dataset[selectedValue].img;
   hideFeatureCircles();
   prediction.innerHTML = "📡 <i>Awaiting data scan instructions...</i>";
   document.getElementById("logTerminal").innerHTML = "";
@@ -485,8 +627,7 @@ function showInput() {
 }
 
 function updateButtons() {
-  const key = inputSelect.value;
-  // Fixed mapping targets here to sync up with correct CSS button hooks
+  const key = selectedValue;
   const trainBtn = document.querySelector(".btn-green");
   const testBtn = document.querySelector(".btn-pink");
   const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
@@ -548,7 +689,7 @@ function triggerTrain() {
 }
 
 function train() {
-  const key = inputSelect.value;
+  const key = selectedValue;
   const item = dataset[key];
   if (trainedSamples[key]) { return logTerminal("⚠️ File coordinate layer has already been completely mined!", "error"); }
 
@@ -579,7 +720,7 @@ function triggerTest() {
 }
 
 function test() {
-  const key = inputSelect.value;
+  const key = selectedValue;
   const item = dataset[key];
 
   let catProb = 0, dogProb = 0;
@@ -627,8 +768,16 @@ function reset() {
   categoryDiscovered = { cat: false, dog: false };
   prediction.textContent = "Awaiting vector maps...";
   document.getElementById("logTerminal").innerHTML = "🔄 Matrix database storage wiped completely. Loop restarted!";
+  
+  document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
+  const firstItem = document.querySelector('.grid-item');
+  firstItem.classList.add('active');
+  selectedValue = "cat1";
+  document.getElementById('activeItemLabel').textContent = "Selected: Map File: Stray Cat A";
+
   hideFeatureCircles();
   updateUI();
+  showInput();
 }
 
 showInput();
