@@ -40,6 +40,12 @@ const dataset = {
     label: "unknown",
     c1: { top: "20%", left: "60%", size: "75px" },
     c2: { top: "30%", left: "45%", size: "60px" }
+  },
+  bird1: {
+    img: "https://images.unsplash.com/photo-1444464666168-49d633b86797",
+    label: "unknown",
+    c1: { top: "0%", left: "0%", size: "0px" },
+    c2: { top: "0%", left: "0%", size: "0px" }
   }
 };
 
@@ -128,7 +134,6 @@ function playSound(type) {
       osc.stop(now + 0.32);
     }
     else if (type === 'victory') {
-      // 🌟 Multi-tone Retro Level Up Fanfare
       const victoryNotes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00];
       victoryNotes.forEach((freq, index) => {
         const osc = audioCtx.createOscillator();
@@ -150,7 +155,6 @@ function playSound(type) {
   }
 }
 
-// 🎊 Confetti Engine for Celebration feedback
 function spawnConfetti() {
   const colors = ['#facc15', '#f43f5e', '#3b82f6', '#10b981', '#a855f7', '#f97316'];
   for (let i = 0; i < 80; i++) {
@@ -158,11 +162,9 @@ function spawnConfetti() {
     confetti.className = 'confetti';
     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
     
-    // Random placement along top viewport
     confetti.style.left = Math.random() * 100 + 'vw';
     confetti.style.top = '-10px';
     
-    // Random sizes and custom fall paths using unique JS animations
     const size = Math.floor(Math.random() * 6) + 6;
     confetti.style.width = size + 'px';
     confetti.style.height = size + 'px';
@@ -218,8 +220,8 @@ function updateButtons() {
   const testBtn = document.querySelector(".btn-pink");
   const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
 
-  trainBtn.disabled = (key === "shiba1");
-  testBtn.disabled = (key === "shiba1" && !fullyTrained);
+  trainBtn.disabled = (key === "shiba1" || key === "bird1");
+  testBtn.disabled = ((key === "shiba1" || key === "bird1") && !fullyTrained);
 }
 
 function hideFeatureCircles() {
@@ -261,7 +263,6 @@ function updateUI() {
     questBox.classList.add("quest-completed-shine");
     quest.innerHTML = "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly!";
     
-    // Trigger special mission completion effect once
     if (!questCelebrated) {
       questCelebrated = true;
       setTimeout(() => {
@@ -332,7 +333,12 @@ function test() {
 
   if (key === "shiba1") {
     if (!fullyTrained) return logTerminal("🔒 Boss instance locked! Max out both base inventory grids first.", "error");
+    // Shiba sits on a fence between 47% and 60%
     catProb = Math.floor(Math.random() * 14) + 47; dogProb = 100 - catProb;
+  } else if (key === "bird1") {
+    if (!fullyTrained) return logTerminal("🔒 Boss instance locked! Max out both base inventory grids first.", "error");
+    // Bird drops unique erratic variance weights entirely unaligned with standard arrays
+    catProb = Math.floor(Math.random() * 30) + 35; dogProb = 100 - catProb;
   } else if (key.startsWith("cat")) {
     if (memory.cat === 0) catProb = Math.floor(Math.random() * 6) + 47;
     else if (memory.cat === 1) catProb = Math.floor(Math.random() * 11) + 58;
@@ -353,12 +359,14 @@ function test() {
 
   logTerminal(`📊 Cat Weights Matrix: ${catProb}% | Dog Weights Matrix: ${dogProb}%`, "info");
 
-  if ((item.label === "cat" && memory.cat > 0) || (item.label === "dog" && memory.dog > 0) || (key === "shiba1")) {
-    if (key === "shiba1") {
-      logTerminal("🚨 WARNING PARADOX: Sharp triangle structures AND extended snout slopes found simultaneously inside one data slot!", "error");
-    } else {
-      logTerminal(`✨ Matrix highlights localized pattern matches over target image frames.`, "observation");
-    }
+  if (key === "shiba1") {
+    logTerminal("🚨 WARNING PARADOX: Sharp triangle structures AND extended snout slopes found simultaneously inside one data slot!", "error");
+    displayFeatureCircles(item);
+  } else if (key === "bird1") {
+    logTerminal("🚨 CRITICAL ZERO-MATCH: No known snout profiles or whisker channels mapped! Vector pathways out of bounds!", "error");
+    hideFeatureCircles(); // Completely hide feature boundaries because no cat/dog parameters exist here!
+  } else if ((item.label === "cat" && memory.cat > 0) || (item.label === "dog" && memory.dog > 0)) {
+    logTerminal(`✨ Matrix highlights localized pattern matches over target image frames.`, "observation");
     displayFeatureCircles(item);
   } else {
     hideFeatureCircles();
