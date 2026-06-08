@@ -261,7 +261,7 @@ function updateUI() {
   
   if (memory.cat >= 2 && memory.dog >= 2) {
     questBox.classList.add("quest-completed-shine");
-    quest.innerHTML = "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly!";
+    quest.innerHTML = "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly! Now you can try the boss data slots if you dare...";
     
     if (!questCelebrated) {
       questCelebrated = true;
@@ -386,7 +386,7 @@ function reset() {
   const firstItem = document.querySelector('.grid-item');
   firstItem.classList.add('active');
   selectedValue = "cat1";
-  document.getElementById('activeItemLabel').textContent = "Selected: Map File: Stray Cat A";
+  document.getElementById('activeItemLabel').textContent = "Selected: Map File: Tabby Cat A";
 
   hideFeatureCircles();
   updateUI();
