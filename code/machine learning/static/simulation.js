@@ -15,9 +15,18 @@ function runSimulation() {
         rewardValEl.style.color = "#10b981";
     }
 
-    const historyLogEl = document.getElementById('move-history-log');
+    //const historyLogEl = document.getElementById('move-history-log');
     if (historyLogEl) {
-        historyLogEl.innerHTML = '<div style="color: #22c55e; font-weight: bold;">[Step 0] Start at (0,0) → 0 pts</div>';
+        //historyLogEl.innerHTML = '<div style="color: #22c55e; font-weight: bold;">[Step 0] Start at (0,0) → 0 pts</div>';
+
+        historyLogEl.innerHTML = ''; // Clear previous logs
+        const stepZeroItem = document.createElement('div');
+        stepZeroItem.className = 'history-log-item';
+        stepZeroItem.style.fontWeight = 'bold'; // Optional highlight for the starting position
+        stepZeroItem.textContent = `[Step 0] Start at (0,0) → 0 pts`;
+        
+        historyLogEl.appendChild(stepZeroItem);
+
     }
 
     let path = [];
@@ -128,13 +137,13 @@ function animateBallPath(path, index) {
             }
 
             //Append the current move's reward points and status to the history log with appropriate color coding
-            const historyLogEl = document.getElementById('move-history-log');
+            //const historyLogEl = document.getElementById('move-history-log');
             if (historyLogEl) {
 
                 // Clear the history log on the first step of a new run to avoid confusion with previous runs' logs
-                if (currentStepCount === 1) {
-                    historyLogEl.innerHTML = '';
-                }
+                //if (currentStepCount === 1) {
+                //    historyLogEl.innerHTML = '';
+                //}
 
                 const newLogItem = document.createElement('div');
                 //newLogItem.style.color = currentMoveColor;

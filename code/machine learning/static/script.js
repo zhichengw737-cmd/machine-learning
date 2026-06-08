@@ -29,6 +29,12 @@ const opRight = document.getElementById('opinion-right');
 const opDown = document.getElementById('opinion-down');
 const opLeft = document.getElementById('opinion-left');
 
+// Reward points display element
+const rewardValue = document.getElementById('reward-value');
+
+// Move & Reward History log element
+const historyLogEl = document.getElementById('move-history-log');
+
 // Fixed Complex Structural Mazes (0: Open Path, 1: Wall/Barrier, 2: Start, 3: Goal)
 const maze1Layout = [
     [2, 0, 1, 1, 1, 1, 1, 1],
@@ -172,9 +178,13 @@ function initGrid() {
     //maze2Btn.disabled = true; // Ensure Maze 2 is locked until training is complete
 
     // Dynamically checks if Maze 2 should be unlocked
-    updateMazeUnlockStatus(); 
+    updateMazeUnlockStatus();
+
+    // Reset Move & Reward History log to initial state when initializing the grid to avoid confusion with previous runs
+    historyLogEl.className = 'history-placeholder';
+    historyLogEl.innerHTML = 'Waiting for simulation...';
 }
 
 
 // App Start
-//initGrid();
+initGrid();

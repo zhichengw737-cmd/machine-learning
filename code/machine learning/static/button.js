@@ -12,13 +12,13 @@ maze1Btn.addEventListener('click', () => {
     rewardPoints = 0;
     const rewardValEl = document.getElementById('reward-value');
     if (rewardValEl) {
-        rewardValEl.textContent = rewardPoints;
+        rewardValEl.innerHTML = rewardPoints;
         rewardValEl.style.color = "#10b981";
     }
 
     // Clear history log when switching mazes to avoid confusion with previous maze's logs
-    const historyLogEl = document.getElementById('move-history-log');
-    historyLogEl.innerHTML = ''; 
+    //const historyLogEl = document.getElementById('move-history-log');
+    //historyLogEl.innerHTML = 'Waiting for simulation...'; 
 
     initGrid();
 });
@@ -43,8 +43,8 @@ maze2Btn.addEventListener('click', () => {
     }
 
     // Clear history log when switching mazes to avoid confusion with previous maze's logs
-    const historyLogEl = document.getElementById('move-history-log');
-    historyLogEl.innerHTML = ''; 
+    //const historyLogEl = document.getElementById('move-history-log');
+    //historyLogEl.innerHTML = 'Waiting for simulation...'; 
 
     initGrid();
 });
@@ -58,6 +58,9 @@ resetBtn.addEventListener('click', () => {
 
     // Reset step counter for the Move & Reward History log
     currentStepCount = 0;
+    rewardPoints = 0;
+    rewardValue.innerHTML = 0;
+    //historyLogEl.innerHTML = 'Waiting for simulation...';
     
     trainingCountEl.textContent = "0 / 5";
     actionBtn.style.display = 'inline-block';
@@ -86,4 +89,4 @@ function updateMazeUnlockStatus() {
     }
 }
 
-initGrid();
+//initGrid();
