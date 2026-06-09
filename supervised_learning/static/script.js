@@ -49,6 +49,132 @@ const dataset = {
   }
 };
 
+// ================= LOCALIZATION SYSTEM =================
+let currentLang = "en";
+
+const translations = {
+  en: {
+    heroTitle: "🕹️ CRAFTING AI NETWORK",
+    heroSub: "Load custom patterns, harvest feature tokens, and level up the model!",
+    questTitle: "📜 ACTIVE QUEST:",
+    questText: "Collect enough sample points to level up both standard matrices to Master Rank!",
+    questComplete: "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly! Now you can try the boss data slots if you dare...",
+    selectKeyLabel: "🎒 SELECT DATA MAP KEY:",
+    activeItemLabel: "Selected: ",
+    btnTrain: "🏋️‍♂️ Harvest Data",
+    btnTest: "🔬 Boot Test",
+    btnReset: "🔄 Wipe",
+    langBtn: "🌐 CH",
+    skillTreeTitle: "📊 SKILL TREE",
+    probArrayTitle: "📡 PROBABILITY ARRAY",
+    questLogTitle: "📜 QUEST LOG TERMINAL",
+    manualTitle: "📘 CUNNING ADVENTURER'S TRAINING MANUAL",
+    researchTitle: "📚 EXTENDED RESEARCH ARCHIVES",
+    
+    // Tooltips & Dynamic Text
+    cat1_tt: "Map File: Tabby Cat A",
+    cat2_tt: "Map File: Jumping Cat B",
+    cat3_tt: "Map File: Orange Cat C",
+    dog1_tt: "Map File: Hound Dog A",
+    dog2_tt: "Map File: Puppy Dog B",
+    dog3_tt: "Map File: Retriever C",
+    shiba1_tt: "⚠️ BOSS: Shiba Paradox",
+    bird1_tt: "⚠️ BOSS: Aerial Unknown",
+    
+    lootCat1: "📐 Vector Ear Triangles",
+    lootCat2: "🐱 Linear Whiskers Cluster",
+    lootDog1: "🐶 Dropped Flap Ear Texture",
+    lootDog2: "👃 Extended Snout Coordinate",
+    
+    // Guide Cards
+    guideH1: "1. Supervised Labels",
+    guideP1: "The human teacher builds the answer guide. Supervised math pairs an image array with a designated tag indicator so paths align.",
+    guideH2: "2. Feature Coordinates",
+    guideP2: "An AI doesn't see characters or animals! It maps numeric clusters of gradient curves, edges, and contrast variations.",
+    guideH3: "3. Weighted Outcomes",
+    guideP3: "Feeding multiple targets reinforces parameter node tracks. Unlabeled files (like the Shiba Boss) calculate based on conflicting weights!",
+    
+    // Links
+    resH1: "Global Overview",
+    resH2: "Academic Papers",
+    resH3: "Industry Trends",
+
+    // Terminal/Readouts
+    awaitingInstructions: "📡 <i>Awaiting data scan instructions...</i>",
+    awaitingMaps: "Awaiting vector maps...",
+    alreadyMined: "⚠️ File coordinate layer has already been completely mined!",
+    assignLabel: "Assigning manual instruction label: ",
+    extractedFeatures: "📦 Extracted features added to the local inventory database.",
+    scanningCoords: "🤖 Scanning bounding coordinates for local contrast variations...",
+    bossLocked: "🔒 Boss instance locked! Max out both base inventory grids first.",
+    calculatedOutput: "🎯 Calculated Output: ",
+    slotStr: " Slot",
+    probWeight: "Probability Weight",
+    shibaWarning: "🚨 WARNING PARADOX: Sharp triangle structures AND extended snout slopes found simultaneously inside one data slot!",
+    birdWarning: "🚨 CRITICAL ZERO-MATCH: No known snout profiles or whisker channels mapped! Vector pathways out of bounds!",
+    matchSuccess: "✨ Probability highlights localized pattern matches over target image frames.",
+    wipeLog: "🔄 Database storage wiped completely. Loop restarted!"
+  },
+  zh: {
+    heroTitle: "🕹️ 打造 AI 網絡",
+    heroSub: "載入自定義圖像、收穫特徵代幣，並升級機器模型！",
+    questTitle: "📜 當前任務：",
+    questText: "收集足夠的樣本數據點，將兩種動物升級至最高級別！",
+    questComplete: "<b class='quest-title-pop'>⭐ 任務完成！</b> 參數權重已完美調和！如果您有膽量，現在可以嘗試 Boss 級數據槽了...",
+    selectKeyLabel: "🎒 選擇數據地圖金鑰：",
+    activeItemLabel: "已選擇：",
+    btnTrain: "🏋️‍♂️ 收穫數據",
+    btnTest: "🔬 啟動測試",
+    btnReset: "🔄 清除",
+    langBtn: "🌐 EN",
+    skillTreeTitle: "📊 技能樹",
+    probArrayTitle: "📡 機率陣列",
+    questLogTitle: "📜 任務日誌終端機",
+    manualTitle: "📘 狡黠冒險家的訓練手冊",
+    researchTitle: "📚 延伸研究檔案館",
+    
+    cat1_tt: "地圖檔案：斑紋貓 A",
+    cat2_tt: "地圖檔案：跳躍貓 B",
+    cat3_tt: "地圖檔案：橘貓 C",
+    dog1_tt: "地圖檔案：獵犬 A",
+    dog2_tt: "地圖檔案：幼犬 B",
+    dog3_tt: "地圖檔案：黃金獵犬 C",
+    shiba1_tt: "⚠️ BOSS：柴犬悖論",
+    bird1_tt: "⚠️ BOSS：未知飛禽",
+    
+    lootCat1: "📐 向量耳朵三角面",
+    lootCat2: "🐱 線性鬍鬚特徵群",
+    lootDog1: "🐶 下垂垂耳紋理面",
+    lootDog2: "👃 延伸鼻吻部坐標軸",
+    
+    guideH1: "1. 監督標籤 (Supervised Labels)",
+    guideP1: "人類導師負責建立標準答案。監督式數學將影像矩陣與指定的標籤指示器配對，使機器學習的路徑得以校準對齊。",
+    guideH2: "2. 特徵坐標 (Feature Coordinates)",
+    guideP2: "AI 是看不見角色或動物的！它在後台映射著由梯度曲線、邊緣和對比度變化所組成的數值簇。",
+    guideH3: "3. 權重預測 (Weighted Outcomes)",
+    guideP3: "餵送多個訓練目標會強化參數節點。未標籤的檔案（例如柴犬 Boss）則會基於相互衝突的權重網絡進行推算！",
+    
+    resH1: "全局概述",
+    resH2: "學術論文",
+    resH3: "行業趨勢",
+
+    awaitingInstructions: "📡 <i>等待數據掃描指令...</i>",
+    awaitingMaps: "等待向量地圖...",
+    alreadyMined: "⚠️ 該檔案的坐標層已被完全挖掘完畢！",
+    assignLabel: "分配人工教學標籤：",
+    extractedFeatures: "📦 提取的特徵已成功添加至本地庫存資料庫中。",
+    scanningCoords: "🤖 正在掃描邊界坐標以尋找區域對比度變化...",
+    bossLocked: "🔒 Boss 關卡鎖定中！請先將兩個基礎庫存網格練滿。",
+    calculatedOutput: "🎯 計算輸出結果：",
+    slotStr: " 型態",
+    probWeight: "機率權重",
+    shibaWarning: "🚨 悖論警告：在同一個數據槽中同時發現了銳利的三角形結構與延伸的鼻吻部斜率！",
+    birdWarning: "🚨 關鍵零匹配：未映射到任何已知的特徵通道！向量路徑超出系統解析邊界！",
+    matchSuccess: "✨ 機率分布突顯了目標影像幀上的局部特徵匹配點。",
+    wipeLog: "🔄 資料庫存儲已完全清除。循環重新開始！"
+  }
+};
+
 let selectedValue = "cat1";
 let memory = { cat: 0, dog: 0 };
 let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
@@ -199,8 +325,9 @@ function selectSlot(element) {
   element.classList.add('active');
   
   selectedValue = element.getAttribute('data-value');
-  const tooltipText = element.querySelector('.tooltip-text').textContent;
-  document.getElementById('activeItemLabel').textContent = `Selected: ${tooltipText}`;
+  const txtKey = element.querySelector('.tooltip-text').getAttribute('data-key');
+  const translatedText = translations[currentLang][txtKey];
+  document.getElementById('activeItemLabel').textContent = `${translations[currentLang].activeItemLabel}${translatedText}`;
   
   showInput();
 }
@@ -209,7 +336,7 @@ function showInput() {
   const imgEl = document.getElementById("image");
   imgEl.src = dataset[selectedValue].img;
   hideFeatureCircles();
-  prediction.innerHTML = "📡 <i>Awaiting data scan instructions...</i>";
+  prediction.innerHTML = translations[currentLang].awaitingInstructions;
   document.getElementById("logTerminal").innerHTML = "";
   updateButtons();
 }
@@ -247,8 +374,14 @@ function popFloatingXp(rowId) {
 }
 
 function updateUI() {
-  catRank.textContent = memory.cat >= 3 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/3 XP`;
-  dogRank.textContent = memory.dog >= 3 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/3 XP`;
+  // Dynamically translate level badges based on rank status
+  if (currentLang === "en") {
+    catRank.textContent = memory.cat >= 3 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/3 XP`;
+    dogRank.textContent = memory.dog >= 3 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/3 XP`;
+  } else {
+    catRank.textContent = memory.cat >= 3 ? "🥇 貓咪等級：最高等級" : `🌱 貓咪等級：${memory.cat}/3 經驗值`;
+    dogRank.textContent = memory.dog >= 3 ? "🥇 小狗等級：最高等級" : `🌱 小狗等級：${memory.dog}/3 經驗值`;
+  }
 
   catBar.style.width = `${Math.min((memory.cat / 3) * 100, 100)}%`;
   dogBar.style.width = `${Math.min((memory.dog / 3) * 100, 100)}%`;
@@ -261,7 +394,7 @@ function updateUI() {
   
   if (memory.cat >= 3 && memory.dog >= 3) {
     questBox.classList.add("quest-completed-shine");
-    quest.innerHTML = "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly! Now you can try the boss data slots if you dare...";
+    quest.innerHTML = translations[currentLang].questComplete;
     
     if (!questCelebrated) {
       questCelebrated = true;
@@ -272,7 +405,7 @@ function updateUI() {
     }
   } else {
     questBox.classList.remove("quest-completed-shine");
-    quest.textContent = "Collect enough sample points to level up both standard matrices to Master Rank!";
+    quest.textContent = translations[currentLang].questText;
   }
   updateButtons();
 }
@@ -280,7 +413,7 @@ function updateUI() {
 function triggerTrain() {
   const key = selectedValue;
   if (trainedSamples[key]) { 
-    return logTerminal("⚠️ File coordinate layer has already been completely mined!", "error"); 
+    return logTerminal(translations[currentLang].alreadyMined, "error"); 
   }
   
   const frame = document.getElementById("imageFrame");
@@ -296,7 +429,12 @@ function train() {
   const item = dataset[key];
 
   trainedSamples[key] = true;
-  logTerminal(`Assigning manual instruction label: [${item.label.toUpperCase()}]`, "teacher");
+  
+  let localizedLabel = item.label.toUpperCase();
+  if (currentLang === "zh") {
+    localizedLabel = item.label === "cat" ? "貓咪" : "小狗";
+  }
+  logTerminal(`${translations[currentLang].assignLabel}[${localizedLabel}]`, "teacher");
 
   if (!categoryDiscovered[item.label]) {
     categoryDiscovered[item.label] = true;
@@ -307,7 +445,7 @@ function train() {
 
   playSound('harvest');
   popFloatingXp(item.label === 'cat' ? 'rowCat' : 'rowDog');
-  logTerminal(`📦 Extracted features added to the local inventory database.`, "learning");
+  logTerminal(translations[currentLang].extractedFeatures, "learning");
   
   updateUI();
   displayFeatureCircles(item);
@@ -329,13 +467,13 @@ function test() {
   let catProb = 0, dogProb = 0;
   const fullyTrained = memory.cat >= 3 && memory.dog >= 3;
 
-  logTerminal("🤖 Scanning bounding coordinates for local contrast variations...", "observation");
+  logTerminal(translations[currentLang].scanningCoords, "observation");
 
   if (key === "shiba1") {
-    if (!fullyTrained) return logTerminal("🔒 Boss instance locked! Max out both base inventory grids first.", "error");
+    if (!fullyTrained) return logTerminal(translations[currentLang].bossLocked, "error");
     catProb = Math.floor(Math.random() * 14) + 47; dogProb = 100 - catProb;
   } else if (key === "bird1") {
-    if (!fullyTrained) return logTerminal("🔒 Boss instance locked! Max out both base inventory grids first.", "error");
+    if (!fullyTrained) return logTerminal(translations[currentLang].bossLocked, "error");
     catProb = Math.floor(Math.random() * 30) + 35; dogProb = 100 - catProb;
   } else if (key.startsWith("cat")) {
     if (memory.cat === 0) catProb = Math.floor(Math.random() * 6) + 47;
@@ -351,22 +489,29 @@ function test() {
     catProb = 100 - dogProb;
   }
 
-  const result = dogProb > catProb ? "DOG" : "CAT";
+  let result = dogProb > catProb ? "DOG" : "CAT";
+  if (currentLang === "zh") {
+    result = dogProb > catProb ? "小狗" : "貓咪";
+  }
   const score = Math.max(catProb, dogProb);
 
   playSound('test');
-  prediction.innerHTML = `🎯 Calculated Output: <b style="color:#fbbf24;">${result} Slot</b> (Probability Weight: ${score}%)`;
+  prediction.innerHTML = `${translations[currentLang].calculatedOutput}<b style="color:#fbbf24;">${result}${translations[currentLang].slotStr}</b> (${translations[currentLang].probWeight}: ${score}%)`;
 
-  logTerminal(`📊 Cat Weights Probability: ${catProb}% | Dog Weights Probability: ${dogProb}%`, "info");
+  if (currentLang === "en") {
+    logTerminal(`📊 Cat Weights Probability: ${catProb}% | Dog Weights Probability: ${dogProb}%`, "info");
+  } else {
+    logTerminal(`📊 貓咪權重機率：${catProb}% | 小狗權重機率：${dogProb}%`, "info");
+  }
 
   if (key === "shiba1") {
-    logTerminal("🚨 WARNING PARADOX: Sharp triangle structures AND extended snout slopes found simultaneously inside one data slot!", "error");
+    logTerminal(translations[currentLang].shibaWarning, "error");
     displayFeatureCircles(item);
   } else if (key === "bird1") {
-    logTerminal("🚨 CRITICAL ZERO-MATCH: No known snout profiles or whisker channels mapped! Vector pathways out of bounds!", "error");
+    logTerminal(translations[currentLang].birdWarning, "error");
     hideFeatureCircles();
   } else if ((item.label === "cat" && memory.cat > 0) || (item.label === "dog" && memory.dog > 0)) {
-    logTerminal(`✨ Probability highlights localized pattern matches over target image frames.`, "observation");
+    logTerminal(translations[currentLang].matchSuccess, "observation");
     displayFeatureCircles(item);
   } else {
     hideFeatureCircles();
@@ -379,18 +524,59 @@ function reset() {
   trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:false, dog3:false };
   categoryDiscovered = { cat: false, dog: false };
   questCelebrated = false;
-  prediction.textContent = "Awaiting vector maps...";
-  document.getElementById("logTerminal").innerHTML = "🔄 Database storage wiped completely. Loop restarted!";
+  prediction.textContent = translations[currentLang].awaitingMaps;
+  document.getElementById("logTerminal").innerHTML = translations[currentLang].wipeLog;
   
   document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
   const firstItem = document.querySelector('.grid-item');
   firstItem.classList.add('active');
   selectedValue = "cat1";
-  document.getElementById('activeItemLabel').textContent = "Selected: Map File: Tabby Cat A";
+
+  const translatedText = translations[currentLang]["cat1_tt"];
+  document.getElementById('activeItemLabel').textContent = `${translations[currentLang].activeItemLabel}${translatedText}`;
 
   hideFeatureCircles();
   updateUI();
   showInput();
 }
 
+// ================= NEW LANGUAGE TOGGLE LOGIC =================
+function toggleLanguage() {
+  playSound('click');
+  currentLang = currentLang === "en" ? "zh" : "en";
+  applyTranslations();
+}
+
+function applyTranslations() {
+  const langPack = translations[currentLang];
+  
+  // 1. Map ID elements
+  const textIds = [
+    "heroTitle", "heroSub", "questTitle", "selectKeyLabel", 
+    "btnTrain", "btnTest", "btnReset", "langBtn", 
+    "skillTreeTitle", "probArrayTitle", "questLogTitle", 
+    "manualTitle", "researchTitle"
+  ];
+  textIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = langPack[id];
+  });
+  
+  // 2. Map Elements with data-key attributes (Tooltips, loot, cards)
+  document.querySelectorAll("[data-key]").forEach(el => {
+    const key = el.getAttribute("data-key");
+    if (langPack[key]) el.textContent = langPack[key];
+  });
+
+  // 3. Update contextual active file string indicator
+  const activeItem = document.querySelector('.grid-item.active');
+  if (activeItem) {
+    const txtKey = activeItem.querySelector('.tooltip-text').getAttribute('data-key');
+    document.getElementById('activeItemLabel').textContent = `${langPack.activeItemLabel}${langPack[txtKey]}`;
+  }
+
+  updateUI();
+}
+
+// Initialize program interface configuration
 showInput();
