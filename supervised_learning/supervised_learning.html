@@ -16,7 +16,7 @@
 
 <header class="hero">
   <h1>🕹️ CRAFTING AI NETWORK</h1>
-  <p>Load custom patterns, harvest feature tokens, and level up the model matrix!</p>
+  <p>Load custom patterns, harvest feature tokens, and level up the model!</p>
 </header>
 
 <main>
@@ -33,15 +33,15 @@
         <div class="inventory-grid">
           <div class="grid-item active" data-value="cat1" onclick="selectSlot(this)">
             <span class="item-emoji">🐱</span>
-            <span class="tooltip-text">Map File: Stray Cat A</span>
+            <span class="tooltip-text">Map File: Tabby Cat A</span>
           </div>
           <div class="grid-item" data-value="cat2" onclick="selectSlot(this)">
             <span class="item-emoji">🐱</span>
-            <span class="tooltip-text">Map File: Tabby Cat B</span>
+            <span class="tooltip-text">Map File: Jumping Cat B</span>
           </div>
           <div class="grid-item" data-value="cat3" onclick="selectSlot(this)">
             <span class="item-emoji">🐱</span>
-            <span class="tooltip-text">Map File: Calico Cat C</span>
+            <span class="tooltip-text">Map File: Orange Cat C</span>
           </div>
 
           <div class="grid-item" data-value="dog1" onclick="selectSlot(this)">
@@ -68,7 +68,7 @@
           </div>
         </div>
         
-        <div id="activeItemLabel" class="cozy-font active-label">Selected: Map File: Stray Cat A</div>
+        <div id="activeItemLabel" class="cozy-font active-label">Selected: Map File: Tabby Cat A</div>
       </div>
 
       <div class="inventory-controls">
@@ -87,12 +87,12 @@
 
   <div class="right">
     <div class="rpg-window">
-      <div class="inventory-title">📊 MATRIX SKILL TREE</div>
+      <div class="inventory-title">📊 SKILL TREE</div>
       
       <div id="rowCat" class="stat-row">
         <div class="slot-icon">🐱</div>
         <div class="bar-wrapper">
-          <div id="catRank" class="pixel-font" style="color:#7c2d12; margin-bottom:4px;">LVL 0/2 INVENTORY</div>
+          <div id="catRank" class="pixel-font" style="color:#7c2d12; margin-bottom:4px;">🌱 CAT LEVEL: 0/3 XP</div>
           <div class="xp-container"><div id="catBar" class="xp-bar"></div></div>
           <div id="catLoot" class="loot-tags">
             <span class="loot-item">📐 Vector Ear Triangles</span>
@@ -104,7 +104,7 @@
       <div id="rowDog" class="stat-row">
         <div class="slot-icon">🐶</div>
         <div class="bar-wrapper">
-          <div id="dogRank" class="pixel-font" style="color:#7c2d12; margin-bottom:4px;">LVL 0/2 INVENTORY</div>
+          <div id="dogRank" class="pixel-font" style="color:#7c2d12; margin-bottom:4px;">🌱 DOG LEVEL: 0/3 XP</div>
           <div class="xp-container"><div id="dogBar" class="xp-bar"></div></div>
           <div id="dogLoot" class="loot-tags">
             <span class="loot-item">🐶 Dropped Flap Ear Texture</span>
@@ -115,7 +115,7 @@
     </div>
 
     <div class="monitor-screen">
-      <div class="pixel-font" style="color:#fbbf24; font-size:10px;">📡 MATRIX PROBABILITY ARRAY</div>
+      <div class="pixel-font" style="color:#fbbf24; font-size:10px;">📡 PROBABILITY ARRAY</div>
       <p id="prediction" class="cozy-font">Awaiting vector maps...</p>
     </div>
 
