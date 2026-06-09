@@ -444,13 +444,40 @@ button:disabled {
   margin-bottom: 14px;
 }
 .grid { display: flex; gap: 12px; }
+
 .rpg-card {
   flex: 1;
-  transition: transform 0.2s ease;
+  background: #fffbeb;
   padding: 12px;
+  cursor: pointer;
+  /* Smooth transition for pop-up elevation, green backgrounds, and borders */
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              background-color 0.2s ease, 
+              border-color 0.2s ease, 
+              box-shadow 0.25s ease;
 }
-.rpg-card h4 { margin: 0 0 4px 0; color: #b45309; }
-.rpg-card p { margin: 0; font-size: 18px; }
+.rpg-card h4 { 
+  margin: 0 0 4px 0; 
+  color: #b45309; 
+  transition: color 0.2s ease; 
+}
+.rpg-card p { 
+  margin: 0; 
+  font-size: 18px; 
+}
+
+/* 🔥 Highlight and Pop-Up Effect on Hover */
+.rpg-card:hover {
+  transform: translateY(-6px);            /* Lifts the card up separately */
+  background-color: #f0fdf4;              /* Soft green background highlight */
+  border-color: #16a34a !important;       /* Vibrant green pixel border style */
+  box-shadow: 0 6px 0 #15803d;            /* Adds a thick retro 3D green shadow underneath */
+}
+
+/* Turns the header text dark green on hover to match the theme */
+.rpg-card:hover h4 {
+  color: #15803d;
+}
 
 /* ================= External Links Container ================= */
 .research-container {
