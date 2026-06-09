@@ -76,33 +76,116 @@ function animateBallPath(path, index) {
         return;
     }
 
+    //Get current ball position
     const [r, c] = path[index];
     const targetCell = document.querySelector(`[data-row='${r}'][data-col='${c}']`);
     const ball = document.getElementById('ball');
     
+    // Move the ball element visually on the grid layout
     if (targetCell && ball) {
         targetCell.appendChild(ball);
     }
 
     //Get the current maze layout to evaluate the move's reward points.
-    const layout = currentMaze === 1 ? maze1Layout : maze2Layout;
+    //const layout = currentMaze === 1 ? maze1Layout : maze2Layout;
 
     // Default status for spaces with no rules
-    let currentMoveText = "0 (Open Path)";
-    let currentMoveColor = "#64748b"; // Gray
+    //let currentMoveText = "0 (Open Path)";
+    //let currentMoveColor = "#64748b"; // Gray
 
     // Evaluate Reward Points
     if (index > 0) {
         // Increment the step counter for the Move & Reward History log
         currentStepCount++;
 
-        // Check for guiding arrows on the previous block and evaluate if the move followed them correctly
-        const [prevR, prevC] = path[index - 1];
+        // 1. Dynamically locate where the Goal (3) is positioned in the grid layout
+        let goalR = 7, goalC = 7; // Default fallback to bottom-right corner
+        const currentLayout = currentMaze === 1 ? maze1Layout : maze2Layout;
+        for (let i = 0; i < GRID_SIZE; i++) {
+            for (let j = 0; j < GRID_SIZE; j++) {
+                if (currentLayout[i][j] === 3) {
+                    goalR = i;
+                    goalC = j;
+                }
+            }
+        }
+
+        // 2. Calculate the grid step distance (Manhattan Distance) from current position (r, c)
+        //const distance = Math.abs(goalR - r) + Math.abs(goalC - c);
+        const distance = Math.abs(r -0) + Math.abs(c - 0);
+
+        // ======= 🛠️ NEW ADDITION: BACKTRACKING CHECK =======
+        let isBacktracking = false;
+        for (let i = 0; i < index; i++) {
+            if (path[i][0] === r && path[i][1] === c) {
+                isBacktracking = true;
+                break;
+            }
+        }
+
+        // 3. Inverse reward logic with backtracking protection
+        let stepReward = 0;
+        let currentMoveText = "";
+
+        //ARROW GUIDANCE VALIDATION
+        const [prevR, prevC] = path[index - 1] || [0, 0];
         const arrows = currentMaze === 1 ? maze1Arrows : maze2Arrows;
-        const arrow = arrows[`${prevR},${prevC}`];
+        const expectedArrow = arrows ? arrows[`${prevR},${prevC}`] : null;
+
+        let followedArrow = true;
+        if (index > 0 && expectedArrow) {
+            if (expectedArrow === "↑" && (r !== prevR - 1 || c !== prevC)) followedArrow = false;
+            if (expectedArrow === "→" && (r !== prevR || c !== prevC + 1)) followedArrow = false;
+            if (expectedArrow === "↓" && (r !== prevR + 1 || c !== prevC)) followedArrow = false;
+            if (expectedArrow === "←" && (r !== prevR || c !== prevC - 1)) followedArrow = false;
+        }
+
+        //let stepReward = distance * 10;
+        //let currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
+
+        // Handle the specific layout condition when the ball reaches the goal (Distance is 0)
+        if (currentLayout[r][c] === 3) {
+            rewardPoints += 100;
+            currentMoveText = "Goal Reached! (+100 pts)";
+        }else if (isBacktracking) {
+            // If the ball goes back, freeze the point growth
+            stepReward = 0; 
+            currentMoveText = `Backtracked to Old Position (Dist: ${distance}) (+0 pts)`;
+        }else if(!followedArrow){
+            stepReward = 0;
+            currentMoveText = `Go to Wrong way (Dist: ${distance}) (+0 pts)`;
+        }else {
+            // Regular unvisited cell logic: Longer distance = higher points
+            stepReward = distance * 10;
+            currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
+        }
+
+        // Update global running score tracker
+        rewardPoints += stepReward;
+
+        if (rewardValEl) {
+            rewardValEl.textContent = rewardPoints;
+            rewardValEl.style.color = rewardPoints >= 0 ? "#10b981" : "#ef4444";
+        }
+
+        // Append the current step's status text directly into the scrollable history log panel
+        if (historyLogEl) {
+            const newLogItem = document.createElement('div');
+            newLogItem.className = 'history-log-item';
+            newLogItem.textContent = `[Step ${currentStepCount}] Moved to (${r},${c}) → ${currentMoveText} | Total: ${rewardPoints} pts`;
+            historyLogEl.appendChild(newLogItem);
+        
+            // Auto-scroll the history log panel down to show the latest entry
+            historyLogEl.scrollTop = historyLogEl.scrollHeight;
+        }
+
+        // Check for guiding arrows on the previous block and evaluate if the move followed them correctly
+    //    const [prevR, prevC] = path[index - 1];
+    //    const arrows = currentMaze === 1 ? maze1Arrows : maze2Arrows;
+    //    const arrow = arrows[`${prevR},${prevC}`];
 
         // Check if there was a guiding arrow on the previous block
-        if (arrow) {
+    /*     if (arrow) {
             let followedCorrectly = false;
             if (arrow === "↑" && r === prevR - 1 && c === prevC) followedCorrectly = true;
             if (arrow === "→" && r === prevR && c === prevC + 1) followedCorrectly = true;
@@ -154,7 +237,7 @@ function animateBallPath(path, index) {
             //Auto-scroll the history log to the latest entry
                 historyLogEl.scrollTop = historyLogEl.scrollHeight;
             }
-        }
+        } */
     }
 
     // Continue animating the next move after a short delay to create a tick cycle effect
