@@ -1,7 +1,7 @@
 /* ================= Cozy Retro RPG Themes ================= */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, "Microsoft JhengHei", "微軟正黑體", sans-serif;
   /* 🌾 Warm Stardew Valley dirt/farm gradient background */
   background: linear-gradient(135deg, #fce7f3 0%, #ffedd5 50%, #fef3c7 100%);
   min-height: 100vh;
@@ -11,9 +11,40 @@ body {
   overflow-x: hidden;
 }
 
-/* Retro Fonts */
-.pixel-font { font-family: 'Press Start 2P', monospace; font-size: 11px; }
-.cozy-font { font-family: 'VT323', monospace; font-size: 20px; }
+/* Retro Fonts with Robust Chinese Fallbacks */
+.pixel-font { 
+  font-family: 'Press Start 2P', "MingLiU", "微軟正黑體", monospace; 
+  font-size: 11px; 
+  line-height: 1.4;
+}
+.cozy-font { 
+  font-family: 'VT323', "Microsoft JhengHei", "微軟正黑體", monospace; 
+  font-size: 20px; 
+  line-height: 1.3;
+}
+
+/* Dynamic Language Optimization Styles */
+body[lang="zh"] .pixel-font {
+  font-size: 13px; /* Slightly upscaled to prevent Chinese character clipping */
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+body[lang="zh"] .cozy-font {
+  font-size: 22px; /* Amplified scaling for Chinese screen readability */
+  font-weight: 500;
+}
+
+body[lang="zh"] .inventory-title,
+body[lang="zh"] .label-title,
+body[lang="zh"] .quest-title {
+  font-size: 14px; /* Fixes small layout title compressions */
+}
+
+body[lang="zh"] .pixel-btn {
+  font-size: 13px;
+  padding: 10px 6px;
+}
 
 /* Log Character Colors */
 .teacher { color: #b45309; font-weight: bold; }
@@ -61,7 +92,6 @@ body {
 
 /* ================= RPG Header Banner ================= */
 .hero {
-  /* 🪵 Rich Minecraft dark wood panel */
   background: #5c3a21;
   border-bottom: 6px solid #3d2514;
   color: #fef3c7;
@@ -72,16 +102,20 @@ body {
 
 .hero h1 {
   margin: 0;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Press Start 2P', "Microsoft JhengHei", "微軟正黑體", monospace;
   font-size: 20px;
   color: #fbbf24;
   text-shadow: 2px 2px 0px #000;
   letter-spacing: -1px;
 }
 
+body[lang="zh"] .hero h1 {
+  font-size: 24px; /* Boosted visibility for Chinese title headers */
+}
+
 .hero p {
   margin: 6px 0 0 0;
-  font-family: 'VT323', monospace;
+  font-family: 'VT323', "Microsoft JhengHei", "微軟正黑體", monospace;
   font-size: 20px;
   color: #fcd34d;
 }
@@ -114,15 +148,15 @@ main {
 .quest-box {
   background: #fef3c7;
   border: 3px dashed #b45309;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 4px;
   transition: all 0.5s ease;
 }
 .quest-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
   font-size: 10px;
   color: #b45309;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 /* ================= Fancy Grid Selection Panel ================= */
@@ -203,7 +237,7 @@ main {
   text-align: center;
   padding: 6px 10px;
   border: 2px solid #fbbf24;
-  font-family: 'VT323', monospace;
+  font-family: 'VT323', "Microsoft JhengHei", monospace;
   font-size: 16px;
   white-space: nowrap;
   z-index: 10;
@@ -218,13 +252,13 @@ main {
   font-size: 18px;
   color: #7c2d12;
   background: #fef3c7;
-  padding: 4px 10px;
+  padding: 6px 10px;
   border-left: 4px solid #b45309;
 }
 
 /* ================= Item Frame (Image Box) ================= */
 .item-frame {
-  height: 360px; /* Reduced from 480px to find a perfect balanced middle-ground */
+  height: 360px;
   background: #1e1b4b; 
   border: 6px solid #451a03;
   box-shadow: inset 4px 4px 10px rgba(0,0,0,0.8);
@@ -236,13 +270,6 @@ main {
   transition: all 0.2s ease;
 }
 
-/* 🎯 Live User Annotation View State Layer Rules */
-.item-frame.annotation-mode {
-  border-color: #fbbf24 !important;
-  cursor: crosshair !important;    
-  box-shadow: inset 0 0 24px rgba(250, 204, 21, 0.6), 0 0 15px rgba(250, 204, 21, 0.4);
-}
-
 .item-frame img {
   width: 100%;
   height: 100%;
@@ -251,7 +278,7 @@ main {
   transition: transform 0.2s ease;
 }
 
-/* 🟩 Blocky Minecraft-Style Scan Line */
+/* 🟩 Blocky Scan Line */
 .item-frame::after {
   content: '';
   position: absolute;
@@ -290,7 +317,7 @@ main {
 }
 
 .pixel-btn {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
   font-size: 10px;
   color: white;
   padding: 12px;
@@ -322,7 +349,7 @@ button:disabled {
 
 /* ================= Inventory Slots & Experience Grid ================= */
 .inventory-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
   font-size: 11px;
   color: #7c2d12;
   margin: 0 0 10px 0;
@@ -379,7 +406,6 @@ button:disabled {
   padding: 1px;
 }
 
-/* 🟩 Bright Minecraft green skill/XP bar */
 .xp-bar {
   height: 100%;
   background: #10b981;
@@ -387,28 +413,23 @@ button:disabled {
   transition: width 0.4s ease-out;
 }
 
-.loot-tags { margin-top: 4px; display: none; }
+.loot-tags { margin-top: 6px; display: none; }
 .loot-item {
   display: inline-block;
-  font-family: 'VT323', monospace;
+  font-family: 'VT323', "Microsoft JhengHei", monospace;
   font-size: 15px;
-  padding: 1px 6px;
+  padding: 2px 6px;
   background: #7c2d12;
   color: #fef3c7;
   border: 2px solid #451a03;
-  margin: 1px;
-}
-.loot-item.mastered {
-  background: #10b981;
-  color: #14532d;
-  border-color: #047857;
+  margin: 2px;
 }
 
 /* ================= Computer Console Screen ================= */
 .monitor-screen {
   background: #1a120b;
   border: 4px solid #3c2a21;
-  padding: 10px;
+  padding: 12px;
   color: #f5f5f5;
   text-align: center;
   box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
@@ -424,9 +445,9 @@ button:disabled {
   padding: 8px;
 }
 .log-line {
-  font-family: 'VT323', monospace;
+  font-family: 'VT323', "Microsoft JhengHei", monospace;
   font-size: 17px;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   border-bottom: 1px dashed #e7e5e4;
 }
 
@@ -437,7 +458,7 @@ button:disabled {
   padding: 0 16px;
 }
 .guide-container h3 {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
   font-size: 12px;
   text-align: center;
   color: #7c2d12;
@@ -448,16 +469,15 @@ button:disabled {
 .rpg-card {
   flex: 1;
   background: #fffbeb;
-  padding: 12px;
+  padding: 14px;
   cursor: pointer;
-  /* Smooth transition for pop-up elevation, green backgrounds, and borders */
   transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
               background-color 0.2s ease, 
               border-color 0.2s ease, 
               box-shadow 0.25s ease;
 }
 .rpg-card h4 { 
-  margin: 0 0 4px 0; 
+  margin: 0 0 6px 0; 
   color: #b45309; 
   transition: color 0.2s ease; 
 }
@@ -466,15 +486,13 @@ button:disabled {
   font-size: 18px; 
 }
 
-/* 🔥 Highlight and Pop-Up Effect on Hover */
 .rpg-card:hover {
-  transform: translateY(-6px);            /* Lifts the card up separately */
-  background-color: #f0fdf4;              /* Soft green background highlight */
-  border-color: #16a34a !important;       /* Vibrant green pixel border style */
-  box-shadow: 0 6px 0 #15803d;            /* Adds a thick retro 3D green shadow underneath */
+  transform: translateY(-6px);
+  background-color: #f0fdf4;
+  border-color: #16a34a !important;
+  box-shadow: 0 6px 0 #15803d;
 }
 
-/* Turns the header text dark green on hover to match the theme */
 .rpg-card:hover h4 {
   color: #15803d;
 }
@@ -503,7 +521,7 @@ button:disabled {
   color: #7c2d12;
 }
 .rpg-link {
-  font-family: 'VT323', monospace;
+  font-family: 'VT323', "Microsoft JhengHei", monospace;
   font-size: 22px;
   color: #16a34a;
   text-decoration: none;
@@ -516,9 +534,9 @@ button:disabled {
   border-bottom-color: #b45309;
 }
 
-/* 🖥️ Extra protection rule for standard compact laptops */
+/* 🖥️ Responsive View Protection Rules */
 @media (max-height: 900px) {
   main { margin: 10px auto; }
-  .item-frame { height: 290px; } /* Scales down nicely to maintain screen real estate */
+  .item-frame { height: 290px; }
   .terminal-log { height: 240px; } 
 }
