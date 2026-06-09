@@ -49,7 +49,7 @@ const dataset = {
   }
 };
 
-// ================= LOCALIZATION SYSTEM =================
+// ================= LOCALIZATION DATABASE =================
 let currentLang = "en";
 
 const translations = {
@@ -64,14 +64,13 @@ const translations = {
     btnTrain: "🏋️‍♂️ Harvest Data",
     btnTest: "🔬 Boot Test",
     btnReset: "🔄 Wipe",
-    langBtn: "🌐 CH",
+    langBtn: "🌐 中文",
     skillTreeTitle: "📊 SKILL TREE",
     probArrayTitle: "📡 PROBABILITY ARRAY",
     questLogTitle: "📜 QUEST LOG TERMINAL",
     manualTitle: "📘 CUNNING ADVENTURER'S TRAINING MANUAL",
     researchTitle: "📚 EXTENDED RESEARCH ARCHIVES",
     
-    // Tooltips & Dynamic Text
     cat1_tt: "Map File: Tabby Cat A",
     cat2_tt: "Map File: Jumping Cat B",
     cat3_tt: "Map File: Orange Cat C",
@@ -86,7 +85,6 @@ const translations = {
     lootDog1: "🐶 Dropped Flap Ear Texture",
     lootDog2: "👃 Extended Snout Coordinate",
     
-    // Guide Cards
     guideH1: "1. Supervised Labels",
     guideP1: "The human teacher builds the answer guide. Supervised math pairs an image array with a designated tag indicator so paths align.",
     guideH2: "2. Feature Coordinates",
@@ -94,12 +92,10 @@ const translations = {
     guideH3: "3. Weighted Outcomes",
     guideP3: "Feeding multiple targets reinforces parameter node tracks. Unlabeled files (like the Shiba Boss) calculate based on conflicting weights!",
     
-    // Links
     resH1: "Global Overview",
     resH2: "Academic Papers",
     resH3: "Industry Trends",
 
-    // Terminal/Readouts
     awaitingInstructions: "📡 <i>Awaiting data scan instructions...</i>",
     awaitingMaps: "Awaiting vector maps...",
     alreadyMined: "⚠️ File coordinate layer has already been completely mined!",
@@ -118,19 +114,19 @@ const translations = {
   zh: {
     heroTitle: "🕹️ 打造 AI 網絡",
     heroSub: "載入自定義圖像、收穫特徵代幣，並升級機器模型！",
-    questTitle: "📜 當前任務：",
-    questText: "收集足夠的樣本數據點，將兩種動物升級至最高級別！",
-    questComplete: "<b class='quest-title-pop'>⭐ 任務完成！</b> 參數權重已完美調和！如果您有膽量，現在可以嘗試 Boss 級數據槽了...",
-    selectKeyLabel: "🎒 選擇數據地圖金鑰：",
+    questTitle: "當前任務：",
+    questText: "收集足夠的樣本數據點，將兩個標準矩陣升級至大師級別！",
+    questComplete: "任務完成！參數權重已完美調和！如果您有膽量，現在可以嘗試 Boss 級數據槽了...",
+    selectKeyLabel: "選擇數據地圖金鑰：",
     activeItemLabel: "已選擇：",
-    btnTrain: "🏋️‍♂️ 收穫數據",
-    btnTest: "🔬 啟動測試",
-    btnReset: "🔄 清除",
+    btnTrain: "收穫數據",
+    btnTest: "啟動測試",
+    btnReset: "清除",
     langBtn: "🌐 EN",
     skillTreeTitle: "📊 技能樹",
     probArrayTitle: "📡 機率陣列",
     questLogTitle: "📜 任務日誌終端機",
-    manualTitle: "📘 狡黠冒險家的訓練手冊",
+    manualTitle: "📘 意圖清晰的訓練手冊",
     researchTitle: "📚 延伸研究檔案館",
     
     cat1_tt: "地圖檔案：斑紋貓 A",
@@ -142,17 +138,17 @@ const translations = {
     shiba1_tt: "⚠️ BOSS：柴犬悖論",
     bird1_tt: "⚠️ BOSS：未知飛禽",
     
-    lootCat1: "📐 向量耳朵三角面",
-    lootCat2: "🐱 線性鬍鬚特徵群",
-    lootDog1: "🐶 下垂垂耳紋理面",
-    lootDog2: "👃 延伸鼻吻部坐標軸",
+    lootCat1: "📐 尖耳朵",
+    lootCat2: "🐱 長鬍鬚",
+    lootDog1: "🐶 大耳朵",
+    lootDog2: "👃 長鼻吻",
     
     guideH1: "1. 監督標籤 (Supervised Labels)",
-    guideP1: "人類導師負責建立標準答案。監督式數學將影像矩陣與指定的標籤指示器配對，使機器學習的路徑得以校準對齊。",
+    guideP1: "人類導師會先為每張圖片提供正確答案。監督式學習會把圖片中的特徵與對應的標籤配對，讓模型學會如何一步步做出正確判斷。",
     guideH2: "2. 特徵坐標 (Feature Coordinates)",
-    guideP2: "AI 是看不見角色或動物的！它在後台映射著由梯度曲線、邊緣和對比度變化所組成的數值簇。",
+    guideP2: "AI 看圖片時，其實是在找「特徵」。例如顏色變化、輪廓線條和形狀。它把這些特徵組合起來，再判斷這張圖像裡是什麼。",
     guideH3: "3. 權重預測 (Weighted Outcomes)",
-    guideP3: "餵送多個訓練目標會強化參數節點。未標籤的檔案（例如柴犬 Boss）則會基於相互衝突的權重網絡進行推算！",
+    guideP3: "當模型看到越來越多帶有答案的訓練資料時，它會不斷調整內部參數，讓判斷變得更準確。當遇到沒有標籤的新圖片（例如柴犬 Boss），它會根據已學到的特徵來進行預測。不過在這個例子中，我們只使用了少數幾個特徵，因此模型有時仍然會判斷錯誤。",
     
     resH1: "全局概述",
     resH2: "學術論文",
@@ -203,10 +199,8 @@ function playSound(type) {
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(120, now);
       osc.frequency.exponentialRampToValueAtTime(40, now + 0.05);
-      
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-      
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
@@ -219,10 +213,8 @@ function playSound(type) {
         const gain = audioCtx.createGain();
         osc.type = 'square';
         osc.frequency.setValueAtTime(freq, now + (index * 0.05));
-        
         gain.gain.setValueAtTime(0.04, now + (index * 0.05));
         gain.gain.exponentialRampToValueAtTime(0.005, now + (index * 0.05) + 0.08);
-        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(now + (index * 0.05));
@@ -235,10 +227,8 @@ function playSound(type) {
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(440, now);
       osc.frequency.setValueAtTime(587.33, now + 0.08);
-      
       gain.gain.setValueAtTime(0.08, now);
       gain.gain.exponentialRampToValueAtTime(0.005, now + 0.2);
-      
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
@@ -250,10 +240,8 @@ function playSound(type) {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(300, now);
       osc.frequency.linearRampToValueAtTime(80, now + 0.3);
-      
       gain.gain.setValueAtTime(0.06, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-      
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
@@ -266,10 +254,8 @@ function playSound(type) {
         const gain = audioCtx.createGain();
         osc.type = (index % 2 === 0) ? 'square' : 'triangle';
         osc.frequency.setValueAtTime(freq, now + (index * 0.08));
-        
         gain.gain.setValueAtTime(0.06, now + (index * 0.08));
         gain.gain.exponentialRampToValueAtTime(0.001, now + (index * 0.08) + 0.25);
-        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(now + (index * 0.08));
@@ -277,7 +263,7 @@ function playSound(type) {
       });
     }
   } catch (e) {
-    console.log("Audio play blocked or unsupported:", e);
+    console.log("Audio syntax block context:", e);
   }
 }
 
@@ -287,14 +273,12 @@ function spawnConfetti() {
     const confetti = document.createElement('div');
     confetti.className = 'confetti';
     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-    
     confetti.style.left = Math.random() * 100 + 'vw';
     confetti.style.top = '-10px';
     
     const size = Math.floor(Math.random() * 6) + 6;
     confetti.style.width = size + 'px';
     confetti.style.height = size + 'px';
-    
     document.body.appendChild(confetti);
     
     const duration = Math.random() * 1.5 + 1.5;
@@ -308,7 +292,6 @@ function spawnConfetti() {
       easing: 'ease-out',
       fill: 'forwards'
     });
-    
     setTimeout(() => confetti.remove(), duration * 1000);
   }
 }
@@ -327,8 +310,8 @@ function selectSlot(element) {
   selectedValue = element.getAttribute('data-value');
   const txtKey = element.querySelector('.tooltip-text').getAttribute('data-key');
   const translatedText = translations[currentLang][txtKey];
-  document.getElementById('activeItemLabel').textContent = `${translations[currentLang].activeItemLabel}${translatedText}`;
   
+  document.getElementById('activeItemLabel').textContent = `${translations[currentLang].activeItemLabel}${translatedText}`;
   showInput();
 }
 
@@ -374,14 +357,16 @@ function popFloatingXp(rowId) {
 }
 
 function updateUI() {
-  // Dynamically translate level badges based on rank status
+  let catText = "", dogText = "";
   if (currentLang === "en") {
-    catRank.textContent = memory.cat >= 3 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/3 XP`;
-    dogRank.textContent = memory.dog >= 3 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/3 XP`;
+    catText = memory.cat >= 3 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/3 XP`;
+    dogText = memory.dog >= 3 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/3 XP`;
   } else {
-    catRank.textContent = memory.cat >= 3 ? "🥇 貓咪等級：最高等級" : `🌱 貓咪等級：${memory.cat}/3 經驗值`;
-    dogRank.textContent = memory.dog >= 3 ? "🥇 小狗等級：最高等級" : `🌱 小狗等級：${memory.dog}/3 經驗值`;
+    catText = memory.cat >= 3 ? "🥇 貓咪等級：最高等級" : `🌱 貓咪等級：${memory.cat}/3 經驗值`;
+    dogText = memory.dog >= 3 ? "🥇 小狗等級：最高等級" : `🌱 小狗等級：${memory.dog}/3 經驗值`;
   }
+  catRank.textContent = catText;
+  dogRank.textContent = dogText;
 
   catBar.style.width = `${Math.min((memory.cat / 3) * 100, 100)}%`;
   dogBar.style.width = `${Math.min((memory.dog / 3) * 100, 100)}%`;
@@ -498,10 +483,10 @@ function test() {
   playSound('test');
   prediction.innerHTML = `${translations[currentLang].calculatedOutput}<b style="color:#fbbf24;">${result}${translations[currentLang].slotStr}</b> (${translations[currentLang].probWeight}: ${score}%)`;
 
-  if (currentLang === "en") {
-    logTerminal(`📊 Cat Weights Probability: ${catProb}% | Dog Weights Probability: ${dogProb}%`, "info");
-  } else {
+  if (currentLang === "zh") {
     logTerminal(`📊 貓咪權重機率：${catProb}% | 小狗權重機率：${dogProb}%`, "info");
+  } else {
+    logTerminal(`📊 Cat Weights Probability: ${catProb}% | Dog Weights Probability: ${dogProb}%`, "info");
   }
 
   if (key === "shiba1") {
@@ -540,7 +525,7 @@ function reset() {
   showInput();
 }
 
-// ================= NEW LANGUAGE TOGGLE LOGIC =================
+// ================= LANGUAGE TOGGLE LOGIC =================
 function toggleLanguage() {
   playSound('click');
   currentLang = currentLang === "en" ? "zh" : "en";
@@ -549,6 +534,9 @@ function toggleLanguage() {
 
 function applyTranslations() {
   const langPack = translations[currentLang];
+  
+  // ⚡ LINK SYSTEM STATE WITH BROWSER CSS ⚡
+  document.documentElement.setAttribute('lang', currentLang);
   
   // 1. Map ID elements
   const textIds = [
@@ -578,5 +566,5 @@ function applyTranslations() {
   updateUI();
 }
 
-// Initialize program interface configuration
+// Initial application invocation
 showInput();
