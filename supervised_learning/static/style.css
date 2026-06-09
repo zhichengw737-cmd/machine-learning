@@ -13,37 +13,42 @@ body {
 
 /* Retro Fonts with Robust Chinese Fallbacks */
 .pixel-font { 
-  font-family: 'Press Start 2P', "MingLiU", "微軟正黑體", monospace; 
+  font-family: 'Press Start 2P', "MingLiU", \"微軟正黑體\", monospace; 
   font-size: 11px; 
   line-height: 1.4;
 }
 .cozy-font { 
-  font-family: 'VT323', "Microsoft JhengHei", "微軟正黑體", monospace; 
+  font-family: 'VT323', "Microsoft JhengHei", \"微軟正黑體\", monospace; 
   font-size: 20px; 
   line-height: 1.3;
 }
 
-/* Dynamic Language Optimization Styles */
+/* ================= 🔴 CHINESE CHARACTER SIZE OVERRIDES 🔴 ================= */
+html[lang="zh"] .pixel-font,
 body[lang="zh"] .pixel-font {
-  font-size: 13px; /* Slightly upscaled to prevent Chinese character clipping */
+  font-size: 13px !important;       /* Scales up detailed pixel stroke layout lines */
   font-weight: bold;
   letter-spacing: 0.5px;
+  line-height: 1.5;
 }
 
+html[lang="zh"] .cozy-font,
 body[lang="zh"] .cozy-font {
-  font-size: 22px; /* Amplified scaling for Chinese screen readability */
+  font-size: 23px !important;       /* Gives complex block characters breathing room */
   font-weight: 500;
+  line-height: 1.4;
 }
 
-body[lang="zh"] .inventory-title,
-body[lang="zh"] .label-title,
-body[lang="zh"] .quest-title {
-  font-size: 14px; /* Fixes small layout title compressions */
+html[lang="zh"] .inventory-title,
+html[lang="zh"] .label-title,
+html[lang="zh"] .quest-title {
+  font-size: 14px !important;       /* Stops text container title labels from shrinking */
 }
 
+html[lang="zh"] .pixel-btn,
 body[lang="zh"] .pixel-btn {
-  font-size: 13px;
-  padding: 10px 6px;
+  font-size: 12px !important;       /* Tweaks layout flow inside custom controller actions */
+  padding: 10px 4px;
 }
 
 /* Log Character Colors */
@@ -102,20 +107,16 @@ body[lang="zh"] .pixel-btn {
 
 .hero h1 {
   margin: 0;
-  font-family: 'Press Start 2P', "Microsoft JhengHei", "微軟正黑體", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: 20px;
   color: #fbbf24;
   text-shadow: 2px 2px 0px #000;
   letter-spacing: -1px;
 }
 
-body[lang="zh"] .hero h1 {
-  font-size: 24px; /* Boosted visibility for Chinese title headers */
-}
-
 .hero p {
   margin: 6px 0 0 0;
-  font-family: 'VT323', "Microsoft JhengHei", "微軟正黑體", monospace;
+  font-family: 'VT323', monospace;
   font-size: 20px;
   color: #fcd34d;
 }
@@ -153,7 +154,7 @@ main {
   transition: all 0.5s ease;
 }
 .quest-title {
-  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   color: #b45309;
   margin-bottom: 6px;
@@ -237,7 +238,7 @@ main {
   text-align: center;
   padding: 6px 10px;
   border: 2px solid #fbbf24;
-  font-family: 'VT323', "Microsoft JhengHei", monospace;
+  font-family: 'VT323', monospace;
   font-size: 16px;
   white-space: nowrap;
   z-index: 10;
@@ -317,7 +318,7 @@ main {
 }
 
 .pixel-btn {
-  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   color: white;
   padding: 12px;
@@ -349,7 +350,7 @@ button:disabled {
 
 /* ================= Inventory Slots & Experience Grid ================= */
 .inventory-title {
-  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: 11px;
   color: #7c2d12;
   margin: 0 0 10px 0;
@@ -416,7 +417,7 @@ button:disabled {
 .loot-tags { margin-top: 6px; display: none; }
 .loot-item {
   display: inline-block;
-  font-family: 'VT323', "Microsoft JhengHei", monospace;
+  font-family: 'VT323', monospace;
   font-size: 15px;
   padding: 2px 6px;
   background: #7c2d12;
@@ -445,7 +446,7 @@ button:disabled {
   padding: 8px;
 }
 .log-line {
-  font-family: 'VT323', "Microsoft JhengHei", monospace;
+  font-family: 'VT323', monospace;
   font-size: 17px;
   margin-bottom: 4px;
   border-bottom: 1px dashed #e7e5e4;
@@ -458,7 +459,7 @@ button:disabled {
   padding: 0 16px;
 }
 .guide-container h3 {
-  font-family: 'Press Start 2P', "Microsoft JhengHei", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: 12px;
   text-align: center;
   color: #7c2d12;
@@ -466,7 +467,7 @@ button:disabled {
 }
 .grid { display: flex; gap: 12px; }
 
-.rpg-card {
+.rpg-window.rpg-card {
   flex: 1;
   background: #fffbeb;
   padding: 14px;
@@ -521,7 +522,7 @@ button:disabled {
   color: #7c2d12;
 }
 .rpg-link {
-  font-family: 'VT323', "Microsoft JhengHei", monospace;
+  font-family: 'VT323', monospace;
   font-size: 22px;
   color: #16a34a;
   text-decoration: none;
