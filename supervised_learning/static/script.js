@@ -9,7 +9,7 @@ const dataset = {
     img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6", 
     label: "cat",
     c1: { top: "15%", left: "34%", size: "75px" },
-    c2: { top: "20%", left: "62%", size: "75px" }
+    c2: { top: "20%", left: "62% canvas", size: "75px" }
   },
   cat3: { 
     img: "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e", 
@@ -109,13 +109,19 @@ const translations = {
     shibaWarning: "🚨 WARNING PARADOX: Sharp triangle structures AND extended snout slopes found simultaneously inside one data slot!",
     birdWarning: "🚨 CRITICAL ZERO-MATCH: No known snout profiles or whisker channels mapped! Vector pathways out of bounds!",
     matchSuccess: "✨ Probability highlights localized pattern matches over target image frames.",
-    wipeLog: "🔄 Database storage wiped completely. Loop restarted!"
+    wipeLog: "🔄 Database storage wiped completely. Loop restarted!",
+
+    // 🌟 新增的動態等級英文字串
+    catLevel: "CAT LEVEL: ",
+    dogLevel: "DOG LEVEL: ",
+    maxLevel: "MAX RANK",
+    xpStr: "/3 XP"
   },
   zh: {
     heroTitle: "🕹️ 打造 AI 網絡",
     heroSub: "載入自定義圖像、收穫特徵代幣，並升級機器模型！",
     questTitle: "當前任務：",
-    questText: "收集足夠的樣本數據點，將兩個標準矩陣升級至大師級別！",
+    questText: "收集足夠的樣本數據點，將兩個動物升級至最高級別！",
     questComplete: "任務完成！參數權重已完美調和！如果您有膽量，現在可以嘗試 Boss 級數據槽了...",
     selectKeyLabel: "選擇數據地圖金鑰：",
     activeItemLabel: "已選擇：",
@@ -167,7 +173,13 @@ const translations = {
     shibaWarning: "🚨 悖論警告：在同一個數據槽中同時發現了銳利的三角形結構與延伸的鼻吻部斜率！",
     birdWarning: "🚨 關鍵零匹配：未映射到任何已知的特徵通道！向量路徑超出系統解析邊界！",
     matchSuccess: "✨ 機率分布突顯了目標影像幀上的局部特徵匹配點。",
-    wipeLog: "🔄 資料庫存儲已完全清除。循環重新開始！"
+    wipeLog: "🔄 資料庫存儲已完全清除。循環重新開始！",
+
+    // 🌟 新增的動態等級中文字串
+    catLevel: "貓咪等級：",
+    dogLevel: "小狗等級：",
+    maxLevel: "最高等級",
+    xpStr: "/3 經驗值"
   }
 };
 
@@ -177,7 +189,7 @@ let trainedSamples = { cat1:false, cat2:false, cat3:false, dog1:false, dog2:fals
 let categoryDiscovered = { cat: false, dog: false };
 let questCelebrated = false;
 
-// ================= COZY RETRO SOUND SYNTHESIZER =================
+// ================= COZY RETRO RPG SOUND SYNTHESIZER =================
 let audioCtx = null;
 
 function initAudio() {
@@ -356,15 +368,32 @@ function popFloatingXp(rowId) {
   setTimeout(() => xpSpan.remove(), 800);
 }
 
+// 🔥【核心修正】重構 updateUI 函數以支援完全動態的中英文等級刷新 🔥
 function updateUI() {
-  let catText = "", dogText = "";
-  if (currentLang === "en") {
-    catText = memory.cat >= 3 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/3 XP`;
-    dogText = memory.dog >= 3 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/3 XP`;
+  const catRank = document.getElementById("catRank");
+  const dogRank = document.getElementById("dogRank");
+  const catBar = document.getElementById("catBar");
+  const dogBar = document.getElementById("dogBar");
+
+  const langPack = translations[currentLang]; // 取得當前語言對照包
+
+  let catText = "";
+  let dogText = "";
+
+  // 動態讀取貓咪等級文字
+  if (memory.cat >= 3) {
+    catText = `🥇 ${langPack.catLevel}${langPack.maxLevel}`;
   } else {
-    catText = memory.cat >= 3 ? "🥇 貓咪等級：最高等級" : `🌱 貓咪等級：${memory.cat}/3 經驗值`;
-    dogText = memory.dog >= 3 ? "🥇 小狗等級：最高等級" : `🌱 小狗等級：${memory.dog}/3 經驗值`;
+    catText = `🌱 ${langPack.catLevel}${memory.cat}${langPack.xpStr}`;
   }
+
+  // 動態讀取小狗等級文字
+  if (memory.dog >= 3) {
+    dogText = `🥇 ${langPack.dogLevel}${langPack.maxLevel}`;
+  } else {
+    dogText = `🌱 ${langPack.dogLevel}${memory.dog}${langPack.xpStr}`;
+  }
+
   catRank.textContent = catText;
   dogRank.textContent = dogText;
 
@@ -564,20 +593,18 @@ function applyTranslations() {
     document.getElementById('activeItemLabel').textContent = `${langPack.activeItemLabel}${translatedText}`;
   }
 
-  // 4. 🔥【核心修正】動態刷新中間控制台的人工標籤描述 🔥
+  // 4. 動態刷新中間控制台的人工標籤描述
   showInput();
 
-  // 5. 🔥【核心修正】即時更新預測狀態列 (Prediction Window) 🔥
+  // 5. 即時更新預測狀態列 (Prediction Window)
   const currentPrediction = prediction.innerHTML;
-  // 檢查目前是否是初始狀態（包含 Awaiting 或 等待）
   if (!currentPrediction || currentPrediction.includes("Awaiting") || currentPrediction.includes("等待")) {
     prediction.innerHTML = langPack.awaitingInstructions;
   } else {
-    // 如果畫面上已經有測試結果，直接原地重新呼叫 test() 來刷成當前語言，使用者不需要重新點擊！
     test(); 
   }
 
-  // 6. 🔥【核心修正】在日誌終端機中加入動態語系切換通知，避免歷史紀錄中英混雜錯置 🔥
+  // 6. 在日誌終端機中加入動態語系切換通知
   const sysMsg = currentLang === "zh" ? "⚙️ 系統語言已切換為：繁體中文" : "⚙️ System language changed to: English";
   const terminal = document.getElementById("logTerminal");
   terminal.innerHTML += `<div class="log-line"><span style="color: #7c2d12; font-weight: bold;">${sysMsg}</span></div>`;
@@ -589,6 +616,12 @@ function applyTranslations() {
   } else {
     document.getElementById("questText").textContent = langPack.questText;
   }
+
+  // ========================================================
+  // ✨【在此精準補上核心修正】✨
+  // 當語言切換時，立刻強制同步刷新進度條上方的貓咪/小狗等級中英文文字！
+  // ========================================================
+  updateUI();
 }
 
 // Initial application invocation
