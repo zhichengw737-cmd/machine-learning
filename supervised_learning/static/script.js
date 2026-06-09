@@ -535,10 +535,10 @@ function toggleLanguage() {
 function applyTranslations() {
   const langPack = translations[currentLang];
   
-  // ⚡ LINK SYSTEM STATE WITH BROWSER CSS ⚡
+  // ⚡ 將系統狀態與網頁根元素的 CSS 標籤進行同步連動 ⚡
   document.documentElement.setAttribute('lang', currentLang);
   
-  // 1. Map ID elements
+  // 1. 映射所有基礎靜態 ID 元素（標題、按鈕）
   const textIds = [
     "heroTitle", "heroSub", "questTitle", "selectKeyLabel", 
     "btnTrain", "btnTest", "btnReset", "langBtn", 
@@ -550,20 +550,45 @@ function applyTranslations() {
     if (el) el.textContent = langPack[id];
   });
   
-  // 2. Map Elements with data-key attributes (Tooltips, loot, cards)
+  // 2. 映射帶有 data-key 屬性的所有元素（工具提示等）
   document.querySelectorAll("[data-key]").forEach(el => {
     const key = el.getAttribute("data-key");
     if (langPack[key]) el.textContent = langPack[key];
   });
 
-  // 3. Update contextual active file string indicator
+  // 3. 更新目前已選取地圖檔案的動態語言指示器（Selected: XXX / 已選擇：XXX）
   const activeItem = document.querySelector('.grid-item.active');
   if (activeItem) {
-    const txtKey = activeItem.querySelector('.tooltip-text').getAttribute('data-key');
-    document.getElementById('activeItemLabel').textContent = `${langPack.activeItemLabel}${langPack[txtKey]}`;
+    const val = activeItem.getAttribute('data-value');
+    const translatedText = langPack[`${val}_tt`].replace("⚠️ BOSS: ", "").replace("Map File: ", "");
+    document.getElementById('activeItemLabel').textContent = `${langPack.activeItemLabel}${translatedText}`;
   }
 
-  updateUI();
+  // 4. 🔥【核心修正】動態刷新中間控制台的人工標籤描述 🔥
+  showInput();
+
+  // 5. 🔥【核心修正】即時更新預測狀態列 (Prediction Window) 🔥
+  const currentPrediction = prediction.innerHTML;
+  // 檢查目前是否是初始狀態（包含 Awaiting 或 等待）
+  if (!currentPrediction || currentPrediction.includes("Awaiting") || currentPrediction.includes("等待")) {
+    prediction.innerHTML = langPack.awaitingInstructions;
+  } else {
+    // 如果畫面上已經有測試結果，直接原地重新呼叫 test() 來刷成當前語言，使用者不需要重新點擊！
+    test(); 
+  }
+
+  // 6. 🔥【核心修正】在日誌終端機中加入動態語系切換通知，避免歷史紀錄中英混雜錯置 🔥
+  const sysMsg = currentLang === "zh" ? "⚙️ 系統語言已切換為：繁體中文" : "⚙️ System language changed to: English";
+  const terminal = document.getElementById("logTerminal");
+  terminal.innerHTML += `<div class="log-line"><span style="color: #7c2d12; font-weight: bold;">${sysMsg}</span></div>`;
+  terminal.scrollTop = terminal.scrollHeight;
+
+  // 7. 如果主線任務已經完成，確保點擊切換語言時，任務框內的文案也會同步變更
+  if (questCelebrated) {
+    document.getElementById("questText").innerHTML = langPack.questComplete;
+  } else {
+    document.getElementById("questText").textContent = langPack.questText;
+  }
 }
 
 // Initial application invocation
