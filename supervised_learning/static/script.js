@@ -218,7 +218,7 @@ function updateButtons() {
   const key = selectedValue;
   const trainBtn = document.querySelector(".btn-green");
   const testBtn = document.querySelector(".btn-pink");
-  const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
+  const fullyTrained = memory.cat >= 3 && memory.dog >= 3;
 
   trainBtn.disabled = (key === "shiba1" || key === "bird1");
   testBtn.disabled = ((key === "shiba1" || key === "bird1") && !fullyTrained);
@@ -247,11 +247,11 @@ function popFloatingXp(rowId) {
 }
 
 function updateUI() {
-  catRank.textContent = memory.cat >= 2 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/2 XP`;
-  dogRank.textContent = memory.dog >= 2 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/2 XP`;
+  catRank.textContent = memory.cat >= 3 ? "🥇 CAT LEVEL: MAX RANK" : `🌱 CAT LEVEL: ${memory.cat}/3 XP`;
+  dogRank.textContent = memory.dog >= 3 ? "🥇 DOG LEVEL: MAX RANK" : `🌱 DOG LEVEL: ${memory.dog}/3 XP`;
 
-  catBar.style.width = `${Math.min((memory.cat / 2) * 100, 100)}%`;
-  dogBar.style.width = `${Math.min((memory.dog / 2) * 100, 100)}%`;
+  catBar.style.width = `${Math.min((memory.cat / 3) * 100, 100)}%`;
+  dogBar.style.width = `${Math.min((memory.dog / 3) * 100, 100)}%`;
 
   document.getElementById("catLoot").style.display = categoryDiscovered.cat ? "block" : "none";
   document.getElementById("dogLoot").style.display = categoryDiscovered.dog ? "block" : "none";
@@ -259,7 +259,7 @@ function updateUI() {
   const quest = document.getElementById("questText");
   const questBox = document.getElementById("questBox");
   
-  if (memory.cat >= 2 && memory.dog >= 2) {
+  if (memory.cat >= 3 && memory.dog >= 3) {
     questBox.classList.add("quest-completed-shine");
     quest.innerHTML = "<b class='quest-title-pop'>⭐ QUEST COMPLETED!</b> The parameter weights are harmonized perfectly! Now you can try the boss data slots if you dare...";
     
@@ -301,7 +301,7 @@ function train() {
   if (!categoryDiscovered[item.label]) {
     categoryDiscovered[item.label] = true;
     memory[item.label]++;
-  } else if (memory[item.label] < 2) {
+  } else if (memory[item.label] < 3) {
     memory[item.label]++;
   }
 
@@ -327,27 +327,27 @@ function test() {
   const item = dataset[key];
 
   let catProb = 0, dogProb = 0;
-  const fullyTrained = memory.cat >= 2 && memory.dog >= 2;
+  const fullyTrained = memory.cat >= 3 && memory.dog >= 3;
 
   logTerminal("🤖 Scanning bounding coordinates for local contrast variations...", "observation");
 
   if (key === "shiba1") {
     if (!fullyTrained) return logTerminal("🔒 Boss instance locked! Max out both base inventory grids first.", "error");
-    // Shiba sits on a fence between 47% and 60%
     catProb = Math.floor(Math.random() * 14) + 47; dogProb = 100 - catProb;
   } else if (key === "bird1") {
     if (!fullyTrained) return logTerminal("🔒 Boss instance locked! Max out both base inventory grids first.", "error");
-    // Bird drops unique erratic variance weights entirely unaligned with standard arrays
     catProb = Math.floor(Math.random() * 30) + 35; dogProb = 100 - catProb;
   } else if (key.startsWith("cat")) {
     if (memory.cat === 0) catProb = Math.floor(Math.random() * 6) + 47;
     else if (memory.cat === 1) catProb = Math.floor(Math.random() * 11) + 58;
-    else catProb = Math.floor(Math.random() * 11) + 85;
+    else if (memory.cat === 2) catProb = Math.floor(Math.random() * 11) + 72;
+    else catProb = Math.floor(Math.random() * 11) + 88;
     dogProb = 100 - catProb;
   } else {
     if (memory.dog === 0) dogProb = Math.floor(Math.random() * 6) + 47;
     else if (memory.dog === 1) dogProb = Math.floor(Math.random() * 11) + 58;
-    else dogProb = Math.floor(Math.random() * 11) + 85;
+    else if (memory.dog === 2) dogProb = Math.floor(Math.random() * 11) + 72;
+    else dogProb = Math.floor(Math.random() * 11) + 88;
     catProb = 100 - dogProb;
   }
 
@@ -357,16 +357,16 @@ function test() {
   playSound('test');
   prediction.innerHTML = `🎯 Calculated Output: <b style="color:#fbbf24;">${result} Slot</b> (Probability Weight: ${score}%)`;
 
-  logTerminal(`📊 Cat Weights Matrix: ${catProb}% | Dog Weights Matrix: ${dogProb}%`, "info");
+  logTerminal(`📊 Cat Weights Probability: ${catProb}% | Dog Weights Probability: ${dogProb}%`, "info");
 
   if (key === "shiba1") {
     logTerminal("🚨 WARNING PARADOX: Sharp triangle structures AND extended snout slopes found simultaneously inside one data slot!", "error");
     displayFeatureCircles(item);
   } else if (key === "bird1") {
     logTerminal("🚨 CRITICAL ZERO-MATCH: No known snout profiles or whisker channels mapped! Vector pathways out of bounds!", "error");
-    hideFeatureCircles(); // Completely hide feature boundaries because no cat/dog parameters exist here!
+    hideFeatureCircles();
   } else if ((item.label === "cat" && memory.cat > 0) || (item.label === "dog" && memory.dog > 0)) {
-    logTerminal(`✨ Matrix highlights localized pattern matches over target image frames.`, "observation");
+    logTerminal(`✨ Probability highlights localized pattern matches over target image frames.`, "observation");
     displayFeatureCircles(item);
   } else {
     hideFeatureCircles();
@@ -380,7 +380,7 @@ function reset() {
   categoryDiscovered = { cat: false, dog: false };
   questCelebrated = false;
   prediction.textContent = "Awaiting vector maps...";
-  document.getElementById("logTerminal").innerHTML = "🔄 Matrix database storage wiped completely. Loop restarted!";
+  document.getElementById("logTerminal").innerHTML = "🔄 Database storage wiped completely. Loop restarted!";
   
   document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
   const firstItem = document.querySelector('.grid-item');
