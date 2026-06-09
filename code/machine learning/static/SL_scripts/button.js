@@ -21,12 +21,16 @@ actionBtn.addEventListener('click', () => {
 
     if (trainingBatch === 1) {
         // Step 1: Knows Right & Down. It traces perfectly until it encounters the first LEFT arrow at (5,6) and stops.
-        narrativeTextEl.innerHTML = "📝 <strong>Batch 1:</strong> The ball is taught what Right & Down mean. It moves until it sees an unknown shape and stops.";
+        narrativeTextEl.innerHTML = "📝 <strong>Batch 1:</strong> The ball is taught what Right & Down mean." +
+                                            "It also learned to <strong>generalize</strong> similar shapes (like treating '⇨' as Right, '⇓' as Down)." + 
+                                            "It moves until it sees an unknown shape and stops.";
         actionBtn.textContent = "Provide Labels (Step 2)";
         path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6]];
     } else if (trainingBatch === 2) {
         // Step 2: Knows Left & Up. It now knows all features and can trace to the goal perfectly!
-        narrativeTextEl.innerHTML = "📝 <strong>Batch 2:</strong> The ball is taught Left & Up. It now has a label for every feature and reaches the goal!";
+        narrativeTextEl.innerHTML = "📝 <strong>Batch 2:</strong> The ball is taught Left & Up. " +
+                                        "It also learned to <strong>generalize</strong> similar shapes (like treating '⇐' as Left, '⇑' as Up)." + 
+                                         "It now has a label for every feature and reaches the goal!";
         actionBtn.textContent = "Run Full Test (Mastered)";
         path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4], [3,3], [3,2], [3,1], [4,1], [4,2], [5,2], [6,2], [6,3], [7,3], [7,4], [7,5], [7,6], [7,7]];
     } else {
