@@ -61,7 +61,9 @@ h1 {
 }
 
 .maze-controls {
+    display: flex;
     margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .dashboard {
@@ -97,6 +99,13 @@ h1 {
 .btn-primary:hover:not(:disabled) { background-color: #2563eb; }
 .btn-danger { background-color: #ef4444; color: white; }
 .btn-danger:hover { background-color: #dc2626; }
+
+.btn-secondary {
+    background-color: #64748b; /* Sleek cool gray */
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 10px;
+}
 
 #maze1-btn, #maze2-btn {
     background-color: #e2e8f0;
