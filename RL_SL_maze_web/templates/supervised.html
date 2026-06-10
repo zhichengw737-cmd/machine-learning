@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervised Learning Playground</title>
+
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/SL_scripts/SL_style.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="sl-title">🔵 Supervised Learning Playground</h1>
+        <p class="subtitle">Watch the ball follow explicitly labeled instructions from a Teacher!</p>
+
+        <div class="playground-layout">
+            <div class="left-panel">
+                <div class="control-panel">
+                    <div class="maze-controls">
+                        <button class="btn active">Supervised Maze</button>
+                        <a href="index.html" class="btn btn-secondary">Switch to Reinforcement Learning</a>
+                    </div>
+                    <div class="dashboard">
+                        <div class="stat-box">
+                            <span class="stat-label">Training Batch:</span>
+                            <span id="training-count" class="stat-value">0 / 3</span>
+                        </div>
+                        <button id="action-btn" class="btn btn-primary">Provide Labels (Step 1)</button>
+                        <button id="reset-btn" class="btn btn-danger">Reset Simulation</button>
+                    </div>
+                </div>
+
+                <div class="narrative-box" style="border-left-color: #2563eb; background-color: #eff6ff;">
+                    <p id="narrative-text">The ball needs a teacher. Click "Provide Labels" to feed it its first batch of flashcards.</p>
+                </div>
+
+                <div class="grid-container" style="margin: 25px auto; display: grid; gap: 2px; background-color: #cbd5e1; padding: 4px; border-radius: 8px; width: max-content;">
+                    <div id="grid" class="grid"></div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="panel-section">
+                    <h3 class="section-title title-top">📖 Teacher's Vocabulary Dictionary</h3>
+                    <p class="section-desc">Human-provided answers correlating symbols to directions:</p>
+                    
+                    <div class="opinion-grid">
+                        <div class="opinion-card">
+                            <span class="feature-label">⬆️ Feature '↑'</span>
+                            <span id="opinion-up" class="opinion-text">No Label Provided</span>
+                        </div>
+                        <div class="opinion-card">
+                            <span class="feature-label">➡️ Feature '→'</span>
+                            <span id="opinion-right" class="opinion-text">No Label Provided</span>
+                        </div>
+                        <div class="opinion-card">
+                            <span class="feature-label">⬇️ Feature '↓'</span>
+                            <span id="opinion-down" class="opinion-text">No Label Provided</span>
+                        </div>
+                        <div class="opinion-card" >
+                            <span class="feature-label">⬅️ Feature '←'</span>
+                            <span id="opinion-left" class="opinion-text">No Label Provided</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">📋 Step Execution Log</h3>
+                    <div id="move-history-log" class="history-placeholder">
+                        Waiting for simulation...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-section" style="margin-top: 50px;">
+            <div class="edu-header-container">
+                <h2 class="comparison-table th" style="color: #1e3a8a;">📚 Supervised vs. Reinforcement Learning</h2>
+                <p class="comparison-table ">What is the difference between these two major AI technologies?</p>
+            </div>
+            
+            <div class="rl-core-split" style="display: flex; gap: 30px; align-items: stretch; margin-bottom: 30px;">
+                <div style="flex: 1; background: #f0f9ff; padding: 25px; border-radius: 12px; border-left: 6px solid #0ea5e9;">
+                    <h3 style="color: #0369a1; margin-top: 0;">📘 Supervised Learning (Features & Labels)</h3>
+                    <p class="param-desc">
+                        <strong>Supervised Learning</strong> is like learning with flashcards. We give the computer the exact answer key. 
+                    </p>
+                    <p class="param-desc" style="margin-top: 10px;">
+                        The AI looks at a <strong>Feature</strong> (the shape of the arrow drawn on the ground) and maps it to a direct <strong>Label</strong> (the instruction to move Right). Because it is given the answers directly, it learns incredibly fast, but it gets completely stuck if it sees a shape it hasn't been taught yet!
+                    </p>
+                </div>
+
+                <div style="flex: 1; background: #fff1f2; padding: 25px; border-radius: 12px; border-left: 6px solid #e11d48;">
+                    <h3 style="color: #be123c; margin-top: 0;">🎯 Reinforcement Learning (Rewards)</h3>
+                    <p class="param-desc">
+                        <strong>Reinforcement Learning</strong> is like training a puppy. There is no answer key.
+                    </p>
+                    <p class="param-desc" style="margin-top: 10px;">
+                        The AI walks around blindly and relies on <strong>Rewards</strong> (+10 points for a good move, -10 for a bad one). It learns strictly through <strong>trial and error</strong> over many episodes until it builds a path that gives it the highest possible score.
+                    </p>
+                </div>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Core Dimension</th>
+                        <th>🔵 Supervised Learning</th>
+                        <th>🔴 Reinforcement Learning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Core Objective</td>
+                        <td>Follows explicit ground-truth <strong>labels</strong></td>
+                        <td>Maximizes environmental <strong>rewards</strong> (points)</td>
+                    </tr>
+                    <tr>
+                        <td>The "Teacher" Role</td>
+                        <td>A human explicitly provides direct correct answers</td>
+                        <td>The dynamic environment provides delayed feedback feedback</td>
+                    </tr>
+                    <tr>
+                        <td>When an Anomaly Occurs</td>
+                        <td>It gets stuck. It cannot resolve states without a known label.</td>
+                        <td>Loses points temporarily, explores alternative paths to optimize.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../static/SL_scripts/supervised.js"></script>
+    <script src="../static/SL_scripts/arrow_dictionary.js"></script>
+    <script src="../static/SL_scripts/button.js"></script>
+    <script src="../static/SL_scripts/simulation.js"></script>
+
+
+</body>
+</html>

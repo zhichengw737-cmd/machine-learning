@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcement Learning Playground</title>
+    <link rel="stylesheet" href="../static/style.css">
+
+    <script src="../static/lang/en.js"></script>
+    <script src="../static/lang/zh.js"></script>
+    <script src="../static/i18n.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button id="lang-switch-btn" onclick="toggleLanguage()" 
+            class="btn btn-secondary" 
+            style="position: absolute; top: 10px; right: 10px; background-color: #0f172a;">
+            繁體中文
+        </button>
+        <h1 data-i18n="title"></h1>
+        <p class="subtitle" data-i18n="subtitle"</p>
+        
+        <div class="playground-layout">
+            <div class="left-panel">
+                <div class="control-panel">
+                    <div class="maze-controls">
+                        <button id="maze1-btn" class="btn active" data-i18n="btn_maze1"></button>
+                        <button id="maze2-btn" class="btn" disabled data-i18n="btn_maze2"></button>
+                        <a href="supervised.html" class="btn btn-secondary" data-i18n="btn_switch_sl"></a>
+                    </div>
+                    <div class="dashboard">
+                        <div class="stat-box">
+                            <span class="stat-label" data-i18n="stat_training"></span>
+                            <span id="training-count" class="stat-value">0 / 5</span>
+                        </div>
+                        <button id="action-btn" class="btn btn-primary" data-i18n="btn_train_step1"></button>
+                        <button id="reset-btn" class="btn btn-danger" data-i18n="btn_reset"></button>
+                    </div>
+                </div>
+
+                <div class="narrative-box">
+                    <p id="narrative-text">The ball sees arrows on the ground but has no idea what they mean. Click "Train & Run" to start its journey.</p>
+                </div>
+
+                <div class="grid-container">
+                    <div id="grid" class="grid"></div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <h3>🧠 AI's Internal Dictionary</h3>
+                <p class="table-subtitle">What the ball currently thinks about the symbols:</p>
+                <table class="opinion-table">
+                    <thead>
+                        <tr>
+                            <th>Arrow Symbol</th>
+                            <th>AI's current Interpretation / Opinion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="arrow-cell">↑</td>
+                            <td id="opinion-up" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                        <tr>
+                            <td class="arrow-cell">→</td>
+                            <td id="opinion-right" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                        <tr>
+                            <td class="arrow-cell">↓</td>
+                            <td id="opinion-down" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                        <tr>
+                            <td class="arrow-cell">←</td>
+                            <td id="opinion-left" class="opinion-text">Unrecognized pattern</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!--<div class="reward-dashboard" style="margin-top: 20px;"> -->
+                    <div class="reward-dashboard">
+                        <!--<h3 style="margin-bottom: 10px;">🎯 Reward Dashboard</h3> -->
+                        <h3>🎯 Reward Dashboard</h3>
+                    <!--<div id="reward-box" class="stat-box" style="margin-bottom: 10px;"> -->
+                    <div id="reward-box" class="reward-score-card">
+                        <!-- <span class="stat-label">Total Reward Points:</span>-->
+                        <span class="reward-card-label">Total Reward Points:</span>
+                        <!--<span id="reward-value" class="stat-value" style="color: #10b981; margin-left: 5px;">0</span> -->
+                        <span id="reward-value" class="reward-card-value">0</span>
+                    </div>
+                    
+                    <!--<div class="stat-box" style="font-weight: 600; padding: 12px; background: #f8fafc;">-->
+                    <div class="history-log-card">                        
+                        <!--<div class="stat-label" style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Move & Reward History:</div> -->
+                        <div class="history-log-header">Move & Reward History:</div>
+                        <!--<div id="move-history-log" style="max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; display: flex; flex-direction: column; gap: 4px;">-->
+                        <div id="move-history-log" class="history-log-content">
+                            <!--<div style="color: #64748b;">Waiting for simulation...</div>-->
+                            <div class="history-placeholder">Waiting for simulation...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+        <div class="educational-section">
+            <div class="edu-header-container">
+                <h2 class="edu-title">🧠 How Does the Ball's Brain Actually Work?</h2>
+                <p class="edu-subtitle">In AI, we use 4 secret rules to help the ball learn. Here is what they mean in our maze game:</p>
+            </div>
+            
+            <div class="rl-intro-box">
+                <h3>🤖 What is Reinforcement Learning (RL)?</h3>
+                <p class="param-desc">
+                    Imagine you are playing a brand-new video game, but the <strong>screen is completely black</strong>, and <strong>nobody told you the rules</strong>! 
+                    <br><br>
+                    The only way to win is to walk around, press buttons, and see what happens. When you hear a <em>"Ding!"</em> and <strong>get points/rewards</strong>, you think, <strong>"Hey, I should do that again!"</strong>. 
+                    <br>
+                    When you hear a <em>"Buzz!"</em> and <strong>lose points</strong>, you think, <strong>"Oops, better avoid that!"</strong>.
+                </p>
+                <p class="param-desc" style="margin-top: 10px;">
+                    That is exactly what <strong>Reinforcement Learning</strong> is! 
+                    <br>
+                    It is a type of AI learning where we don't give the ball a map or tell it what to do. Instead, the ball learns completely by <strong>trial and error</strong>—<strong>getting rewards for good moves and penalties for bad ones</strong> until it discovers the perfect path.
+                </p>
+            </div>
+
+            <hr class="edu-divider">
+
+            <p class="edu-subtitle" style="margin-bottom: 20px; font-weight: bold; color: #1e293b;">
+                🎛️ The 4 Secret Tuning Knobs (Parameters):
+            </p>
+
+            <div class="param-grid">
+                
+                <div class="param-card card-episodes">
+                    <h3>🎮 1. Episodes</h3>
+                    <span class="param-analogy">The "Video Game Rounds"</span>
+                    <p class="param-desc">
+                        Think of an <strong>Episode</strong> as <strong>1 challenge of a game</strong>. It starts the moment the ball is at the beginning, and ends when it either gets completely lost or successfully reaches the goal! 
+                        <br><br>
+                        Every time you click "Train & Run", you are starting <strong>a brand new episode</strong> to see if the ball can do better this round. 
+                        <br><br>
+                        In this maze game, there are <strong>5 Episodes</strong> to train the ball. With each episode, it learns a little more about what the arrows mean and how to get closer to the goal!
+                    </p>
+                </div>
+
+                <div class="param-card card-alpha">
+                    <h3>🧪 2. Alpha (α)</h3>
+                    <span class="param-analogy">The "Memory Power"</span>
+                    <p class="param-desc">
+                        <strong>Alpha</strong> is the <strong>learning rate</strong> <br>
+                        It decides How fast the ball learn new steps.
+                        <br> <br>
+                        <strong>High Alpha</strong>: 
+                        <br>
+                        The ball only cares about its <strong>last step</strong> and forgets what it learned before. 
+                        <br><br>
+                        <strong>Low Alpha</strong>: 
+                        <br>
+                        The ball learns slowly, care more about its <strong>previous steps</strong> but need more time to learn the last step.
+                        <br><br>
+                        What is the optimal value?
+                        <br>
+                        <strong>Every model is different! Need to test so many times to find it.</strong>
+                        <br><br>
+                        In normal, the range is 10<sup>-5</sup> to 10<sup>-3</sup>.
+                    </p>
+                </div>
+
+                <div class="param-card card-gamma">
+                    <h3>👓 3. Gamma (γ)</h3>
+                    <span class="param-analogy">The "Future-Vision Telescope"</span>
+                    <p class="param-desc">
+                        <strong>Gamma</strong> controls how much the ball values future rewards.
+                        <br><br>
+                        <strong>Low Gamma</strong>: 
+                        <br>The ball only care about finding a quick +10 points (reward) right <strong>in front of its face</strong>. 
+                        <br><br>
+                        <strong>High Gamma</strong>: 
+                        <br>The ball wear magic telescope that let it <strong>look far down the path</strong> to hunt for the massive +100 point (reward) at the very end. 
+                        <br>
+                        High Gamma helps the AI plan ahead!
+                    </p>
+                </div>
+
+                <div class="param-card card-epsilon">
+                    <h3>🧭 4. Epsilon (ε)</h3>
+                    <span class="param-analogy">The "Curiosity Meter"</span>
+                    <p class="param-desc">
+                        <strong>Epsilon</strong> decides how much the ball will explore new actions instead of using known ones. 
+                        <br><br>
+                        <strong>High Epsilon</strong>: 
+                        <br>The ball acts like a wild explorer, ignoring what it already knows to try crazy new directions and look for secrets.
+                        <br><br>
+                        <strong>Low Epsilon</strong>: 
+                        <br>The ball says <em>"I'm playing it safe!"</em> and strictly follows the path it already trusts to finish the map safely.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+
+    <script src="../static/script.js"></script>
+    <script src="../static/opinion_dictionary.js"></script>
+    <script src="../static/simulation.js"></script>
+    <script src="../static/button.js"></script>
+    
+</body>
+</html>
+

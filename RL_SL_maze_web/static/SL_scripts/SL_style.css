@@ -1,0 +1,336 @@
+/* ==========================================================================
+   supervised.css
+   Dedicated Stylesheet for Supervised Learning Playground
+   Layered cleanly over style.css without altering original base code
+   ========================================================================== */
+
+/* 1. Theme Configuration Variables */
+:root {
+    --sl-primary: #2563eb;        /* Vibrant Teacher Blue */
+    --sl-primary-hover: #1d4ed8;  /* Deep Interactive Blue */
+    --sl-primary-light: #f0f6ff;  /* Soft Canvas Background Tint */
+    --sl-border-glowing: #93c5fd; /* Soft Blue Focus Border */
+    --sl-accent: #1e3a8a;         /* High-Contrast Navy Blue Text */
+    --sl-success: #10b981;        /* Goal Green Accent */
+    --text-dark: #0f172a;         /* Dark Slate Charcoal */
+    --text-muted: #64748b;        /* Cool Gray Secondary Muted Text */
+}
+
+/* Shift base background slightly cleaner for the SL view */
+body {
+    background-color: #f8fafc;
+}
+
+/* Clean up the main playground title */
+.sl-title {
+    color: var(--sl-primary);
+}
+
+
+/* 2. Top Navigation Links & Active Maze Tabs Override */
+.maze-controls .btn.active {
+    background-color: var(--sl-accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+    border: none !important;
+}
+
+.maze-controls a.btn {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #cbd5e1;
+}
+
+.maze-controls a.btn:hover {
+    background-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    transform: translateY(-1px);
+}
+
+/* 3. Dashboard Buttons & Metric Boxes Customization */
+#action-btn.btn-primary {
+    background-color: var(--sl-primary) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+}
+
+#action-btn.btn-primary:hover:not(:disabled) {
+    background-color: var(--sl-primary-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
+
+#action-btn:disabled {
+    background-color: #cbd5e1 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#reset-btn.btn-danger {
+    transition: all 0.25s ease;
+}
+#reset-btn.btn-danger:hover {
+    transform: translateY(-1px);
+}
+
+.stat-box {
+    border-left: 4px solid var(--sl-primary);
+    background: #ffffff;
+    padding: 10px 16px;
+    border-radius: 4px 8px 8px 4px;
+}
+
+.stat-value {
+    color: var(--sl-primary) !important;
+    font-weight: 700;
+}
+
+/* 4. Interactive Narrative Box Style Overhaul */
+.narrative-box {
+    border-left: 4px solid var(--sl-primary);
+    background-color: var(--sl-primary-light);
+    border-radius: 4px 12px 12px 4px;
+    padding: 18px;
+    margin-top: 15px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.01);
+}
+
+.narrative-box strong {
+    color: var(--sl-accent);
+}
+
+/* 5. Custom Grid Arena & Cell State Animations */
+#grid {
+    background: #ffffff;
+    border: 3px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    gap: 4px;
+}
+
+.cell {
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    background-color: #f1f5f9;
+}
+
+.cell.wall {
+    background-color: #334155 !important; /* Smooth dark-slate barriers */
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.cell.start {
+    background-color: #dbeafe !important;
+    border: 2px dashed var(--sl-primary);
+}
+
+.cell.goal {
+    background-color: #d1fae5 !important;
+    border: 2px dashed var(--sl-success);
+    animation: pulse-goal-glow 2s infinite ease-in-out;
+}
+
+.guide-arrow {
+    font-size: 20px;
+    font-weight: bold;
+    color: #64748b;
+    user-select: none;
+}
+
+/* 6. Label Mappings / Feature Card Blocks */
+#opinion-up, #opinion-right, #opinion-down, #opinion-left {
+    padding: 6px 12px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    display: inline-block;
+    color: #334155;
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+/* Fluid mouse-hover card animations customized with a Blue overlay tint */
+.rl-intro-box:hover, .param-card:hover {
+    transform: translateY(-5px) !important;
+    background: var(--sl-primary-light) !important;
+    border-color: var(--sl-border-glowing) !important;
+    box-shadow: 0 12px 24px -10px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Dynamic Flash Feedback when labels get assigned by the teacher */
+.highlight-update {
+    animation: flash-label-assignment 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    font-weight: bold;
+}
+
+/*right panel */
+.panel-section .section-title {
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.panel-section .title-top {
+    margin-top: 0;
+}
+
+.panel-section .section-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.panel-section.section-log {
+    margin-top: 25px;
+}
+
+/* Dictionary Grid & Cards */
+.opinion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.opinion-card {
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--sl-primary);
+}
+
+.opinion-card .feature-label {
+    font-weight: bold;
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.opinion-text {
+    font-size: 13px;
+}
+
+/* 7. Monospace Code Terminal for Move & Feature History Logs */
+#move-history-log {
+    background-color: #0f172a; /* Dark developer console aesthetic */
+    color: #38bdf8;
+    font-family: monospace;
+    font-size: 13px;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #1e293b;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.history-placeholder {
+    color: #64748b !important;
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.history-log-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #1e293b;
+    line-height: 1.6;
+    animation: slide-in-row 0.2s ease-out;
+}
+
+.history-log-item:last-child {
+    border-bottom: none;
+}
+
+/* 8. Paradigm Comparison Table Section Overhaul */
+.educational-section, .comparison-section {
+    margin-top: 50px;
+    background: #ffffff;
+    padding: 32px 24px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+table.comparison-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+table.comparison-table th {
+    background-color: #f8fafc;
+    color: var(--text-dark);
+    font-weight: bold;
+    padding: 16px;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Custom left border accents on specific table headers for visual hierarchy */
+table.comparison-table th:nth-child(2) {
+    border-top: 4px solid var(--sl-primary);
+    background-color: var(--sl-primary-light);
+}
+
+table.comparison-table th:nth-child(3) {
+    border-top: 4px solid #ef4444; /* Contrasting Red accent for the RL reference column */
+    background-color: #fff5f5;
+}
+
+/* Automatically style the feature names in the first column of the table */
+table.comparison-table tbody tr td:first-child {
+    font-weight: bold;
+    color: var(--text-dark); /* Keeps it sharp and readable */
+}
+
+table.comparison-table td {
+    padding: 16px;
+    color: #334155;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+table.comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+table.comparison-table tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* 9. Keyframe Animations */
+@keyframes flash-label-assignment {
+    0% {
+        background-color: rgba(37, 99, 235, 0.35);
+        border-color: var(--sl-primary);
+        color: var(--sl-accent);
+        transform: scale(1.02);
+    }
+    100% {
+        background-color: transparent;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse-goal-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes slide-in-row {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
