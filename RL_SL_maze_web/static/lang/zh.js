@@ -66,5 +66,9 @@ const lang_zh = {
     "reward_lbl_total": "總獎勵積分",
     "reward_th_action": "移動軌跡:",
     "reward_waiting": "等待模擬啟動...",
+    "reward_start": "起始於",
+    "reward_moved": "移動至",
+    "reward_total_pts": "總計",
+    "reward_pts": "分"
 
 };

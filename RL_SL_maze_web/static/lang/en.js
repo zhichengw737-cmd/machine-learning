@@ -66,5 +66,9 @@ const lang_en = {
     "reward_lbl_total": "Total Reward Points:",
     "reward_th_action": "Move & Reward History:",
     "reward_waiting": "Waiting for simulation...",
+    "reward_start": "Start at",
+    "reward_moved": "Moved to",
+    "reward_total_pts": "Total",
+    "reward_pts": "pts"
     
 };

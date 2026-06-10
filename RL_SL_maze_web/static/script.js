@@ -183,7 +183,11 @@ function initGrid() {
     // Reset Move & Reward History log to initial state when initializing the grid to avoid confusion with previous runs
     //historyLogEl.className = 'history-placeholder';
     historyLogEl.classList.add('history-placeholder');
-    historyLogEl.innerHTML = 'Waiting for simulation...';
+    //historyLogEl.innerHTML = 'Waiting for simulation...';
+
+    //make the history Log can change from Engish to Chinese
+    const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+    historyLogEl.innerHTML = dict['reward_waiting'];
 }
 
 
