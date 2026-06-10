@@ -1,11 +1,16 @@
 // Buttons Actions
 maze1Btn.addEventListener('click', () => {
+    const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+
     currentMaze = 1;
     maze1Btn.classList.add('active');
     maze2Btn.classList.remove('active');
     if (trainingTimes < 5) {
         actionBtn.style.display = 'inline-block';
-        actionBtn.textContent = `Train & Run (Step ${trainingTimes + 1})`;
+        //actionBtn.textContent = `Train & Run (Step ${trainingTimes + 1})`;
+        actionBtn.textContent = dict[`btn_train_step${trainingTimes + 1}`] || dict['btn_train_final'];
+    }else{
+        actionBtn.textContent = dict['btn_run_mastered'];
     }
 
     // Reset reward points when switching back to Maze 1 to reflect the training progress accurately.
@@ -52,6 +57,8 @@ maze2Btn.addEventListener('click', () => {
 actionBtn.addEventListener('click', runSimulation);
 
 resetBtn.addEventListener('click', () => {
+    const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+
     currentMaze = 1;
     trainingTimes = 0;
     isMoving = false;
@@ -64,10 +71,13 @@ resetBtn.addEventListener('click', () => {
     
     trainingCountEl.textContent = "0 / 5";
     actionBtn.style.display = 'inline-block';
-    actionBtn.textContent = "Train & Run (Step 1)";
+    //actionBtn.textContent = "Train & Run (Step 1)";
+    actionBtn.textContent = dict['btn_train_step1'];
     actionBtn.disabled = false;
-    narrativeTextEl.textContent = "The ball forgot everything! The whole simulation has been reset.";
-    
+
+    //narrativeTextEl.textContent = "The ball forgot everything! The whole simulation has been reset.";
+    narrativeTextEl.textContent = dict['narrative_reset'];
+
     maze1Btn.classList.add('active');
     maze2Btn.classList.remove('active');
     maze2Btn.disabled = true;

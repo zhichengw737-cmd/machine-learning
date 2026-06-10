@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="narrative-box">
-                    <p id="narrative-text">The ball sees arrows on the ground but has no idea what they mean. Click "Train & Run" to start its journey.</p>
+                    <p id="narrative-text" data-i18n="narrative_start"></p>
                 </div>
 
                 <div class="grid-container">
@@ -48,31 +48,34 @@
             </div>
 
             <div class="right-panel">
-                <h3>🧠 AI's Internal Dictionary</h3>
-                <p class="table-subtitle">What the ball currently thinks about the symbols:</p>
+                <h3 data-i18n="dict_title"></h3>
+                <p class="table-subtitle" data-i18n="dict_subtitle"></p>
                 <table class="opinion-table">
                     <thead>
                         <tr>
-                            <th>Arrow Symbol</th>
-                            <th>AI's current Interpretation / Opinion</th>
+                            <th data-i18n="arrow_symbol"></th>
+                            <th data-i18n="current_opinion_title"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="arrow-cell">↑</td>
-                            <td id="opinion-up" class="opinion-text">Unrecognized pattern</td>
+                            <td id="opinion-up" class="opinion-text" data-i18n="opinion_0_up"></td>
                         </tr>
                         <tr>
                             <td class="arrow-cell">→</td>
-                            <td id="opinion-right" class="opinion-text">Unrecognized pattern</td>
+                            <td id="opinion-right" class="opinion-text" data-i18n="opinion_0_right"></td>
+                        </tr>></td>
                         </tr>
                         <tr>
                             <td class="arrow-cell">↓</td>
-                            <td id="opinion-down" class="opinion-text">Unrecognized pattern</td>
+                            <td id="opinion-down" class="opinion-text" data-i18n="opinion_0_down"></td>
+                        </tr>></td>
                         </tr>
                         <tr>
                             <td class="arrow-cell">←</td>
-                            <td id="opinion-left" class="opinion-text">Unrecognized pattern</td>
+                            <td id="opinion-left" class="opinion-text" data-i18n="opinion_0_left"></td>
+                        </tr>></td>
                         </tr>
                     </tbody>
                 </table>
@@ -80,23 +83,31 @@
                 <!--<div class="reward-dashboard" style="margin-top: 20px;"> -->
                     <div class="reward-dashboard">
                         <!--<h3 style="margin-bottom: 10px;">🎯 Reward Dashboard</h3> -->
-                        <h3>🎯 Reward Dashboard</h3>
+                        <h3 data-i18n="reward_title"></h3>
+
                     <!--<div id="reward-box" class="stat-box" style="margin-bottom: 10px;"> -->
                     <div id="reward-box" class="reward-score-card">
+
                         <!-- <span class="stat-label">Total Reward Points:</span>-->
-                        <span class="reward-card-label">Total Reward Points:</span>
+                        <span class="reward-card-label" data-i18n="reward_lbl_total">Total Reward Points:</span>
+
                         <!--<span id="reward-value" class="stat-value" style="color: #10b981; margin-left: 5px;">0</span> -->
                         <span id="reward-value" class="reward-card-value">0</span>
+
                     </div>
                     
                     <!--<div class="stat-box" style="font-weight: 600; padding: 12px; background: #f8fafc;">-->
                     <div class="history-log-card">                        
+
                         <!--<div class="stat-label" style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Move & Reward History:</div> -->
-                        <div class="history-log-header">Move & Reward History:</div>
+                        <div class="history-log-header" data-i18n="reward_th_action"></div>
+
                         <!--<div id="move-history-log" style="max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; display: flex; flex-direction: column; gap: 4px;">-->
                         <div id="move-history-log" class="history-log-content">
+
                             <!--<div style="color: #64748b;">Waiting for simulation...</div>-->
-                            <div class="history-placeholder">Waiting for simulation...</div>
+                            <div class="history-placeholder" data-i18n="reward_waiting"></div>
+
                         </div>
                     </div>
                 </div>
