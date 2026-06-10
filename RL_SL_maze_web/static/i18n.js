@@ -28,6 +28,8 @@ function toggleLanguage() {
     
     // If you have active Javascript text (like the dictionary opinions), force them to re-render:
     if (typeof updateOpinionTable === 'function') updateOpinionTable();
+
+    if (typeof handleTrainingOutcome === 'function') handleTrainingOutcome();
 }
 
 // Run the translation immediately when the page loads

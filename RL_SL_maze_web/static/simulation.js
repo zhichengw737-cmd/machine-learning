@@ -23,7 +23,11 @@ function runSimulation() {
         const stepZeroItem = document.createElement('div');
         stepZeroItem.className = 'history-log-item';
         stepZeroItem.style.fontWeight = 'bold'; // Optional highlight for the starting position
-        stepZeroItem.textContent = `[Step 0] Start at (0,0) → 0 pts`;
+        //stepZeroItem.textContent = `[Step 0] Start at (0,0) → 0 pts`;
+
+        //Can change the step 0 to Chinese
+        const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+        stepZeroItem.textContent = `[Step 0] ${dict['reward_start']} (0,0) → 0 ${dict['reward_pts']}`;
         
         historyLogEl.appendChild(stepZeroItem);
 

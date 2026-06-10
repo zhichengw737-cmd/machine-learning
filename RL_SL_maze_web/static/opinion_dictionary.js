@@ -52,39 +52,28 @@ function handleTrainingOutcome() {
     // Fetch active language dictionary object from memory
     const dict = window.currentLang === 'en' ? lang_en : lang_zh;
 
-    //Construct lookup key prefix cleanly and apply table translations
-    let prefix = `opinion_${stage}`;
-    if (stage === 1 || stage === 2) {
-        prefix = `opinion_1_2`;
-    }
-
-    // Narrative text translation here dynamically
-    if (narrativeTextEl) {
-        if (currentMaze === 1) {
-            let narrativeKey = `narrative_step${trainingTimes}`;
-            if (trainingTimes === 0) {
-                narrativeKey = 'narrative_start';
-            }
-            
-            // Fetch template string from language file (e.g., "總分：{points} 分。")
-            let template = dict[narrativeKey] || "";
-            // Safely swap out the points placeholder variable
-            narrativeTextEl.textContent = template.replace("{points}", rewardPoints);
-            
-            // Handle Action Button label sync updates
-            if (trainingTimes < 5) {
-                actionBtn.textContent = dict[`btn_train_step${trainingTimes + 1}`] || dict['btn_train_final'];
-            } else {
-                actionBtn.textContent = dict['btn_run_mastered'];
-            }
-        } else {
-            // Maze 2 Narrative Layout
-            narrativeTextEl.textContent = dict['narrative_maze2'] || "";
-            actionBtn.textContent = dict['btn_run_maze2'] || "";
-        }
+    if (currentMaze === 1) {
+        // Increment occurs at the start or end of the training tick cycle depending on your simulation flow
+        const stageKey = `narrative_step${trainingTimes}`;
         
-    }
+        if (dict[stageKey]) {
+            // Replace the template placeholder dynamically with live state variables
+            narrativeTextEl.textContent = dict[stageKey].replace('{points}', rewardPoints);
+        }
 
+        // Advance action button label cleanly for the subsequent step
+        if (trainingTimes < 5) {
+            actionBtn.textContent = dict[`btn_train_step${trainingTimes + 1}`] || dict['btn_train_final'];
+        } else {
+            actionBtn.textContent = dict['btn_run_mastered'];
+            maze2Btn.disabled = false;
+            maze2Btn.classList.add('unlocked-glow');
+        }
+    } else if (currentMaze === 2) {
+        narrativeTextEl.textContent = dict['narrative_maze2'];
+        actionBtn.textContent = dict['btn_run_maze2'];
+    }
+        
     // if (currentMaze === 1) {
     //     if (trainingTimes === 1) {
     //         narrativeTextEl.textContent = "❌ Result: Doesn't know how to get to the endpoint." + " I only get " + rewardPoints + " points. How can I reach the goal and get more points?";
