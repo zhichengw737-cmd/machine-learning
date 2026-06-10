@@ -64,11 +64,11 @@ const lang_en = {
     //Reward Dashboard
     "reward_title": "🎯 Reward Dashboard",
     "reward_lbl_total": "Total Reward Points:",
+
+    //Move & Reward History
     "reward_th_action": "Move & Reward History:",
     "reward_waiting": "Waiting for simulation...",
-    "reward_start": "Start at",
-    "reward_moved": "Moved to",
-    "reward_total_pts": "Total",
-    "reward_pts": "pts"
+    "log_standard": "[Step {step}] Start from ({from}), move to ({coords}), add 1 point, total {points} points",
+    "log_backtrack": "[Step {step}] Move to ({from}), {text} minus 1 point total {points} points"
     
 };

@@ -26,10 +26,12 @@ function toggleLanguage() {
     // Re-render the page texts
     applyTranslations();
     
-    // If you have active Javascript text (like the dictionary opinions), force them to re-render:
+    // Force function to re-render:
     if (typeof updateOpinionTable === 'function') updateOpinionTable();
 
     if (typeof handleTrainingOutcome === 'function') handleTrainingOutcome();
+
+    if (typeof refreshAllHistoryLogs === 'function') refreshAllHistoryLogs();
 }
 
 // Run the translation immediately when the page loads

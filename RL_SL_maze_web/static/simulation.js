@@ -153,14 +153,14 @@ function animateBallPath(path, index) {
             currentMoveText = "Goal Reached! (+100 pts)";
         }else if (isBacktracking) {
             // If the ball goes back, freeze the point growth
-            stepReward = 0; 
-            currentMoveText = `Backtracked to Old Position (Dist: ${distance}) (+0 pts)`;
+            stepReward = -1; 
+            currentMoveText = `Backtracked to Old Position (Dist: ${distance})`;
         }else if(!followedArrow){
-            stepReward = 0;
-            currentMoveText = `Go to Wrong way (Dist: ${distance}) (+0 pts)`;
+            stepReward = -1;
+            currentMoveText = `Go to Wrong way (Dist: ${distance})`;
         }else {
             // Regular unvisited cell logic: Longer distance = higher points
-            stepReward = distance * 10;
+            stepReward = distance*1;
             currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
         }
 
@@ -176,7 +176,18 @@ function animateBallPath(path, index) {
         if (historyLogEl) {
             const newLogItem = document.createElement('div');
             newLogItem.className = 'history-log-item';
-            newLogItem.textContent = `[Step ${currentStepCount}] Moved to (${r},${c}) → ${currentMoveText} | Total: ${rewardPoints} pts`;
+            //newLogItem.textContent = `[Step ${currentStepCount}] Moved to (${r},${c}) → ${currentMoveText} | Total: ${rewardPoints} pts`;
+            
+            // STORE THE DATA AS ATTRIBUTES
+            newLogItem.setAttribute('data-step', currentStepCount);
+            newLogItem.setAttribute('data-from', `${prevR},${prevC}`);
+            newLogItem.setAttribute('data-coords', `${r},${c}`);
+            newLogItem.setAttribute('data-points', rewardPoints);
+            newLogItem.setAttribute('data-is-backtrack', isBacktracking ? 'true' : 'false');
+            newLogItem.setAttribute('data-move-text', currentMoveText); // Save the text key if you use one
+
+            // Initial render
+            updateSingleLogItem(newLogItem);
             historyLogEl.appendChild(newLogItem);
         
             // Auto-scroll the history log panel down to show the latest entry
@@ -248,4 +259,32 @@ function animateBallPath(path, index) {
     setTimeout(() => {
         animateBallPath(path, index + 1);
     }, 500); // Adjust the delay time as needed for faster or slower animation
+}
+
+function updateSingleLogItem(item) {
+    const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+    const step = item.getAttribute('data-step');
+    const from = item.getAttribute('data-from');
+    const coords = item.getAttribute('data-coords');
+    const points = item.getAttribute('data-points');
+    const isBacktrack = item.getAttribute('data-is-backtrack') === 'true';
+    const moveText = item.getAttribute('data-move-text');
+    
+    // Use a format string from dictionary to keep it clean
+    const formatKey = isBacktrack ? 'log_backtrack' : 'log_standard';
+    const format = dict[formatKey];
+
+    // Use a Regular Expression with the 'g' (global) flag 
+    // to replace ALL instances of {coords}
+    item.textContent = format
+        .replace(/{step}/g, step)
+        .replace(/{from}/g, `(${from})`)
+        .replace(/{coords}/g, `(${coords})`) // Formats it as (0,1)
+        .replace(/{points}/g, points)
+        .replace(/{text}/g, moveText);
+}
+
+function refreshAllHistoryLogs() {
+    const logItems = document.querySelectorAll('.history-log-item');
+    logItems.forEach(updateSingleLogItem);
 }
