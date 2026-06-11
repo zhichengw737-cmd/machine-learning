@@ -73,5 +73,59 @@ const lang_en = {
     "log_standard": "[Step {step}] Start from ({from}), move to ({coords}), add 1 point, total {points} points",
     "log_backtrack": "[Step {step}] Move back to ({from}), {text} minus 1 point total {points} points",
     "log_goal": "[Step {step}] Moved to {coords} → 🎉 Goal Reached! (+100 pts) | Total: {points} pts",
+
+    //education section
+    "edu-title": "🧠 How Does the Ball's Brain Actually Work?",
+    "edu-subtitle": "In AI, we use 4 secret rules to help the ball learn. Here is what they mean in our maze game",
+    "edu_rl_title": "🤖 What is Reinforcement Learning (RL)?",
+    "edu_rl_desc": `Imagine you are playing a brand-new video game, but the <strong>screen is completely black</strong>, and <strong>nobody told you the rules</strong>! <br><br>
+                    The only way to win is to walk around, press buttons, and see what happens. When you hear a <em>"Ding!"</em> and <strong>get points (rewards) </strong>, you think, <strong>Hey, I should do that again!</strong>. 
+                    <br>` +
+                    `When you hear a <em>"Buzz!"</em> and <strong>lose points</strong>, you think, <strong>"Oops, better avoid that!"</strong>.`,
+
+    "edu_rl_desc2": `That is exactly what <strong>Reinforcement Learning</strong> is! <br>` +
+                    `It is a type of AI learning where we don't give the ball a map or tell it what to do. Instead, the ball learns completely by <strong>trial and error</strong>—<strong>getting rewards for good moves and penalties for bad ones</strong> until it discovers the perfect path.`,
     
+    "edu_parameters_title": "🎛️ The 4 Secret Tuning Knobs (Parameters):",
+    
+    //episode card
+    "edu_episodes_title": "🎮 1. Episodes",
+    "edu_episodes_analogy": `The "Video Game Rounds"`,
+    "edu_episodes_desc": `Think of an <strong>Episode</strong> as <strong>1 challenge of a game</strong>. It starts the moment the ball is at the beginning, and ends when it either gets completely lost or successfully reaches the goal! <br><br>` +
+                        `Every time you click "Train & Run", you are starting <strong>a brand new episode</strong> to see if the ball can do better this round. <br><br>` + 
+                        `In this maze game, there are <strong>5 Episodes</strong> to train the ball. With each episode, it learns a little more about what the arrows mean and how to get closer to the goal!`,
+
+    //alpha card
+    "edu_alpha_title": "🧪 2. Alpha ",
+    "edu_alpha_analogy": `The "Memory Power"`,
+    "edu_alpha_desc": `<strong>Alpha</strong> is the <strong>learning rate</strong> <br> `+
+                        `It decides How fast the ball learn new steps. <br> <br>` +
+                        `<strong>High Alpha</strong>: <br>`+
+                        `The ball only cares about its <strong>last step</strong> and forgets what it learned before.<br><br>` +
+                        `<strong>Low Alpha</strong>: <br>`+
+                        `The ball learns slowly, care more about its <strong>previous steps</strong> but need more time to learn the last step.<br><br>`+
+                        `What is the optimal value? <br>`+
+                        `<strong>Every model is different! Need to test so many times to find it.</strong> <br><br>` +
+                        `In normal, the range is 10<sup>-5</sup> to 10<sup>-3</sup>.`,
+    
+    //gamma card
+    "edu_gamma_title": "👓 3. Gamma (γ)",
+    "edu_gamma_analogy": `The "Future-Vision Telescope"`,
+    "edu_gamma_desc":` <strong>Gamma</strong> controls how much the ball values future rewards.
+                        <br><br>` +
+                        `<strong>Low Gamma</strong>: <br>`+ 
+                        `The ball only care about finding a quick +10 points (reward) right <strong>in front of its face</strong>.<br><br>` +
+                        `<strong>High Gamma</strong>:<br>` + 
+                        `The ball wear magic telescope that let it <strong>look far down the path</strong> to hunt for the massive +100 point (reward) at the very end. <br>` +
+                        `High Gamma helps the AI plan ahead!`,
+
+    // Epsilon Card
+    "edu_epsilon_title": "🧭 4. Epsilon (ε)",
+    "edu_epsilon_analogy": `The "Curiosity Meter"`,
+    "edu_epsilon_desc": `<strong>Epsilon</strong> decides how much the ball will explore new actions instead of using known ones. <br><br>` +
+                        `<strong>High Epsilon</strong>: <br>` + 
+                        `The ball acts like a wild explorer, ignoring what it already knows to try crazy new directions and look for secrets.<br><br> `+
+                        `<strong>Low Epsilon</strong>:  <br>`+ 
+                        `The ball says <em>"I'm playing it safe!"</em> and strictly follows the path it already trusts to finish the map safely.`,
+
 };
