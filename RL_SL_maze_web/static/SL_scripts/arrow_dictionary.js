@@ -1,19 +1,25 @@
 // Dictionary & Narrative Updates
 function updateDictionary() {
+    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
+
     if (trainingBatch === 0) {
-        opUp.textContent = "No Label Provided";
-        opRight.textContent = "No Label Provided";
-        opDown.textContent = "No Label Provided";
-        opLeft.textContent = "No Label Provided";
+        opUp.textContent = dict['lbl_none'];
+        opRight.textContent = dict['lbl_none'];
+        opDown.textContent = dict['lbl_none'];
+        opLeft.textContent = dict['lbl_none'];
+
     } else if (trainingBatch === 1) {
-        opRight.textContent = "Assigned Label: RIGHT";
+        opRight.textContent = dict['lbl_right'];
         opRight.classList.add('highlight-update');
-        opDown.textContent = "Assigned Label: DOWN";
+
+        opDown.textContent = dict['lbl_down'];
         opDown.classList.add('highlight-update');
+
     } else if (trainingBatch >= 2) {
-        opLeft.textContent = "Assigned Label: LEFT";
+        opLeft.textContent = dict['lbl_left'];
         opLeft.classList.add('highlight-update');
-        opUp.textContent = "Assigned Label: UP";
+
+        opUp.textContent = dict['lbl_up'];
         opUp.classList.add('highlight-update');
     }
 

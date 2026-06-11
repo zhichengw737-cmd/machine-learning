@@ -84,7 +84,11 @@ function initGrid() {
         }
     }
     
+
+    //Dynamically get language string
+    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
     historyLogEl.classList.add('history-placeholder');
-    historyLogEl.innerHTML = 'Waiting for teacher\'s labels...';
+    //historyLogEl.innerHTML = 'Waiting for teacher\'s labels...';
+    historyLogEl.innerHTML = dict ? dict['log_waiting'] : 'Waiting for teacher\'s labels...';
     updateDictionary();
 }
