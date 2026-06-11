@@ -101,7 +101,7 @@ function animateBallPath(path, index) {
         // Increment the step counter for the Move & Reward History log
         currentStepCount++;
 
-        // 1. Dynamically locate where the Goal (3) is positioned in the grid layout
+        // Dynamically locate where the Goal (3) is positioned in the grid layout
         let goalR = 7, goalC = 7; // Default fallback to bottom-right corner
         const currentLayout = currentMaze === 1 ? maze1Layout : maze2Layout;
         for (let i = 0; i < GRID_SIZE; i++) {
@@ -115,7 +115,7 @@ function animateBallPath(path, index) {
 
         // 2. Calculate the grid step distance (Manhattan Distance) from current position (r, c)
         //const distance = Math.abs(goalR - r) + Math.abs(goalC - c);
-        const distance = Math.abs(r -0) + Math.abs(c - 0);
+        //const distance = Math.abs(r -0) + Math.abs(c - 0);
 
         // ======= 🛠️ NEW ADDITION: BACKTRACKING CHECK =======
         let isBacktracking = false;
@@ -151,6 +151,7 @@ function animateBallPath(path, index) {
 
         if (currentLayout[r][c] === 3) {
             rewardPoints += 100;
+            stepReward = 1;
             //currentMoveText = "Goal Reached! (+100 pts)";
         }else if (isBacktracking) {
             // If the ball goes back, freeze the point growth
@@ -161,7 +162,7 @@ function animateBallPath(path, index) {
             //currentMoveText = `Go to Wrong way (Dist: ${distance})`;
         }else {
             // Regular unvisited cell logic: Longer distance = higher points
-            stepReward = distance*1;
+            stepReward = 1;
            // currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
         }
 
