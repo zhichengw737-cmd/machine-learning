@@ -26,8 +26,8 @@ function runSimulation() {
         //stepZeroItem.textContent = `[Step 0] Start at (0,0) → 0 pts`;
 
         //Can change the step 0 to Chinese
-        const dict = window.currentLang === 'en' ? lang_en : lang_zh;
-        stepZeroItem.textContent = `[Step 0] ${dict['reward_start']} (0,0) → 0 ${dict['reward_pts']}`;
+        //const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+        //stepZeroItem.textContent = `[Step 0] ${dict['reward_start']} (0,0) → 0 ${dict['reward_pts']}`;
         
         historyLogEl.appendChild(stepZeroItem);
 
@@ -36,7 +36,6 @@ function runSimulation() {
     let path = [];
 
     if (currentMaze === 1) {
-        //trainingTimes++;
 
         //limit the maximum training times to 5, and only increment when the "Train & Run" button is clicked in Maze 1, allowing users to see the final trained result at 5 trainings without further increments on additional clicks.
         if(trainingTimes < 5) {
@@ -148,20 +147,22 @@ function animateBallPath(path, index) {
         //let currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
 
         // Handle the specific layout condition when the ball reaches the goal (Distance is 0)
+        const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+
         if (currentLayout[r][c] === 3) {
             rewardPoints += 100;
-            currentMoveText = "Goal Reached! (+100 pts)";
+            //currentMoveText = "Goal Reached! (+100 pts)";
         }else if (isBacktracking) {
             // If the ball goes back, freeze the point growth
             stepReward = -1; 
-            currentMoveText = `Backtracked to Old Position (Dist: ${distance})`;
+            //currentMoveText = `Backtracked to Old Position (Dist: ${distance})`;
         }else if(!followedArrow){
             stepReward = -1;
-            currentMoveText = `Go to Wrong way (Dist: ${distance})`;
+            //currentMoveText = `Go to Wrong way (Dist: ${distance})`;
         }else {
             // Regular unvisited cell logic: Longer distance = higher points
             stepReward = distance*1;
-            currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
+           // currentMoveText = `Far from Goal (Dist: ${distance}) (+${stepReward} pts)`;
         }
 
         // Update global running score tracker
@@ -184,7 +185,13 @@ function animateBallPath(path, index) {
             newLogItem.setAttribute('data-coords', `${r},${c}`);
             newLogItem.setAttribute('data-points', rewardPoints);
             newLogItem.setAttribute('data-is-backtrack', isBacktracking ? 'true' : 'false');
-            newLogItem.setAttribute('data-move-text', currentMoveText); // Save the text key if you use one
+            newLogItem.setAttribute('data-move-text', currentMoveText);
+
+            const isGoalReached = false;
+            if(currentLayout[r][c] === 3){
+                const isGoalReached = true;
+                newLogItem.setAttribute('data-is-goal', isGoalReached);
+            }
 
             // Initial render
             updateSingleLogItem(newLogItem);
@@ -263,19 +270,34 @@ function animateBallPath(path, index) {
 
 function updateSingleLogItem(item) {
     const dict = window.currentLang === 'en' ? lang_en : lang_zh;
+    
     const step = item.getAttribute('data-step');
     const from = item.getAttribute('data-from');
     const coords = item.getAttribute('data-coords');
     const points = item.getAttribute('data-points');
     const isBacktrack = item.getAttribute('data-is-backtrack') === 'true';
     const moveText = item.getAttribute('data-move-text');
+
+    const isGoal = item.getAttribute('data-is-goal') === 'true';
     
     // Use a format string from dictionary to keep it clean
-    const formatKey = isBacktrack ? 'log_backtrack' : 'log_standard';
+    let formatKey = 'log_standard';
+    if(isGoal){
+        formatKey = 'log_goal';
+    } else if(isBacktrack){
+        formatKey = 'log_backtrack';
+    }
+    
+    //const formatKey = isBacktrack ? 'log_backtrack' : 'log_standard';
     const format = dict[formatKey];
 
     // Use a Regular Expression with the 'g' (global) flag 
     // to replace ALL instances of {coords}
+
+    if(!item.getAttribute('data-step')){
+        return;
+    } 
+    
     item.textContent = format
         .replace(/{step}/g, step)
         .replace(/{from}/g, `(${from})`)

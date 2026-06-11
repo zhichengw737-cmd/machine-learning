@@ -68,7 +68,9 @@ const lang_zh = {
     //移動與獎勵歷史
     "reward_th_action": "移動軌跡:",
     "reward_waiting": "等待模擬啟動...",
+    //"reward_start": "從...出發",
+    //"reward_pts": "分",
     "log_standard": "[第 {step} 步] 從 ({from}) 出發，移動至 ({coords})，增加 1 分，總計 {points} 分",
-    "log_backtrack": "[第 {step} 步] 移動至 ({from})，{text} 扣除 1 分，總計 {points} 分"
-
+    "log_backtrack": "[第 {step} 步] 回到 ({from})，{text} 扣除 1 分，總計 {points} 分",
+    "log_goal": "[第 {step} 步] 移動至 {coords} → 🎉 抵達終點！(+100 分) | 總計: {points} 分",
 };

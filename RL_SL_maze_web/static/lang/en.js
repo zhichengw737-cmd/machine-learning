@@ -68,7 +68,10 @@ const lang_en = {
     //Move & Reward History
     "reward_th_action": "Move & Reward History:",
     "reward_waiting": "Waiting for simulation...",
+    //"reward_start": "Start at",
+    //"reward_pts": "pts",
     "log_standard": "[Step {step}] Start from ({from}), move to ({coords}), add 1 point, total {points} points",
-    "log_backtrack": "[Step {step}] Move to ({from}), {text} minus 1 point total {points} points"
+    "log_backtrack": "[Step {step}] Move back to ({from}), {text} minus 1 point total {points} points",
+    "log_goal": "[Step {step}] Moved to {coords} → 🎉 Goal Reached! (+100 pts) | Total: {points} pts",
     
 };
