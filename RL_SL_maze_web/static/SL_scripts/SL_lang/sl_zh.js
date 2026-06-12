@@ -44,6 +44,17 @@ const sl_lang_zh = {
     "log_goal": "移動 {coord} → 抵達終點！",
     "log_format": "[第 {step} 步] 讀取 '{arrow}' 特徵 → {actionLog}",
     
+    // Educational Section Content
+    "edu_title": "🧠 小球是如何學習的？",
+    "edu_subtitle": "就像在學校上課一樣，小球是透過老師提供給它的範例（標籤）來學習。讓我們一起來看看它的記憶庫變化吧！",
+    "edu_step1_title": "🌱 第一步：認識「向右」與「向下」",
+    "edu_step1_desc": "老師先幫「向右 (→)」和「向下 (↓)」的箭頭加上標籤。小球會把它們記在腦袋裡！",
+    "edu_step1_desc2": "泛化: 球還能巧妙地學習跟隨每一個相似的配對箭頭 ⇨ ⇓ ⇐ ⇑ !",
+    "edu_step2_title": "🌿 第二步：學習「向左」與「向上」",
+    "edu_step2_desc": "接著，老師加入了「向左 (←)」和「向上 (↑)」的標籤。小球迅速擴展它的記憶地圖，把這些全新的方向也全部安全地記了下來！",
+    "edu_step3_title": "🏆 第三步：全能大師解鎖",
+    "edu_step3_desc": "當 4 種方向的箭頭都完美保存在大腦記憶中後，小球就能百分之百看懂整張迷宮地圖，順暢無阻地直接衝向終點贏得勝利！",
+
     //Compare Section
     "comp_title": "📚 監督式 vs. 強化學習",
     "comp_subtitle": "這兩大人工智慧技術有什麼差異？",
