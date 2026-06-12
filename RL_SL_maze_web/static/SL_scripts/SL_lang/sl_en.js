@@ -50,7 +50,8 @@ const sl_lang_en = {
     "edu_subtitle2": "Like a student at school, the ball learns from a teacher who gives it direct examples (labels). Let's peek into its memory map!",
     "edu_step1_title": "🌱 Step 1: Right & Down Map",
     "edu_step1_desc": "The teacher labels Right (→) and Down (↓) arrows. The ball memorizes these features instantly!",
-    "edu_step1_desc2": "Generalization: The ball also cleverly learns to follow every similar matching arrows ⇨ ⇓ ⇐ ⇑ !",
+    "edu_step1_desc2": "Generalization: The ball also cleverly learns to follow every similar matching arrows ⇨ ⇓ ⇐ ⇑ " +
+                        "<br>In short, the ball learn the Feature of arrows →, ↓, ←, ↑ and Generalizate to different kinds of arrows  ⇨ ⇓ ⇐ ⇑",
     "edu_step2_title": "🌿 Step 2: Left & Up Map",
     "edu_step2_desc": "Next, the teacher shares Left (←) and Up (↑) labels. The ball instantly opens new slots in its brain map to safely recognize these new directions!",
     "edu_step3_title": "🏆 Step 3: Complete Mastery",
