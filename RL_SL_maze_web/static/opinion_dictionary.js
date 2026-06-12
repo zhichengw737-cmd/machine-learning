@@ -18,9 +18,9 @@ function updateOpinionTable() {
     // Construct lookup key prefix cleanly (collapsing stages 1 and 2 seamlessly)
     let prefix = `opinion_${stage}`;
 
-    if (stage === 1 || stage === 2) {
-        prefix = "opinion_1_2";
-    }
+    // if (stage === 1 || stage === 2) {
+    //     prefix = "opinion_1_2";
+    // }
 
     // Update DOM entries from localized keys
     opUp.textContent = dict[`${prefix}_up`] || "";

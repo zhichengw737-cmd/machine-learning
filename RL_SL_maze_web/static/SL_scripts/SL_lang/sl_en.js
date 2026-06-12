@@ -46,7 +46,8 @@ const sl_lang_en = {
 
     // Educational Section Content
     "edu_title": "🧠 How Does the Ball Learn?",
-    "edu_subtitle": "Like a student at school, the ball learns from a teacher who gives it direct examples (labels). Let's peek into its memory map!",
+    "edu_subtitle": "The ball learns by the Features, learn how arrows look like.",
+    "edu_subtitle2": "Like a student at school, the ball learns from a teacher who gives it direct examples (labels). Let's peek into its memory map!",
     "edu_step1_title": "🌱 Step 1: Right & Down Map",
     "edu_step1_desc": "The teacher labels Right (→) and Down (↓) arrows. The ball memorizes these features instantly!",
     "edu_step1_desc2": "Generalization: The ball also cleverly learns to follow every similar matching arrows ⇨ ⇓ ⇐ ⇑ !",
