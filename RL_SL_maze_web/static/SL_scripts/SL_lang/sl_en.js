@@ -82,5 +82,8 @@ const sl_lang_en = {
 
     "tr3_title": "When an Anomaly Occurs",
     "tr3_sl": "It gets stuck. It cannot resolve states without a known label.",
-    "tr3_rl": "Loses points temporarily, explores alternative paths to optimize."
+    "tr3_rl": "Loses points temporarily, explores alternative paths to optimize.",
+
+    "though_bubble_find": "🤔 it is 'currentArrow'",
+    "though_bubble": "💡 Oh it looks like 'standardArrow'",
 };

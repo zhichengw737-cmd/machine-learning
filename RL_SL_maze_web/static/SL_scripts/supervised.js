@@ -63,12 +63,15 @@ function initGrid() {
             if (maze1Layout[r][c] === 1) cell.classList.add('wall');
             if (maze1Layout[r][c] === 2) {
                 cell.classList.add('start');
+
                 const ball = document.createElement('div');
                 ball.id = 'ball';
                 ball.classList.add('ball');
                 // Make the supervised ball a different color (Blue) to distinguish from RL (Red)
                 ball.style.backgroundColor = '#3b82f6';
                 ball.style.boxShadow = '0 4px 6px rgba(59, 130, 246, 0.4)';
+
+                
                 cell.appendChild(ball);
             }
             if (maze1Layout[r][c] === 3) cell.classList.add('goal');

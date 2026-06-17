@@ -81,5 +81,8 @@ const sl_lang_zh = {
 
     "tr3_title": "當異常發生時",
     "tr3_sl": "它會卡住。無法在沒有已知標籤的情況下解決狀態。",
-    "tr3_rl": "暫時失去分數，探索其他替代路徑以進行最佳化。"
+    "tr3_rl": "暫時失去分數，探索其他替代路徑以進行最佳化。",
+
+    "though_bubble_find": "🤔 這是 'currentArrow'",
+    "though_bubble": "💡，看起來像 'standardArrow'",
 };

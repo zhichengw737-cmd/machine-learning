@@ -39,26 +39,19 @@ function animateSupervisedPath(path, index) {
         const dy = r - prevR;
 
         // Format as (+1, 0), (0, -1), etc.
-        const formatCoord = (val) => val > 0 ? `+${val}` : val;
+        const formatCoord = function(val){
+            if(val > 0){
+                return `+${val}`;
+            }else{
+                return val;
+            }
+        }
+        
         const coordChangeStr = `(${formatCoord(dx)}, ${formatCoord(dy)})`;
 
         //AI Generalization Logic (Interpreting fake arrows as standard ones)
         let interpretedArrow = arrow;
         let generalizationText = "";
-
-        // if (arrow === "⇨") {
-        //     interpretedArrow = "→";
-        //     generalizationText = " (Generalized to Right)";
-        // } else if (arrow === "⇓") {
-        //     interpretedArrow = "↓";
-        //     generalizationText = " (Generalized to Down)";
-        // } else if (arrow === "⇐"){
-        //     interpretedArrow = "←";
-        //     generalizationText = " (Generalized to Left)";
-        // } else if(arrow === "⇑"){
-        //     interpretedArrow = "↑";
-        //     generalizationText = " (Generalized to Up)";
-        // }
 
         // Map generalized keys instead of hardcoded text
         let genKey = "";
@@ -72,21 +65,11 @@ function animateSupervisedPath(path, index) {
             genKey = "gen_up";
         }
 
-        //let actionLog = "Executed Label: " + arrow;
-        //Setup the Log Action Text
-        //let actionLog = `Moved ${coordChangeStr}${generalizationText}`;
-
-        // if (maze1Layout[r][c] === 3) {
-        //     actionLog = `Moved ${coordChangeStr} → Goal Reached!`;
-        // }
-
         const isGoal = (maze1Layout[r][c] === 3);
 
         const newLogItem = document.createElement('div');
         newLogItem.className = 'history-log-item';
 
-        //newLogItem.textContent = `[Step ${currentStepCount}] Read '${arrow}' feature → ${actionLog}`;
-        
         // Store data attributes for dynamic translation
         newLogItem.setAttribute('data-step', currentStepCount);
         newLogItem.setAttribute('data-arrow', arrow);
@@ -111,9 +94,80 @@ function animateSupervisedPath(path, index) {
         historyLogEl.scrollTop = historyLogEl.scrollHeight;
     }
 
-    setTimeout(() => {
-        animateSupervisedPath(path, index + 1);
-    }, 400); // slightly faster than RL!
+    // The "Scanning and Thinking" Pause evaluation
+    var currentArrow = maze1Arrows[r + "," + c];
+    var fakeArrows = ["⇨", "⇓", "⇐", "⇑"];
+
+    // If ball landed on a fake arrow AND the simulation has further steps to go
+    if (fakeArrows.indexOf(currentArrow) !== -1 && (index + 1) < path.length) {
+        
+        // Pause the loop and wait for the user to help it generalize
+        handleThinkingPause(targetCell, currentArrow, function() {
+            // This callback fires ONLY after the user clicks the bubble
+            animateSupervisedPath(path, index + 1);
+        });
+
+    } else {
+        // Standard behavior: wait a moment, then move to next cell
+        setTimeout(function() {
+            animateSupervisedPath(path, index + 1);
+        }, 400);
+    }
+}
+
+// Interactive Bubble Generation Logic
+
+function handleThinkingPause(targetCell, currentArrow, resumeCallback) {
+    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
+
+    // 1. Create the interactive thinking bubble
+    var bubble = document.createElement('div');
+    bubble.className = 'thought-bubble';
+    //bubble.innerHTML = '🤔';
+    bubble.textContent = dict['though_bubble_find'].replace('currentArrow',currentArrow);
+    
+    // Append it to the cell the ball is currently sitting on
+    targetCell.appendChild(bubble);
+
+    // 2. Determine what the standard label is supposed to be
+    var standardArrow = "";
+    if(currentArrow === "⇨"){
+        standardArrow = "→";
+    }else if(currentArrow === "⇓"){
+        standardArrow = "↓";
+    }else if(currentArrow === "⇐"){
+        standardArrow = "←";
+    }else if(currentArrow === "⇑"){
+        standardArrow = "↑";
+    }
+
+    // Prevent multiple clicks from firing the callback multiple times
+    var isClicked = false;
+
+    // 3. Wait for the user to click it
+    bubble.addEventListener('click', function() {
+        if (isClicked) {
+            return;
+        }
+        isClicked = true;
+
+        // Change from "thinking" to "Aha! Generalized!"
+        
+
+        //bubble.innerHTML = '💡 ' + standardArrow;
+        bubble.textContent = dict['though_bubble'].replace('standardArrow', standardArrow);
+
+        bubble.classList.add('aha-moment');
+
+        // Give the student 800 milliseconds to see the newly discovered shape, 
+        // then remove the bubble and resume the path animation
+        setTimeout(function() {
+            if (targetCell.contains(bubble)) {
+                targetCell.removeChild(bubble);
+            }
+            resumeCallback();
+        }, 2000); 
+    });
 }
 
 // Function to update individual log items based on language
