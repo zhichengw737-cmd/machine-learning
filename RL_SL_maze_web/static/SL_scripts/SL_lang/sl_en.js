@@ -7,8 +7,8 @@ const sl_lang_en = {
     "btn_sl_maze": "Supervised Maze",
     "btn_switch_rl": "Switch to Reinforcement Learning",
     "stat_training": "Training Batch:",
-    "btn_action_step1": "Provide Labels (Step 1)",
-    "btn_action_step2": "Provide Labels (Step 2)",
+    "btn_action_step1": "Provide Labels: <br> " + "'→ is Right'<br> " + " '↓ is Down'",
+    "btn_action_step2": "Provide Labels: <br> " + "'← is Left'<br> " + " '↑ is Up'",
     "btn_action_mastered": "Run Full Test (Mastered)",
     "btn_reset": "Reset Simulation",
 

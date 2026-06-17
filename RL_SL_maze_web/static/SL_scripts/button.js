@@ -37,7 +37,7 @@ actionBtn.addEventListener('click', () => {
         // actionBtn.textContent = "Provide Labels (Step 2)";
 
         narrativeTextEl.innerHTML = dict['narrative_batch1'];
-        actionBtn.textContent = dict['btn_action_step2'];
+        actionBtn.innerHTML = dict['btn_action_step2'];
 
         path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6]];
     } else if (trainingBatch === 2) {
@@ -48,7 +48,7 @@ actionBtn.addEventListener('click', () => {
         // actionBtn.textContent = "Run Full Test (Mastered)";
 
         narrativeTextEl.innerHTML = dict['narrative_batch2'];
-        actionBtn.textContent = dict['btn_action_mastered'];
+        actionBtn.innerHTML = dict['btn_action_mastered'];
 
         path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4], [3,3], [3,2], [3,1], [4,1], [4,2], [5,2], [6,2], [6,3], [7,3], [7,4], [7,5], [7,6], [7,7]];
     } else {
