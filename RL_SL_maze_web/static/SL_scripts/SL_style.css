@@ -530,3 +530,18 @@ table.comparison-table tr:hover td {
     0% { transform: translateX(-50%) translateY(0) scale(1); }
     100% { transform: translateX(-50%) translateY(-6px) scale(1.05); }
 }
+
+/* Teach Buttons Grid */
+.teach-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.teach-btn {
+    padding: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+}

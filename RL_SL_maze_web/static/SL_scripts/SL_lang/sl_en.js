@@ -12,6 +12,16 @@ const sl_lang_en = {
     "btn_action_mastered": "Run Full Test (Mastered)",
     "btn_reset": "Reset Simulation",
 
+    // New Teach Buttons
+    "stat_taught": "Arrows Taught:",
+    "btn_teach_up": "Teach '↑ is Up'",
+    "btn_teach_right": "Teach '→ is Right'",
+    "btn_teach_down": "Teach '↓ is Down'",
+    "btn_teach_left": "Teach '← is Left'",
+    "narrative_learned": "📝 <strong>Taught:</strong> The ball learned <strong>{arrow}</strong>. It continues moving until it sees an unknown arrow.",
+    "narrative_stuck": "⚠️ The ball is stuck! It doesn't know what the arrow at its current position means.",
+    "log_error_dynamic": "⚠️ ERROR: Encountered unknown '{arrow}' feature. Simulation stopped.",
+
     //Narrative Text
     "narrative_start": "The ball needs a teacher. Click \"Provide Labels\" to feed it its first batch of flashcards.",
     "narrative_batch1": "📝 <strong>Step 1:</strong> The ball is taught what Right & Down mean. It also learned to <strong>generalize</strong> similar shapes (like treating '⇨' as Right, '⇓' as Down). It moves until it sees an unknown shape and stops.",

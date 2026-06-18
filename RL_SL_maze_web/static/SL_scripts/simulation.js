@@ -1,28 +1,94 @@
-function animateSupervisedPath(path, index) {
-    if (index >= path.length) {
-        isMoving = false;
-        actionBtn.disabled = false;
-        
-        // Add a stopping message for Step 1
-        if (trainingBatch === 1) {
-            const errorItem = document.createElement('div');
-            errorItem.className = 'history-log-item';
-            errorItem.style.color = '#ef4444';
-            errorItem.style.fontWeight = 'bold';
+// --- 路徑動態計算函式 ---
+function getNextCell(r, c, arrow) {
+    if (arrow === '↑' || arrow === '⇑') return [r-1, c];
+    if (arrow === '↓' || arrow === '⇓') return [r+1, c];
+    if (arrow === '←' || arrow === '⇐') return [r, c-1];
+    if (arrow === '→' || arrow === '⇨') return [r, c+1];
+    return null;
+}
 
-            // Set the error flag for translation
-            //errorItem.textContent = `⚠️ ERROR: Encountered unknown '←' feature. Simulation stopped.`;
-            errorItem.setAttribute('data-is-error', 'true');
-            updateSLLogItem(errorItem);
-            
-            historyLogEl.appendChild(errorItem);
-            historyLogEl.scrollTop = historyLogEl.scrollHeight;
-        }
+function isArrowKnown(arrow) {
+    if ((arrow === '↑' || arrow === '⇑') && knownDirections['UP']) return true;
+    if ((arrow === '↓' || arrow === '⇓') && knownDirections['DOWN']) return true;
+    if ((arrow === '←' || arrow === '⇐') && knownDirections['LEFT']) return true;
+    if ((arrow === '→' || arrow === '⇨') && knownDirections['RIGHT']) return true;
+    return false;
+}
+
+function calculatePathFrom(r, c) {
+    let path = [[r, c]];
+    let currR = r;
+    let currC = c;
+    
+    while (true) {
+        let arrow = maze1Arrows[currR + "," + currC];
+        if (!arrow) break; 
+        if (!isArrowKnown(arrow)) break; 
+        
+        let nextCell = getNextCell(currR, currC, arrow);
+        if (!nextCell) break;
+        
+        currR = nextCell[0];
+        currC = nextCell[1];
+        path.push([currR, currC]);
+        
+        if (maze1Layout[currR][currC] === 3) break; 
+    }
+    return path;
+}
+
+// --- 動畫狀態全域變數 ---
+let animPath = [];
+let animIndex = 0;
+
+function proceedToNextAnimStep() {
+    animateSupervisedPath(animPath, animIndex + 1);
+}
+
+function handleAnimationEnd(path) {
+    isMoving = false;
+    toggleTeachButtons(false);
+    
+    const finalR = path[path.length - 1][0];
+    const finalC = path[path.length - 1][1];
+    ballPosRow = finalR;
+    ballPosCol = finalC;
+
+    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
+
+    if (maze1Layout[finalR][finalC] === 3) {
+        document.getElementById('narrative-text').innerHTML = dict['narrative_mastered'];
         return;
     }
 
-    const [r, c] = path[index];
-    const targetCell = document.querySelector(`[data-row='${r}'][data-col='${c}']`);
+    const stuckArrow = maze1Arrows[finalR + "," + finalC];
+    if (stuckArrow && !isArrowKnown(stuckArrow)) {
+        const errorItem = document.createElement('div');
+        errorItem.className = 'history-log-item';
+        errorItem.style.color = '#ef4444';
+        errorItem.style.fontWeight = 'bold';
+        errorItem.setAttribute('data-is-error', 'true');
+        errorItem.setAttribute('data-error-arrow', stuckArrow);
+        updateSLLogItem(errorItem);
+        
+        historyLogEl.appendChild(errorItem);
+        historyLogEl.scrollTop = historyLogEl.scrollHeight;
+        
+        document.getElementById('narrative-text').innerHTML = dict['narrative_stuck'];
+    }
+}
+
+function animateSupervisedPath(path, index) {
+    animPath = path;
+    animIndex = index;
+
+    if (index >= path.length) {
+        handleAnimationEnd(path);
+        return;
+    }
+
+    const currentCoord = path[index];
+    const targetCell = document.querySelector(`[data-row='${currentCoord[0]}'][data-col='${currentCoord[1]}']`);
     const ball = document.getElementById('ball');
     
     if (targetCell && ball) {
@@ -31,174 +97,116 @@ function animateSupervisedPath(path, index) {
 
     if (index > 0) {
         currentStepCount++;
-        const [prevR, prevC] = path[index - 1];
-        const arrow = maze1Arrows[`${prevR},${prevC}`];
+        const prevCoord = path[index - 1];
+        const arrow = maze1Arrows[`${prevCoord[0]},${prevCoord[1]}`];
 
-        // Calculate Coordinate Change (x is columns, y is rows)
-        const dx = c - prevC;
-        const dy = r - prevR;
+        const dx = currentCoord[1] - prevCoord[1];
+        const dy = currentCoord[0] - prevCoord[0];
 
-        // Format as (+1, 0), (0, -1), etc.
-        const formatCoord = function(val){
-            if(val > 0){
-                return `+${val}`;
-            }else{
-                return val;
-            }
+        function formatCoord(val) {
+            return val > 0 ? "+" + val : val;
         }
-        
         const coordChangeStr = `(${formatCoord(dx)}, ${formatCoord(dy)})`;
 
-        //AI Generalization Logic (Interpreting fake arrows as standard ones)
-        let interpretedArrow = arrow;
-        let generalizationText = "";
-
-        // Map generalized keys instead of hardcoded text
         let genKey = "";
-        if (arrow === "⇨") {
-            genKey = "gen_right";
-        } else if (arrow === "⇓") {
-            genKey = "gen_down";
-        } else if (arrow === "⇐") {
-            genKey = "gen_left";
-        } else if (arrow === "⇑") {
-            genKey = "gen_up";
-        }
+        if (arrow === "⇨") genKey = "gen_right";
+        else if (arrow === "⇓") genKey = "gen_down";
+        else if (arrow === "⇐") genKey = "gen_left";
+        else if (arrow === "⇑") genKey = "gen_up";
 
-        const isGoal = (maze1Layout[r][c] === 3);
+        const isGoal = (maze1Layout[currentCoord[0]][currentCoord[1]] === 3);
 
         const newLogItem = document.createElement('div');
         newLogItem.className = 'history-log-item';
-
-        // Store data attributes for dynamic translation
         newLogItem.setAttribute('data-step', currentStepCount);
         newLogItem.setAttribute('data-arrow', arrow);
         newLogItem.setAttribute('data-coord', coordChangeStr);
+        if (genKey) newLogItem.setAttribute('data-gen-key', genKey);
+        if (isGoal) newLogItem.setAttribute('data-is-goal', 'true');
 
-        if (genKey) {
-            newLogItem.setAttribute('data-gen-key', genKey);
-        }
-        if (isGoal) {
-            newLogItem.setAttribute('data-is-goal', 'true');
-        }
-
-        //Initialize text matching the active language immediately
-        if (typeof updateSLLogItem === 'function') {
-            updateSLLogItem(newLogItem);
-        }
-        
-        //updateSLLogItem(newLogItem);
-
-        //Append to history log
+        updateSLLogItem(newLogItem);
         historyLogEl.appendChild(newLogItem);
         historyLogEl.scrollTop = historyLogEl.scrollHeight;
     }
 
-    // The "Scanning and Thinking" Pause evaluation
-    var currentArrow = maze1Arrows[r + "," + c];
-    var fakeArrows = ["⇨", "⇓", "⇐", "⇑"];
+    const currentArrow = maze1Arrows[currentCoord[0] + "," + currentCoord[1]];
+    const fakeArrows = ["⇨", "⇓", "⇐", "⇑"];
 
-    // If ball landed on a fake arrow AND the simulation has further steps to go
     if (fakeArrows.indexOf(currentArrow) !== -1 && (index + 1) < path.length) {
-        
-        // Pause the loop and wait for the user to help it generalize
-        handleThinkingPause(targetCell, currentArrow, function() {
-            // This callback fires ONLY after the user clicks the bubble
-            animateSupervisedPath(path, index + 1);
-        });
-
+        handleThinkingPause(targetCell, currentArrow);
     } else {
-        // Standard behavior: wait a moment, then move to next cell
-        setTimeout(function() {
-            animateSupervisedPath(path, index + 1);
-        }, 400);
+        setTimeout(proceedToNextAnimStep, 400);
     }
 }
 
-// Interactive Bubble Generation Logic
+// --- 思考泡泡互動 ---
+let thinkingTargetCell = null;
+let thinkingBubble = null;
+let thinkingStandardArrow = "";
+let thinkingIsClicked = false;
 
-function handleThinkingPause(targetCell, currentArrow, resumeCallback) {
+function handleThinkingPause(targetCell, currentArrow) {
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
 
-    // 1. Create the interactive thinking bubble
-    var bubble = document.createElement('div');
-    bubble.className = 'thought-bubble';
-    //bubble.innerHTML = '🤔';
-    bubble.textContent = dict['though_bubble_find'].replace('currentArrow',currentArrow);
+    thinkingTargetCell = targetCell;
+    thinkingIsClicked = false;
+
+    thinkingBubble = document.createElement('div');
+    thinkingBubble.className = 'thought-bubble';
+    thinkingBubble.textContent = dict['though_bubble_find'].replace('currentArrow', currentArrow);
     
-    // Append it to the cell the ball is currently sitting on
-    targetCell.appendChild(bubble);
+    targetCell.appendChild(thinkingBubble);
 
-    // 2. Determine what the standard label is supposed to be
-    var standardArrow = "";
-    if(currentArrow === "⇨"){
-        standardArrow = "→";
-    }else if(currentArrow === "⇓"){
-        standardArrow = "↓";
-    }else if(currentArrow === "⇐"){
-        standardArrow = "←";
-    }else if(currentArrow === "⇑"){
-        standardArrow = "↑";
-    }
+    if (currentArrow === "⇨") thinkingStandardArrow = "→";
+    else if (currentArrow === "⇓") thinkingStandardArrow = "↓";
+    else if (currentArrow === "⇐") thinkingStandardArrow = "←";
+    else if (currentArrow === "⇑") thinkingStandardArrow = "↑";
 
-    // Prevent multiple clicks from firing the callback multiple times
-    var isClicked = false;
-
-    // 3. Wait for the user to click it
-    bubble.addEventListener('click', function() {
-        if (isClicked) {
-            return;
-        }
-        isClicked = true;
-
-        // Change from "thinking" to "Aha! Generalized!"
-        
-
-        //bubble.innerHTML = '💡 ' + standardArrow;
-        bubble.textContent = dict['though_bubble'].replace('standardArrow', standardArrow);
-
-        bubble.classList.add('aha-moment');
-
-        // Give the student 800 milliseconds to see the newly discovered shape, 
-        // then remove the bubble and resume the path animation
-        setTimeout(function() {
-            if (targetCell.contains(bubble)) {
-                targetCell.removeChild(bubble);
-            }
-            resumeCallback();
-        }, 2000); 
-    });
+    thinkingBubble.addEventListener('click', handleBubbleClick);
 }
 
-// Function to update individual log items based on language
+function handleBubbleClick() {
+    if (thinkingIsClicked) return;
+    thinkingIsClicked = true;
+
+    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
+    thinkingBubble.textContent = dict['though_bubble'].replace('standardArrow', thinkingStandardArrow);
+    thinkingBubble.classList.add('aha-moment');
+
+    setTimeout(cleanupBubbleAndResume, 2000); 
+}
+
+function cleanupBubbleAndResume() {
+    if (thinkingTargetCell && thinkingTargetCell.contains(thinkingBubble)) {
+        thinkingTargetCell.removeChild(thinkingBubble);
+    }
+    proceedToNextAnimStep();
+}
+
+// --- 日誌翻譯更新 ---
 function updateSLLogItem(item) {
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
 
-    // Check if it's Step 0
     const step = item.getAttribute('data-step');
     if (step === '0') {
         item.textContent = dict['log_step0'];
         return;
     }
     
-    // Check if it's the Step 1 Error Message
     const isError = item.getAttribute('data-is-error') === 'true';
     if (isError) {
-        item.textContent = dict['log_error'];
+        const errArrow = item.getAttribute('data-error-arrow');
+        item.textContent = dict['log_error_dynamic'].replace('{arrow}', errArrow);
         return;
     }
 
-
-    // Retrieve data for normal steps
     const arrow = item.getAttribute('data-arrow');
     const coord = item.getAttribute('data-coord');
     const genKey = item.getAttribute('data-gen-key'); 
     const isGoal = item.getAttribute('data-is-goal') === 'true';
 
-    // Build the generalization text (e.g., "(Generalized to Right)")
     let genText = genKey ? dict[genKey] : "";
     
-    // Build the action log part
     let actionLog;
     if (isGoal) {
         actionLog = dict['log_goal'].replace('{coord}', coord);
@@ -206,7 +214,6 @@ function updateSLLogItem(item) {
         actionLog = dict['log_moved'].replace('{coord}', coord).replace('{gen}', genText);
     }
 
-    // Combine everything into the final format
     item.textContent = dict['log_format']
         .replace('{step}', step)
         .replace('{arrow}', arrow)

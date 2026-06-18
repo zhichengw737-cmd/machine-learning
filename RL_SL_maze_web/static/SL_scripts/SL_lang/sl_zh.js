@@ -12,6 +12,16 @@ const sl_lang_zh = {
     "btn_action_mastered": "執行完整測試 (已精通)",
     "btn_reset": "重置模擬",
 
+    // New Teach Buttons
+    "stat_taught": "已教導箭頭:",
+    "btn_teach_up": "教導 '↑ 向上'",
+    "btn_teach_right": "教導 '→ 向右'",
+    "btn_teach_down": "教導 '↓ 向下'",
+    "btn_teach_left": "教導 '← 向左'",
+    "narrative_learned": "📝 <strong>已教導：</strong>小球學會了 <strong>{arrow}</strong>。它會繼續移動，直到看見未知的箭頭為止。",
+    "narrative_stuck": "⚠️ 小球卡住了！它不知道目前位置上的箭頭代表什麼意思。",
+    "log_error_dynamic": "⚠️ 錯誤：遇到未知的 '{arrow}' 特徵。模擬已停止。",
+
     //Narrative Text
     "narrative_start": "球體需要一位老師。點擊「提供標籤」來餵給它第一批字卡。",
     "narrative_batch1": "📝 <strong>第 1 步：</strong>球體被教導了「向右」和「向下」的意義。它也學會了<strong>泛化</strong>相似的形狀（例如將 '⇨' 視為向右，'⇓' 視為向下）。它會一直移動，直到看見未知的形狀而停下。",

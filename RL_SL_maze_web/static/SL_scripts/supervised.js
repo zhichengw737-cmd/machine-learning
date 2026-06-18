@@ -1,14 +1,25 @@
 // Supervised Learning Configuration
 
 const GRID_SIZE = 8;
+let knownDirections = { 'UP': false, 'RIGHT': false, 'DOWN': false, 'LEFT': false };
+let taughtCount = 0;
+
 let trainingBatch = 0;
 let isMoving = false;
 let currentStepCount = 0;
 
+let ballPosRow = 0;
+let ballPosCol = 0;
+
 // DOM Selectors
 const gridElement = document.getElementById('grid');
-const actionBtn = document.getElementById('action-btn');
+
+const btnTeachUp = document.getElementById('btn-teach-up');
+const btnTeachRight = document.getElementById('btn-teach-right');
+const btnTeachDown = document.getElementById('btn-teach-down');
+const btnTeachLeft = document.getElementById('btn-teach-left');
 const resetBtn = document.getElementById('reset-btn');
+
 const trainingCountEl = document.getElementById('training-count');
 const narrativeTextEl = document.getElementById('narrative-text');
 const historyLogEl = document.getElementById('move-history-log');
@@ -92,6 +103,8 @@ function initGrid() {
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
     historyLogEl.classList.add('history-placeholder');
     //historyLogEl.innerHTML = 'Waiting for teacher\'s labels...';
-    historyLogEl.innerHTML = dict ? dict['log_waiting'] : 'Waiting for teacher\'s labels...';
+    historyLogEl.textContent = dict['log_waiting'];
     updateDictionary();
 }
+
+initGrid();

@@ -1,86 +1,100 @@
-actionBtn.addEventListener('click', () => {
-// Fetch the correct dictionary based on current language
-    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
+btnTeachUp.addEventListener('click', teachUpClick);
+btnTeachRight.addEventListener('click', teachRightClick);
+btnTeachDown.addEventListener('click', teachDownClick);
+btnTeachLeft.addEventListener('click', teachLeftClick);
 
+function teachUpClick() {
+    executeTeach('UP', btnTeachUp, '↑'); 
+}
+
+function teachRightClick() {
+    executeTeach('RIGHT', btnTeachRight, '→'); 
+}
+
+function teachDownClick() {
+    executeTeach('DOWN', btnTeachDown, '↓'); 
+}
+
+function teachLeftClick() {
+    executeTeach('LEFT', btnTeachLeft, '←'); 
+}
+
+
+function executeTeach(directionKey, btnElement, arrowSymbol) {
     if (isMoving) return;
-    isMoving = true;
-    actionBtn.disabled = true;
-    currentStepCount = 0;
+    if (knownDirections[directionKey]) return;
 
-    if (trainingBatch < 3) trainingBatch++;
-    trainingCountEl.textContent = `${trainingBatch} / 3`;
-    updateDictionary();
-
-    historyLogEl.classList.remove('history-placeholder');
-    historyLogEl.innerHTML = '';
-
-    // Prepare Step 0 log using attributes so it can be translated later if toggled
-    const stepZeroItem = document.createElement('div');
-    stepZeroItem.className = 'history-log-item';
-    stepZeroItem.style.fontWeight = 'bold';
-    
-    //stepZeroItem.textContent = `[Step 0] Start at (0,0) → Ready to read labels`;
-    stepZeroItem.setAttribute('data-step', '0');
-    if (typeof updateSLLogItem === 'function') {
-        updateSLLogItem(stepZeroItem); 
-    }
-
-    historyLogEl.appendChild(stepZeroItem);
-
-    let path = [];
-
-    if (trainingBatch === 1) {
-        // Step 1: Knows Right & Down. It traces perfectly until it encounters the first LEFT arrow at (5,6) and stops.
-        // narrativeTextEl.innerHTML = "📝 <strong>Batch 1:</strong> The ball is taught what Right & Down mean." +
-        //                                     "It also learned to <strong>generalize</strong> similar shapes (like treating '⇨' as Right, '⇓' as Down)." + 
-        //                                     "It moves until it sees an unknown shape and stops.";
-        // actionBtn.textContent = "Provide Labels (Step 2)";
-
-        narrativeTextEl.innerHTML = dict['narrative_batch1'];
-        actionBtn.innerHTML = dict['btn_action_step2'];
-
-        path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6]];
-    } else if (trainingBatch === 2) {
-        // Step 2: Knows Left & Up. It now knows all features and can trace to the goal perfectly!
-        // narrativeTextEl.innerHTML = "📝 <strong>Batch 2:</strong> The ball is taught Left & Up. " +
-        //                                 "It also learned to <strong>generalize</strong> similar shapes (like treating '⇐' as Left, '⇑' as Up)." + 
-        //                                  "It now has a label for every feature and reaches the goal!";
-        // actionBtn.textContent = "Run Full Test (Mastered)";
-
-        narrativeTextEl.innerHTML = dict['narrative_batch2'];
-        actionBtn.innerHTML = dict['btn_action_mastered'];
-
-        path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4], [3,3], [3,2], [3,1], [4,1], [4,2], [5,2], [6,2], [6,3], [7,3], [7,4], [7,5], [7,6], [7,7]];
-    } else {
-        // narrativeTextEl.innerHTML = "🏆 <strong>Mastered:</strong> The Supervised Model perfectly follows its given labels!";
-
-        narrativeTextEl.innerHTML = dict['narrative_mastered'];
-
-        path = [[0,0], [0,1], [1,1], [1,2], [1,3], [1,4], [1,5], [2,5], [2,6], [3,6], [4,6], [5,6], [5,5], [5,4], [4,4], [3,4], [3,3], [3,2], [3,1], [4,1], [4,2], [5,2], [6,2], [6,3], [7,3], [7,4], [7,5], [7,6], [7,7]];
-    }
-
-    animateSupervisedPath(path, 0);
-});
-
-// Reset System
-resetBtn.addEventListener('click', () => {
-    //Fetch the correct dictionary based on current language
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
 
-    trainingBatch = 0;
+    knownDirections[directionKey] = true;
+    taughtCount++;
+    
+    btnElement.disabled = true;
+    btnElement.style.opacity = "0.5";
+    trainingCountEl.textContent = taughtCount + " / 4";
+    
+    updateDictionary(directionKey);
+    narrativeTextEl.innerHTML = dict['narrative_learned'].replace('{arrow}', arrowSymbol);
+
+    // 第一次點擊時初始化日誌
+    if (taughtCount === 1) {
+        historyLogEl.classList.remove('history-placeholder');
+        historyLogEl.innerHTML = '';
+        const stepZeroItem = document.createElement('div');
+        stepZeroItem.className = 'history-log-item';
+        stepZeroItem.style.fontWeight = 'bold';
+        stepZeroItem.setAttribute('data-step', '0');
+        updateSLLogItem(stepZeroItem); 
+        historyLogEl.appendChild(stepZeroItem);
+    }
+
+    // 根據目前的知識，計算小球能走的路徑
+    const path = calculatePathFrom(ballPosRow, ballPosCol);
+    
+    if (path.length > 1) {
+        isMoving = true;
+        toggleTeachButtons(true);
+        animateSupervisedPath(path, 0);
+    } else {
+        // 如果教的箭頭目前還用不到（原地踏步）
+        const currentArrow = maze1Arrows[ballPosRow + "," + ballPosCol];
+        if (currentArrow && !isArrowKnown(currentArrow)) {
+            narrativeTextEl.innerHTML = dict['narrative_stuck'];
+        }
+    }
+}
+
+function toggleTeachButtons(disabledState) {
+    if (!knownDirections['UP']) btnTeachUp.disabled = disabledState;
+    if (!knownDirections['RIGHT']) btnTeachRight.disabled = disabledState;
+    if (!knownDirections['DOWN']) btnTeachDown.disabled = disabledState;
+    if (!knownDirections['LEFT']) btnTeachLeft.disabled = disabledState;
+}
+
+function resetSimulation() {
+    const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
+
+    knownDirections = { 'UP': false, 'RIGHT': false, 'DOWN': false, 'LEFT': false };
+    taughtCount = 0;
     isMoving = false;
     currentStepCount = 0;
-    trainingCountEl.textContent = "0 / 3";
-    //actionBtn.textContent = "Provide Labels (Step 1)";
+    ballPosRow = 0;
+    ballPosCol = 0;
 
-    actionBtn.textContent = dict['btn_action_step1'];
-    actionBtn.disabled = false;
+    trainingCountEl.textContent = "0 / 4";
 
-    //narrativeTextEl.textContent = "The ball needs a teacher. Click \"Provide Labels\" to feed it its first batch of flashcards.";
+    btnTeachUp.disabled = false;
+    btnTeachUp.style.opacity = "1";
+    btnTeachRight.disabled = false;
+    btnTeachRight.style.opacity = "1";
+    btnTeachDown.disabled = false;
+    btnTeachDown.style.opacity = "1";
+    btnTeachLeft.disabled = false;
+    btnTeachLeft.style.opacity = "1";
+
     narrativeTextEl.innerHTML = dict['narrative_start'];
 
     initGrid();
-});
+}
 
-// App Start
-initGrid();
+resetBtn.addEventListener('click', resetSimulation);

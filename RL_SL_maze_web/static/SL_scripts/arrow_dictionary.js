@@ -1,29 +1,34 @@
-// Dictionary & Narrative Updates
-function updateDictionary() {
+function updateDictionary(directionKey) {
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
 
-    if (trainingBatch === 0) {
+    if (!directionKey) {
         opUp.textContent = dict['lbl_none'];
         opRight.textContent = dict['lbl_none'];
         opDown.textContent = dict['lbl_none'];
         opLeft.textContent = dict['lbl_none'];
-
-    } else if (trainingBatch === 1) {
-        opRight.textContent = dict['lbl_right'];
-        opRight.classList.add('highlight-update');
-
-        opDown.textContent = dict['lbl_down'];
-        opDown.classList.add('highlight-update');
-
-    } else if (trainingBatch >= 2) {
-        opLeft.textContent = dict['lbl_left'];
-        opLeft.classList.add('highlight-update');
-
-        opUp.textContent = dict['lbl_up'];
-        opUp.classList.add('highlight-update');
+        return;
     }
 
-    setTimeout(() => {
-        document.querySelectorAll('.highlight-update').forEach(el => el.classList.remove('highlight-update'));
-    }, 600);
+    if (directionKey === 'UP') {
+        opUp.textContent = dict['lbl_up'];
+        opUp.classList.add('highlight-update');
+    } else if (directionKey === 'RIGHT') {
+        opRight.textContent = dict['lbl_right'];
+        opRight.classList.add('highlight-update');
+    } else if (directionKey === 'DOWN') {
+        opDown.textContent = dict['lbl_down'];
+        opDown.classList.add('highlight-update');
+    } else if (directionKey === 'LEFT') {
+        opLeft.textContent = dict['lbl_left'];
+        opLeft.classList.add('highlight-update');
+    }
+
+    setTimeout(clearHighlightUpdates, 600);
+}
+
+function clearHighlightUpdates() {
+    const elements = document.querySelectorAll('.highlight-update');
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].classList.remove('highlight-update');
+    }
 }
