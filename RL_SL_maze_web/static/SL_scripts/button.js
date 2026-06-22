@@ -77,6 +77,8 @@ function toggleTeachButtons(disabledState) {
 function resetSimulation() {
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
 
+    resetMemoryGraph();
+    
     knownDirections = { 'UP': false, 'RIGHT': false, 'DOWN': false, 'LEFT': false };
     taughtCount = 0;
     isMoving = false;
@@ -99,7 +101,7 @@ function resetSimulation() {
 
     initGrid();
 
-    resetMemoryGraph();
+    
 }
 
 // update memory slot

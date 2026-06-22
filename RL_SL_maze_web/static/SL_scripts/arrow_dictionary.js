@@ -9,19 +9,27 @@ function updateDictionary(directionKey) {
         return;
     }
 
-    if (directionKey === 'UP') {
-        opUp.textContent = dict['lbl_up'];
-        opUp.classList.add('highlight-update');
-    } else if (directionKey === 'RIGHT') {
-        opRight.textContent = dict['lbl_right'];
-        opRight.classList.add('highlight-update');
-    } else if (directionKey === 'DOWN') {
-        opDown.textContent = dict['lbl_down'];
-        opDown.classList.add('highlight-update');
-    } else if (directionKey === 'LEFT') {
-        opLeft.textContent = dict['lbl_left'];
-        opLeft.classList.add('highlight-update');
+    // if (directionKey === 'UP') {
+    //     opUp.textContent = dict['lbl_up'];
+    //     opUp.classList.add('highlight-update');
+    // } else if (directionKey === 'RIGHT') {
+    //     opRight.textContent = dict['lbl_right'];
+    //     opRight.classList.add('highlight-update');
+    // } else if (directionKey === 'DOWN') {
+    //     opDown.textContent = dict['lbl_down'];
+    //     opDown.classList.add('highlight-update');
+    // } else if (directionKey === 'LEFT') {
+    //     opLeft.textContent = dict['lbl_left'];
+    //     opLeft.classList.add('highlight-update');
+    // }
+
+    const slotId = "mem-" + directionKey.toLowerCase();
+    const slot = document.getElementById(slotId);
+    
+    if (slot) {
+        slot.classList.add('highlight-update');
     }
+
 
     setTimeout(clearHighlightUpdates, 600);
 }
