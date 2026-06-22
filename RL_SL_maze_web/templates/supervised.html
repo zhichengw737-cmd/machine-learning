@@ -90,83 +90,38 @@
         </div>
 
         <div class="how-it-learns-section">
-                <h2 class="edu-main-title" data-i18n="edu_title"></h2>
-                <p class="edu-main-subtitle" data-i18n="edu_subtitle"></p>
-                <p class="edu-main-subtitle" data-i18n="edu_subtitle2"></p>
+            <h2 data-i18n="hil_title" ></h2>
+            <p data-i18n="hil_desc" ></p>
             
-                <div class="edu-steps-container">
-                    <div class="edu-step-card">
-                        <h3 data-i18n="edu_step1_title"></h3>
-                        <p data-i18n="edu_step1_desc"></p>
-                        <div class="memory-visual">
-                            <div class="memory-slot known">→</div>
-                            <div class="memory-slot known">↓</div>
-                            <div class="memory-slot">?</div>
-                            <div class="memory-slot">?</div>
-                            
-                            <div class="memory-slot generalize">
-                                ⇨
-                            </div>
-                            <div div class="memory-slot generalize">
-                                ⇓
-                            </div> 
-                        </div>
-                       
-                    </div>
-
-                    <div class="edu-step-card">
-                        <h3 data-i18n="edu_step2_title"></h3>
-                        <p data-i18n="edu_step2_desc"></p>
-                        <div class="memory-visual">
-                            <div class="memory-slot known">→</div>
-                            <div class="memory-slot known">↓</div>
-                            <div class="memory-slot known">←</div>
-                            <div class="memory-slot known">↑</div>
-
-                            <div class="memory-slot generalize">
-                                ⇨
-                            </div>
-                            <div div class="memory-slot generalize">
-                                ⇓
-                            </div>
-                            <div class="memory-slot generalize">
-                                ⇐
-                            </div>
-                            <div div class="memory-slot generalize">
-                                ⇑
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="edu-step-card">
-                        <h3 data-i18n="edu_step3_title"></h3>
-                        <p data-i18n="edu_step3_desc"></p>
-                        <div class="memory-visual mastered">
-                            <div class="memory-slot mastered">→</div>
-                            <div class="memory-slot mastered">↓</div>
-                            <div class="memory-slot mastered">←</div>
-                            <div class="memory-slot mastered">↑</div>
-                            <div class="memory-goal-flag">🏆</div>
-
-                            <div class="memory-slot generalize">
-                                ⇨
-                            </div>
-                            <div div class="memory-slot generalize">
-                                ⇓
-                            </div>
-                            <div class="memory-slot generalize">
-                                ⇐
-                            </div>
-                            <div div class="memory-slot generalize">
-                                ⇑
-                            </div>
-                        </div>
-                    </div>
-
-                    
+            <div class="memory-graph">
+                <div class="memory-slot" id="mem-up">
+                    <span class="mem-icon">❔</span>
+                    <span class="mem-text" data-i18n="mem_empty"></span>
                 </div>
-                 <p class="edu-main-subtitle" data-i18n="edu_step1_desc2"></p>
+                <div class="memory-slot" id="mem-right">
+                    <span class="mem-icon">❔</span>
+                    <span class="mem-text" data-i18n="mem_empty"></span>
+                </div>
+                <div class="memory-slot" id="mem-down">
+                    <span class="mem-icon">❔</span>
+                    <span class="mem-text" data-i18n="mem_empty"></span>
+                </div>
+                <div class="memory-slot" id="mem-left">
+                    <span class="mem-icon">❔</span>
+                    <span class="mem-text" data-i18n="mem_empty"></span>
+                </div>
             </div>
+
+            <div class="generalization-box">
+                <h3 data-i18n="gen_title"></h3>
+                <p data-i18n="gen_desc"></p>
+                <div class="gen-examples">
+                    <span class="gen-item">→ = ⇨</span>
+                    <span class="gen-divider">|</span>
+                    <span class="gen-item">↓ = ⇓</span>
+                </div>
+            </div>
+        </div>
 
         <div class="comparison-section" style="margin-top: 50px;">
             <div class="edu-header-container">

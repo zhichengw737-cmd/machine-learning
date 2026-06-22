@@ -1,17 +1,33 @@
-// --- 路徑動態計算函式 ---
+// --- find the next cell ---
 function getNextCell(r, c, arrow) {
-    if (arrow === '↑' || arrow === '⇑') return [r-1, c];
-    if (arrow === '↓' || arrow === '⇓') return [r+1, c];
-    if (arrow === '←' || arrow === '⇐') return [r, c-1];
-    if (arrow === '→' || arrow === '⇨') return [r, c+1];
+    if (arrow === '↑' || arrow === '⇑') {
+        return [r-1, c];
+    }
+    if (arrow === '↓' || arrow === '⇓') {
+        return [r+1, c];
+    }
+    if (arrow === '←' || arrow === '⇐'){
+        return [r, c-1];
+    }
+    if (arrow === '→' || arrow === '⇨') {
+        return [r, c+1];
+    }
     return null;
 }
 
 function isArrowKnown(arrow) {
-    if ((arrow === '↑' || arrow === '⇑') && knownDirections['UP']) return true;
-    if ((arrow === '↓' || arrow === '⇓') && knownDirections['DOWN']) return true;
-    if ((arrow === '←' || arrow === '⇐') && knownDirections['LEFT']) return true;
-    if ((arrow === '→' || arrow === '⇨') && knownDirections['RIGHT']) return true;
+    if ((arrow === '↑' || arrow === '⇑') && knownDirections['UP']) {
+        return true;
+    }
+    if ((arrow === '↓' || arrow === '⇓') && knownDirections['DOWN']) {
+        return true;
+    }
+    if ((arrow === '←' || arrow === '⇐') && knownDirections['LEFT']) {
+        return true;
+    }
+    if ((arrow === '→' || arrow === '⇨') && knownDirections['RIGHT']) {
+        return true;
+    }
     return false;
 }
 
@@ -22,22 +38,30 @@ function calculatePathFrom(r, c) {
     
     while (true) {
         let arrow = maze1Arrows[currR + "," + currC];
-        if (!arrow) break; 
-        if (!isArrowKnown(arrow)) break; 
+        if (!arrow) {
+            break;
+        } 
+        if (!isArrowKnown(arrow)) {
+            break;
+        } 
         
         let nextCell = getNextCell(currR, currC, arrow);
-        if (!nextCell) break;
+        if (!nextCell) {
+            break;
+        }
         
         currR = nextCell[0];
         currC = nextCell[1];
         path.push([currR, currC]);
         
-        if (maze1Layout[currR][currC] === 3) break; 
+        if (maze1Layout[currR][currC] === 3) {
+            break;
+        }
     }
     return path;
 }
 
-// --- 動畫狀態全域變數 ---
+
 let animPath = [];
 let animIndex = 0;
 
@@ -45,6 +69,8 @@ function proceedToNextAnimStep() {
     animateSupervisedPath(animPath, animIndex + 1);
 }
 
+
+// handle stuck ball
 function handleAnimationEnd(path) {
     isMoving = false;
     toggleTeachButtons(false);

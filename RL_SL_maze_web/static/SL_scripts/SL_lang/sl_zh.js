@@ -66,6 +66,13 @@ const sl_lang_zh = {
     "edu_step3_title": "🏆 第三步：全能大師解鎖",
     "edu_step3_desc": "當 4 種方向的箭頭都完美保存在大腦記憶中後，小球就能百分之百看懂整張迷宮地圖，順暢無阻地直接衝向終點贏得勝利！",
 
+    // How It Learns Section (Primary School Target)
+    "hil_title": "🧠 小球的記憶大腦",
+    "hil_desc": "每次你按下「教導」按鈕，就像給小球看一張字卡。小球會把方向牢牢記在它大腦的記憶格裡喔！",
+    "mem_empty": "還沒學過",
+    "gen_title": "✨ 聰明的聯想力 (泛化 Generalization)",
+    "gen_desc": "小球不只會死背！當它學會了「向右 (→)」後，如果在迷宮看到長得很像的「空心向右 (⇨)」，它也能猜出要往右邊走！在人工智慧中，這種舉一反三的超能力叫做<strong>「泛化 (Generalization)」</strong>。",
+
     //Compare Section
     "comp_title": "📚 監督式 vs. 強化學習",
     "comp_subtitle": "這兩大人工智慧技術有什麼差異？",
@@ -95,4 +102,5 @@ const sl_lang_zh = {
 
     "though_bubble_find": "🤔 這是 'currentArrow'",
     "though_bubble": "💡，看起來像 'standardArrow'",
+    
 };

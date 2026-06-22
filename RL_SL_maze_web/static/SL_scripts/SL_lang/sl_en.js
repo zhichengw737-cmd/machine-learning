@@ -67,6 +67,13 @@ const sl_lang_en = {
     "edu_step3_title": "🏆 Step 3: Complete Mastery",
     "edu_step3_desc": "With all 4 direction arrows stored safely inside its memory bank, the ball accurately decodes the whole maze puzzle and glides straight to the winning goal!",
 
+    // How It Learns Section (Primary School Target)
+    "hil_title": "🧠 The Ball's Memory Brain",
+    "hil_desc": "Every time you click a 'Teach' button, it's like showing the ball a flashcard. <br>" + "The ball safely stores the direction in its memory slots!",
+    "mem_empty": "Not Learned",
+    "gen_title": "✨ Smart Guessing (Generalization)",
+    "gen_desc": "The ball doesn't just memorize! Once it learns 'Right (→)', if it sees a similar 'Hollow Right (⇨)' in the maze, it can guess they mean the same thing! In Artificial Intelligence, this superpower is called <strong>'Generalization'</strong>.",
+    
     //Compare Section
     "comp_title": "📚 Supervised vs. Reinforcement Learning",
     "comp_subtitle": "What is the difference between these two major AI technologies?",

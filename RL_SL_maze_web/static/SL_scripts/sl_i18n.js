@@ -38,8 +38,15 @@ function toggleSLLanguage() {
         if (knownDirections['LEFT']) updateDictionary('LEFT');
         if (taughtCount === 0) updateDictionary(null);
     }
-    if (typeof refreshAllSLLogs === 'function') refreshAllSLLogs();
-    
+
+    if (typeof refreshAllSLLogs === 'function') {
+        refreshAllSLLogs();
+    }
+
+    if (typeof refreshMemoryGraphLanguage === 'function'){
+         refreshMemoryGraphLanguage();
+    }
+
     const dict = window.currentSLLang === 'en' ? sl_lang_en : sl_lang_zh;
     const narrativeTextEl = document.getElementById('narrative-text');
     
@@ -50,6 +57,8 @@ function toggleSLLanguage() {
             logEl.innerHTML = dict['log_waiting'];
         }
     }
+
+    
 }
 
 document.addEventListener('DOMContentLoaded', applySLTranslations);
