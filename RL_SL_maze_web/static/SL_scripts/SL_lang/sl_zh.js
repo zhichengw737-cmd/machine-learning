@@ -23,7 +23,7 @@ const sl_lang_zh = {
     "log_error_dynamic": "⚠️ 錯誤：遇到未知的 '{arrow}' 特徵。模擬已停止。",
 
     //Narrative Text
-    "narrative_start": "球體需要一位老師。點擊「提供標籤」來餵給它第一批字卡。",
+    "narrative_start": "球體需要一位老師。點擊「提供標籤」來餵給它箭頭的意思。",
     "narrative_batch1": "📝 <strong>第 1 步：</strong>球體被教導了「向右」和「向下」的意義。它也學會了<strong>泛化</strong>相似的形狀（例如將 '⇨' 視為向右，'⇓' 視為向下）。它會一直移動，直到看見未知的形狀而停下。",
     "narrative_batch2": "📝 <strong>第 2 步：</strong>球體被教導了「向左」和「向上」。它也學會了<strong>泛化</strong>相似的形狀（例如將 '⇐' 視為向左，'⇑' 視為向上）。它現在對每個特徵都有了標籤，並成功抵達終點！",
     "narrative_mastered": "🏆 <strong>已精通：</strong>監督式模型完美地遵循了它獲得的標籤！",

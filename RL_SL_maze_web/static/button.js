@@ -7,7 +7,7 @@ maze1Btn.addEventListener('click', () => {
     maze2Btn.classList.remove('active');
     if (trainingTimes < 5) {
         actionBtn.style.display = 'inline-block';
-        //actionBtn.textContent = `Train & Run (Step ${trainingTimes + 1})`;
+
         actionBtn.textContent = dict[`btn_train_step${trainingTimes + 1}`] || dict['btn_train_final'];
     }else{
         actionBtn.textContent = dict['btn_run_mastered'];
@@ -15,15 +15,11 @@ maze1Btn.addEventListener('click', () => {
 
     // Reset reward points when switching back to Maze 1 to reflect the training progress accurately.
     rewardPoints = 0;
-    //const rewardValEl = document.getElementById('reward-value');
+
     if (rewardValEl) {
         rewardValEl.innerHTML = rewardPoints;
         rewardValEl.style.color = "#10b981";
     }
-
-    // Clear history log when switching mazes to avoid confusion with previous maze's logs
-    //const historyLogEl = document.getElementById('move-history-log');
-    //historyLogEl.innerHTML = 'Waiting for simulation...'; 
 
     initGrid();
 });
@@ -41,15 +37,11 @@ maze2Btn.addEventListener('click', () => {
     
     // Reset reward points when entering Maze 2 to reflect the new challenge accurately.
     rewardPoints = 0;
-    //const rewardValEl = document.getElementById('reward-value');
+
     if (rewardValEl) {
         rewardValEl.textContent = rewardPoints;
         rewardValEl.style.color = "#10b981";
     }
-
-    // Clear history log when switching mazes to avoid confusion with previous maze's logs
-    //const historyLogEl = document.getElementById('move-history-log');
-    //historyLogEl.innerHTML = 'Waiting for simulation...'; 
 
     initGrid();
 });

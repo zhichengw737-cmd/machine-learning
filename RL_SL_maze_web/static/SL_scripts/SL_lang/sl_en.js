@@ -23,7 +23,7 @@ const sl_lang_en = {
     "log_error_dynamic": "⚠️ ERROR: Encountered unknown '{arrow}' feature. Simulation stopped.",
 
     //Narrative Text
-    "narrative_start": "The ball needs a teacher. Click \"Provide Labels\" to feed it its first batch of flashcards.",
+    "narrative_start": "The ball needs a teacher. Click \"Provide Labels\" to feed it the meaning of the arrows.",
     "narrative_batch1": "📝 <strong>Step 1:</strong> The ball is taught what Right & Down mean. It also learned to <strong>generalize</strong> similar shapes (like treating '⇨' as Right, '⇓' as Down). It moves until it sees an unknown shape and stops.",
     "narrative_batch2": "📝 <strong>Step 2:</strong> The ball is taught Left & Up. It also learned to <strong>generalize</strong> similar shapes (like treating '⇐' as Left, '⇑' as Up). It now has a label for every feature and reaches the goal!",
     "narrative_mastered": "🏆 <strong>Mastered:</strong> The Supervised Model perfectly follows its given labels!",

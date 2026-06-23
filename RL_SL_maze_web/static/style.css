@@ -308,6 +308,15 @@ h1 {
     text-align: center;
 }
 
+
+.reward-positive {
+    color: #10b981;
+}
+
+.reward-negative {
+    color: #ef4444;
+}
+
 /* Structured Container for history Logs */
 .history-log-card {
     background: #ffffff;
@@ -357,6 +366,10 @@ h1 {
     color: #093c84;
 }
 
+
+.history-log-start {
+    font-weight: bold;
+}
 
 
 /* Spacer rule to separate the main section header */
